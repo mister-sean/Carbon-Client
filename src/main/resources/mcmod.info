@@ -1,0 +1,15 @@
+[
+  {
+    "modid": "carbonclient",
+    "name": "Carbon",
+    "description": "ffs i just wanna do something else",
+    "version": "0.0.01",
+    "mcversion": "1.12.2",
+    "logoFile": "",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["toby", "noat(i feel bad for him)"],
+    "screenshots": [],
+    "dependencies": []
+  }
+]
