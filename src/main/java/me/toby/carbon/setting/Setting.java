@@ -1,4 +1,4 @@
-package me.toby.carbon;
+package me.toby.carbon.setting;
 
 import me.toby.carbon.carbon;
 import me.toby.carbon.hack.Hack;
