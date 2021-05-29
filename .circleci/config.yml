@@ -17,7 +17,7 @@ jobs:
     docker:
       - image: circleci/openjdk:8-jdk
 
-    working_directory: ~/momentum-<< pipeline.parameters.version >>
+    working_directory: ~/Carbon-Client-<< pipeline.parameters.version >>
 
     environment:
       JVM_OPTS: -Xmx3200m
@@ -32,9 +32,9 @@ jobs:
             - v1-dependencies-
 
       - run:
-          name: Setup build workspace.
+          name: Decompiling workspace
           command: |
-            ./gradlew setupCiWorkspace
+            ./gradlew setupDecompWorkspace
       - run:
           name: Build.
           command: |
