@@ -19,7 +19,7 @@ import net.minecraft.client.entity.EntityOtherPlayerMP;
 
 public class FakePlayer extends Module
 {
-    private final String name = "McDonalds";
+    private final String name = "noatmc";
     private EntityOtherPlayerMP _fakePlayer;
     
     public FakePlayer() {
