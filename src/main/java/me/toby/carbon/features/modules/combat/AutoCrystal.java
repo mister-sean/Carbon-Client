@@ -56,7 +56,7 @@ import java.util.List;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityEnderCrystal;
-package me.toby.carbon.features.command;
+import me.toby.carbon.features.command;
 
 public class AutoCrystal extends Module
 {
