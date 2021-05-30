@@ -29,6 +29,7 @@ import me.toby.carbon.features.modules.combat.SelfFill;
 import me.toby.carbon.features.modules.combat.Selftrap;
 import me.toby.carbon.features.modules.combat.Surround;
 import me.toby.carbon.features.modules.combat.W0M3NMode;
+import me.toby.carbon.features.modules.misc.DonkeyNotify;
 import me.toby.carbon.features.modules.misc.AutoGG;
 import me.toby.carbon.features.modules.misc.AutoRespawn;
 import me.toby.carbon.features.modules.misc.BetterPortals;
