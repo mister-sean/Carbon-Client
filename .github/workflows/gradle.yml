@@ -1,6 +1,3 @@
-# This workflow will build a Java project with Gradle
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
-
 name: build
 
 on: [push,pull_request]
@@ -35,6 +32,12 @@ jobs:
     - name: Build
       run: ./gradlew build
       
+
+    - name: Decomp Workspace
+      run: ./gradlew setupDecompWorkspace
+
+    - name: Build
+      run: ./gradlew build
     - uses: actions/upload-artifact@v2
       with:
         name: Package
