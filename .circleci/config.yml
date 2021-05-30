@@ -32,9 +32,9 @@ jobs:
             - v1-dependencies-
 
       - run:
-          name: Setup build workspace.
+          name: Decompiling workspace
           command: |
-            ./gradlew setupCiWorkspace
+            ./gradlew setupDecompWorkspace
       - run:
           name: Build.
           command: |
