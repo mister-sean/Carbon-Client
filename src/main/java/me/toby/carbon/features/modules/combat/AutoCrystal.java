@@ -20,7 +20,7 @@ import me.toby.carbon.features.modules.client.ClickGui;
 import me.toby.carbon.features.modules.misc.AutoGG;
 import me.toby.carbon.features.setting.Setting;
 import me.toby.carbon.util.ColorUtil;
-import me.toby.carbon.features.command;
+import me.toby.carbon.features.command.Command;
 import me.toby.carbon.util.EntityUtil;
 import me.toby.carbon.util.MathUtil;
 import me.toby.carbon.util.RenderUtil;
