@@ -219,7 +219,7 @@ public class InventoryUtil implements Util
                 }
                 else if (back && switchedItem) {
                     switchedItemSwitched[0] = false;
-                    McDonalds.inventoryManager.recoverSilent(lastHotbarSlot);
+                    Carbon.inventoryManager.recoverSilent(lastHotbarSlot);
                 }
                 switchedItemSwitched[1] = true;
                 break;
@@ -254,7 +254,7 @@ public class InventoryUtil implements Util
                 }
                 else if (back && switchedItem) {
                     switchedItemSwitched[0] = false;
-                    McDonalds.inventoryManager.recoverSilent(lastHotbarSlot);
+                    Carbon.inventoryManager.recoverSilent(lastHotbarSlot);
                 }
                 switchedItemSwitched[1] = true;
                 break;

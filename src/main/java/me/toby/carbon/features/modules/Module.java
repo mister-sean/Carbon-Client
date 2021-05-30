@@ -111,7 +111,7 @@ public class Module extends Feature
         this.onToggle();
         this.onEnable();
         if (HUD.getInstance().notifyToggles.getValue()) {
-            final TextComponentString text = new TextComponentString(McDonalds.commandManager.getClientMessage() + " " + ChatFormatting.GREEN + this.getDisplayName() + " toggled on.");
+            final TextComponentString text = new TextComponentString(Carbon.commandManager.getClientMessage() + " " + ChatFormatting.GREEN + this.getDisplayName() + " toggled on.");
             Module.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion((ITextComponent)text, 1);
         }
         if (this.isOn() && this.hasListener && !this.alwaysListening) {
@@ -125,7 +125,7 @@ public class Module extends Feature
         }
         this.enabled.setValue(false);
         if (HUD.getInstance().notifyToggles.getValue()) {
-            final TextComponentString text = new TextComponentString(McDonalds.commandManager.getClientMessage() + " " + ChatFormatting.RED + this.getDisplayName() + " toggled off.");
+            final TextComponentString text = new TextComponentString(Carbon.commandManager.getClientMessage() + " " + ChatFormatting.RED + this.getDisplayName() + " toggled off.");
             Module.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion((ITextComponent)text, 1);
         }
         this.onToggle();
@@ -145,8 +145,8 @@ public class Module extends Feature
     }
     
     public void setDisplayName(final String name) {
-        final Module module = McDonalds.moduleManager.getModuleByDisplayName(name);
-        final Module originalModule = McDonalds.moduleManager.getModuleByName(name);
+        final Module module = Carbon.moduleManager.getModuleByDisplayName(name);
+        final Module originalModule = Carbon.moduleManager.getModuleByName(name);
         if (module == null && originalModule == null) {
             Command.sendMessage(this.getDisplayName() + ", name: " + this.getName() + ", has been renamed to: " + name);
             this.displayName.setValue(name);

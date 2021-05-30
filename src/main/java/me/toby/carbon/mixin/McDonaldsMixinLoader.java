@@ -10,16 +10,16 @@ import org.spongepowered.asm.launch.MixinBootstrap;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
-public class McDonaldsMixinLoader implements IFMLLoadingPlugin
+public class CarbonMixinLoader implements IFMLLoadingPlugin
 {
     private static boolean isObfuscatedEnvironment;
     
-    public McDonaldsMixinLoader() {
-        McDonalds.LOGGER.info("\n\nLoading mixins by zPrestige_\n");
+    public CarbonMixinLoader() {
+        Carbon.LOGGER.info("\n\nLoading mixins by zPrestige_\n");
         MixinBootstrap.init();
-        Mixins.addConfiguration("mixins.mcdonalds.json");
+        Mixins.addConfiguration("mixins.Carbon.json");
         MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
-        McDonalds.LOGGER.info(MixinEnvironment.getDefaultEnvironment().getObfuscationContext());
+        Carbon.LOGGER.info(MixinEnvironment.getDefaultEnvironment().getObfuscationContext());
     }
     
     public String[] getASMTransformerClass() {
@@ -35,7 +35,7 @@ public class McDonaldsMixinLoader implements IFMLLoadingPlugin
     }
     
     public void injectData(final Map<String, Object> data) {
-        McDonaldsMixinLoader.isObfuscatedEnvironment = data.get("runtimeDeobfuscationEnabled");
+        CarbonMixinLoader.isObfuscatedEnvironment = data.get("runtimeDeobfuscationEnabled");
     }
     
     public String getAccessTransformerClass() {
@@ -43,6 +43,6 @@ public class McDonaldsMixinLoader implements IFMLLoadingPlugin
     }
     
     static {
-        McDonaldsMixinLoader.isObfuscatedEnvironment = false;
+        CarbonMixinLoader.isObfuscatedEnvironment = false;
     }
 }

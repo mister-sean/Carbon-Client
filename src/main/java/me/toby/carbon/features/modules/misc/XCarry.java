@@ -18,7 +18,7 @@ import me.toby.carbon.event.events.ClientEvent;
 import me.toby.carbon.event.events.PacketEvent;
 import me.toby.carbon.features.Feature;
 import me.toby.carbon.features.command.Command;
-import me.toby.carbon.features.gui.McDonaldsGui;
+import me.toby.carbon.features.gui.CarbonGui;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Bind;
 import me.toby.carbon.features.setting.Setting;
@@ -262,7 +262,7 @@ public class XCarry extends Module
     
     @SubscribeEvent
     public void onKeyInput(final InputEvent.KeyInputEvent event) {
-        if (Keyboard.getEventKeyState() && !(Util.mc.currentScreen instanceof McDonaldsGui) && this.autoStore.getValue().getKey() == Keyboard.getEventKey()) {
+        if (Keyboard.getEventKeyState() && !(Util.mc.currentScreen instanceof CarbonGui) && this.autoStore.getValue().getKey() == Keyboard.getEventKey()) {
             this.autoDuelOn = !this.autoDuelOn;
             Command.sendMessage("<XCarry> " + TextUtil.GREEN + "Autostoring...");
         }

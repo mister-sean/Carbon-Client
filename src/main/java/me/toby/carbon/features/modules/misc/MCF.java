@@ -37,12 +37,12 @@ public class MCF extends Module
         final RayTraceResult result = MCF.mc.objectMouseOver;
         final Entity entity;
         if (result != null && result.typeOfHit == RayTraceResult.Type.ENTITY && (entity = result.entityHit) instanceof EntityPlayer) {
-            if (McDonalds.friendManager.isFriend(entity.getName())) {
-                McDonalds.friendManager.removeFriend(entity.getName());
+            if (Carbon.friendManager.isFriend(entity.getName())) {
+                Carbon.friendManager.removeFriend(entity.getName());
                 Command.sendMessage(ChatFormatting.RED + entity.getName() + ChatFormatting.RED + " has been unfriended.");
             }
             else {
-                McDonalds.friendManager.addFriend(entity.getName());
+                Carbon.friendManager.addFriend(entity.getName());
                 Command.sendMessage(ChatFormatting.AQUA + entity.getName() + ChatFormatting.AQUA + " has been friended.");
             }
         }

@@ -22,18 +22,18 @@ public class ModuleCommand extends Command
     public void execute(final String[] commands) {
         if (commands.length == 1) {
             Command.sendMessage("Modules: ");
-            for (final Module.Category category : McDonalds.moduleManager.getCategories()) {
+            for (final Module.Category category : Carbon.moduleManager.getCategories()) {
                 String modules = category.getName() + ": ";
-                for (final Module module1 : McDonalds.moduleManager.getModulesByCategory(category)) {
+                for (final Module module1 : Carbon.moduleManager.getModulesByCategory(category)) {
                     modules = modules + (module1.isEnabled() ? ChatFormatting.GREEN : ChatFormatting.RED) + module1.getName() + ChatFormatting.WHITE + ", ";
                 }
                 Command.sendMessage(modules);
             }
             return;
         }
-        Module module2 = McDonalds.moduleManager.getModuleByDisplayName(commands[0]);
+        Module module2 = Carbon.moduleManager.getModuleByDisplayName(commands[0]);
         if (module2 == null) {
-            module2 = McDonalds.moduleManager.getModuleByName(commands[0]);
+            module2 = Carbon.moduleManager.getModuleByName(commands[0]);
             if (module2 == null) {
                 Command.sendMessage("This module doesnt exist.");
                 return;

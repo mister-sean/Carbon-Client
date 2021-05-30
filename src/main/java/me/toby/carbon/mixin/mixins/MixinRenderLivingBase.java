@@ -130,7 +130,7 @@ public abstract class MixinRenderLivingBase<T extends EntityLivingBase> extends 
                         GL11.glBlendFunc(770, 771);
                         GL11.glDisable(2929);
                         GL11.glDepthMask(false);
-                        if (McDonalds.friendManager.isFriend(entity.getName()) || entity == Minecraft.getMinecraft().player) {
+                        if (Carbon.friendManager.isFriend(entity.getName()) || entity == Minecraft.getMinecraft().player) {
                             GL11.glColor4f(0.0f, 191.0f, 255.0f, Wireframe.getINSTANCE().alpha.getValue() / 255.0f);
                         }
                         else {
@@ -140,7 +140,7 @@ public abstract class MixinRenderLivingBase<T extends EntityLivingBase> extends 
                         GL11.glDisable(2896);
                         GL11.glEnable(2929);
                         GL11.glDepthMask(true);
-                        if (McDonalds.friendManager.isFriend(entity.getName()) || entity == Minecraft.getMinecraft().player) {
+                        if (Carbon.friendManager.isFriend(entity.getName()) || entity == Minecraft.getMinecraft().player) {
                             GL11.glColor4f(0.0f, 191.0f, 255.0f, Wireframe.getINSTANCE().alpha.getValue() / 255.0f);
                         }
                         else {
@@ -175,7 +175,7 @@ public abstract class MixinRenderLivingBase<T extends EntityLivingBase> extends 
                         GL11.glEnable(2848);
                         GL11.glEnable(3042);
                         GL11.glBlendFunc(770, 771);
-                        if (McDonalds.friendManager.isFriend(entity.getName()) || entity == Minecraft.getMinecraft().player) {
+                        if (Carbon.friendManager.isFriend(entity.getName()) || entity == Minecraft.getMinecraft().player) {
                             GL11.glColor4f(0.0f, 191.0f, 255.0f, Wireframe.getINSTANCE().alpha.getValue() / 255.0f);
                         }
                         else {

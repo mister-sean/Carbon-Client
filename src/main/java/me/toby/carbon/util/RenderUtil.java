@@ -288,8 +288,8 @@ public class RenderUtil implements Util
         GlStateManager.pushMatrix();
         glBillboardDistanceScaled(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, (EntityPlayer)RenderUtil.mc.player, 1.0f);
         GlStateManager.disableDepth();
-        GlStateManager.translate(-(McDonalds.textManager.getStringWidth(text) / 2.0), 0.0, 0.0);
-        McDonalds.textManager.drawStringWithShadow(text, 0.0f, 0.0f, -5592406);
+        GlStateManager.translate(-(Carbon.textManager.getStringWidth(text) / 2.0), 0.0, 0.0);
+        Carbon.textManager.drawStringWithShadow(text, 0.0f, 0.0f, -5592406);
         GlStateManager.popMatrix();
     }
     

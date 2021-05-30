@@ -14,10 +14,10 @@ public class PrefixCommand extends Command
     @Override
     public void execute(final String[] commands) {
         if (commands.length == 1) {
-            Command.sendMessage(ChatFormatting.GREEN + "Current prefix is " + McDonalds.commandManager.getPrefix());
+            Command.sendMessage(ChatFormatting.GREEN + "Current prefix is " + Carbon.commandManager.getPrefix());
             return;
         }
-        McDonalds.commandManager.setPrefix(commands[0]);
+        Carbon.commandManager.setPrefix(commands[0]);
         Command.sendMessage("Prefix changed to " + ChatFormatting.GRAY + commands[0]);
     }
 }

@@ -75,7 +75,7 @@ public class AutoArmor extends Module
             return;
         }
         if (this.taskList.isEmpty()) {
-            if (this.mendingTakeOff.getValue() && InventoryUtil.holdingItem(ItemExpBottle.class) && AutoArmor.mc.gameSettings.keyBindUseItem.isKeyDown() && AutoArmor.mc.world.playerEntities.stream().noneMatch(e -> e != AutoArmor.mc.player && !McDonalds.friendManager.isFriend(((EntityPlayer)e).getName()) && AutoArmor.mc.player.getDistance((Entity)e) <= this.closestEnemy.getValue()) && !this.flag) {
+            if (this.mendingTakeOff.getValue() && InventoryUtil.holdingItem(ItemExpBottle.class) && AutoArmor.mc.gameSettings.keyBindUseItem.isKeyDown() && AutoArmor.mc.world.playerEntities.stream().noneMatch(e -> e != AutoArmor.mc.player && !Carbon.friendManager.isFriend(((EntityPlayer)e).getName()) && AutoArmor.mc.player.getDistance((Entity)e) <= this.closestEnemy.getValue()) && !this.flag) {
                 int takeOff = 0;
                 for (final Map.Entry<Integer, ItemStack> armorSlot : this.getArmor().entrySet()) {
                     final ItemStack stack = armorSlot.getValue();
@@ -152,7 +152,7 @@ public class AutoArmor extends Module
                 this.getSlotOn(8, slot7);
             }
         }
-        if (this.timer.passedMs((int)(this.delay.getValue() * McDonalds.serverManager.getTpsFactor()))) {
+        if (this.timer.passedMs((int)(this.delay.getValue() * Carbon.serverManager.getTpsFactor()))) {
             if (!this.taskList.isEmpty()) {
                 for (int i = 0; i < this.actions.getValue(); ++i) {
                     final InventoryUtil.Task task = this.taskList.poll();

@@ -97,13 +97,13 @@ public class HUD extends Module
         this.lag = (Setting<Boolean>)this.register(new Setting("LagNotifier", (T)false, "The time"));
         this.timer = new Timer();
         this.players = new HashMap<String, Integer>();
-        this.command = (Setting<String>)this.register(new Setting("Command", (T)"McDonalds Client"));
+        this.command = (Setting<String>)this.register(new Setting("Command", (T)"Carbon Client"));
         this.bracketColor = (Setting<TextUtil.Color>)this.register(new Setting("BracketColor", (T)TextUtil.Color.GRAY));
         this.commandColor = (Setting<TextUtil.Color>)this.register(new Setting("NameColor", (T)TextUtil.Color.YELLOW));
         this.commandBracket = (Setting<String>)this.register(new Setting("Bracket", (T)"["));
         this.commandBracket2 = (Setting<String>)this.register(new Setting("Bracket2", (T)"]"));
         this.notifyToggles = (Setting<Boolean>)this.register(new Setting("ChatNotify", (T)false, "notifys in chat"));
-        this.magenDavid = (Setting<Boolean>)this.register(new Setting("McDonalds", (T)true, "draws McDonalds happy meal"));
+        this.magenDavid = (Setting<Boolean>)this.register(new Setting("Carbon", (T)true, "draws Carbon happy meal"));
         this.animationHorizontalTime = (Setting<Integer>)this.register(new Setting("AnimationHTime", (T)500, (T)1, (T)1000, v -> this.arrayList.getValue()));
         this.animationVerticalTime = (Setting<Integer>)this.register(new Setting("AnimationVTime", (T)50, (T)1, (T)500, v -> this.arrayList.getValue()));
         this.renderingMode = (Setting<RenderingMode>)this.register(new Setting("Ordering", (T)RenderingMode.ABC));
@@ -170,16 +170,16 @@ public class HUD extends Module
         if (this.arrayList.getValue()) {
             if (this.renderingUp.getValue()) {
                 if (this.renderingMode.getValue() == RenderingMode.ABC) {
-                    for (int k = 0; k < McDonalds.moduleManager.sortedModulesABC.size(); ++k) {
-                        final String str = McDonalds.moduleManager.sortedModulesABC.get(k);
+                    for (int k = 0; k < Carbon.moduleManager.sortedModulesABC.size(); ++k) {
+                        final String str = Carbon.moduleManager.sortedModulesABC.get(k);
                         this.renderer.drawString(str, (float)(width - 2 - this.renderer.getStringWidth(str)), (float)(2 + j * 10), ((boolean)ClickGui.getInstance().rainbow.getValue()) ? ((ClickGui.getInstance().rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * ClickGui.getInstance().rainbowHue.getValue()).getRGB() : ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRGB()) : this.color, true);
                         ++j;
                         ++counter1[0];
                     }
                 }
                 else {
-                    for (int k = 0; k < McDonalds.moduleManager.sortedModules.size(); ++k) {
-                        final Module module = McDonalds.moduleManager.sortedModules.get(k);
+                    for (int k = 0; k < Carbon.moduleManager.sortedModules.size(); ++k) {
+                        final Module module = Carbon.moduleManager.sortedModules.get(k);
                         final String str2 = module.getDisplayName() + ChatFormatting.GRAY + ((module.getDisplayInfo() != null) ? (" [" + ChatFormatting.WHITE + module.getDisplayInfo() + ChatFormatting.GRAY + "]") : "");
                         this.renderer.drawString(str2, (float)(width - 2 - this.renderer.getStringWidth(str2)), (float)(2 + j * 10), ((boolean)ClickGui.getInstance().rainbow.getValue()) ? ((ClickGui.getInstance().rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * ClickGui.getInstance().rainbowHue.getValue()).getRGB() : ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRGB()) : this.color, true);
                         ++j;
@@ -188,16 +188,16 @@ public class HUD extends Module
                 }
             }
             else if (this.renderingMode.getValue() == RenderingMode.ABC) {
-                for (int k = 0; k < McDonalds.moduleManager.sortedModulesABC.size(); ++k) {
-                    final String str = McDonalds.moduleManager.sortedModulesABC.get(k);
+                for (int k = 0; k < Carbon.moduleManager.sortedModulesABC.size(); ++k) {
+                    final String str = Carbon.moduleManager.sortedModulesABC.get(k);
                     j += 10;
                     this.renderer.drawString(str, (float)(width - 2 - this.renderer.getStringWidth(str)), (float)(height - j), ((boolean)ClickGui.getInstance().rainbow.getValue()) ? ((ClickGui.getInstance().rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * ClickGui.getInstance().rainbowHue.getValue()).getRGB() : ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRGB()) : this.color, true);
                     ++counter1[0];
                 }
             }
             else {
-                for (int k = 0; k < McDonalds.moduleManager.sortedModules.size(); ++k) {
-                    final Module module = McDonalds.moduleManager.sortedModules.get(k);
+                for (int k = 0; k < Carbon.moduleManager.sortedModules.size(); ++k) {
+                    final Module module = Carbon.moduleManager.sortedModules.get(k);
                     final String str2 = module.getDisplayName() + ChatFormatting.GRAY + ((module.getDisplayInfo() != null) ? (" [" + ChatFormatting.WHITE + module.getDisplayInfo() + ChatFormatting.GRAY + "]") : "");
                     j += 10;
                     this.renderer.drawString(str2, (float)(width - 2 - this.renderer.getStringWidth(str2)), (float)(height - j), ((boolean)ClickGui.getInstance().rainbow.getValue()) ? ((ClickGui.getInstance().rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * ClickGui.getInstance().rainbowHue.getValue()).getRGB() : ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRGB()) : this.color, true);
@@ -211,13 +211,13 @@ public class HUD extends Module
             if (this.potions.getValue()) {
                 final List<PotionEffect> effects = new ArrayList<PotionEffect>(Minecraft.getMinecraft().player.getActivePotionEffects());
                 for (final PotionEffect potionEffect : effects) {
-                    final String str3 = McDonalds.potionManager.getColoredPotionString(potionEffect);
+                    final String str3 = Carbon.potionManager.getColoredPotionString(potionEffect);
                     i += 10;
                     this.renderer.drawString(str3, (float)(width - this.renderer.getStringWidth(str3) - 2), (float)(height - 2 - i), potionEffect.getPotion().getLiquidColor(), true);
                 }
             }
             if (this.speed.getValue()) {
-                final String str2 = grayString + "Speed " + ChatFormatting.WHITE + McDonalds.speedManager.getSpeedKpH() + " km/h";
+                final String str2 = grayString + "Speed " + ChatFormatting.WHITE + Carbon.speedManager.getSpeedKpH() + " km/h";
                 i += 10;
                 this.renderer.drawString(str2, (float)(width - this.renderer.getStringWidth(str2) - 2), (float)(height - 2 - i), ((boolean)ClickGui.getInstance().rainbow.getValue()) ? ((ClickGui.getInstance().rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * ClickGui.getInstance().rainbowHue.getValue()).getRGB() : ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRGB()) : this.color, true);
                 ++counter1[0];
@@ -229,13 +229,13 @@ public class HUD extends Module
                 ++counter1[0];
             }
             if (this.tps.getValue()) {
-                final String str2 = grayString + "TPS " + ChatFormatting.WHITE + McDonalds.serverManager.getTPS();
+                final String str2 = grayString + "TPS " + ChatFormatting.WHITE + Carbon.serverManager.getTPS();
                 i += 10;
                 this.renderer.drawString(str2, (float)(width - this.renderer.getStringWidth(str2) - 2), (float)(height - 2 - i), ((boolean)ClickGui.getInstance().rainbow.getValue()) ? ((ClickGui.getInstance().rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * ClickGui.getInstance().rainbowHue.getValue()).getRGB() : ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRGB()) : this.color, true);
                 ++counter1[0];
             }
             final String fpsText = grayString + "FPS " + ChatFormatting.WHITE + Minecraft.debugFPS;
-            final String str4 = grayString + "Ping " + ChatFormatting.WHITE + McDonalds.serverManager.getPing();
+            final String str4 = grayString + "Ping " + ChatFormatting.WHITE + Carbon.serverManager.getPing();
             if (this.renderer.getStringWidth(str4) > this.renderer.getStringWidth(fpsText)) {
                 if (this.ping.getValue()) {
                     i += 10;
@@ -265,12 +265,12 @@ public class HUD extends Module
             if (this.potions.getValue()) {
                 final List<PotionEffect> effects = new ArrayList<PotionEffect>(Minecraft.getMinecraft().player.getActivePotionEffects());
                 for (final PotionEffect potionEffect : effects) {
-                    final String str3 = McDonalds.potionManager.getColoredPotionString(potionEffect);
+                    final String str3 = Carbon.potionManager.getColoredPotionString(potionEffect);
                     this.renderer.drawString(str3, (float)(width - this.renderer.getStringWidth(str3) - 2), (float)(2 + i++ * 10), potionEffect.getPotion().getLiquidColor(), true);
                 }
             }
             if (this.speed.getValue()) {
-                final String str2 = grayString + "Speed " + ChatFormatting.WHITE + McDonalds.speedManager.getSpeedKpH() + " km/h";
+                final String str2 = grayString + "Speed " + ChatFormatting.WHITE + Carbon.speedManager.getSpeedKpH() + " km/h";
                 this.renderer.drawString(str2, (float)(width - this.renderer.getStringWidth(str2) - 2), (float)(2 + i++ * 10), ((boolean)ClickGui.getInstance().rainbow.getValue()) ? ((ClickGui.getInstance().rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * ClickGui.getInstance().rainbowHue.getValue()).getRGB() : ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRGB()) : this.color, true);
                 ++counter1[0];
             }
@@ -280,12 +280,12 @@ public class HUD extends Module
                 ++counter1[0];
             }
             if (this.tps.getValue()) {
-                final String str2 = grayString + "TPS " + ChatFormatting.WHITE + McDonalds.serverManager.getTPS();
+                final String str2 = grayString + "TPS " + ChatFormatting.WHITE + Carbon.serverManager.getTPS();
                 this.renderer.drawString(str2, (float)(width - this.renderer.getStringWidth(str2) - 2), (float)(2 + i++ * 10), ((boolean)ClickGui.getInstance().rainbow.getValue()) ? ((ClickGui.getInstance().rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * ClickGui.getInstance().rainbowHue.getValue()).getRGB() : ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRGB()) : this.color, true);
                 ++counter1[0];
             }
             final String fpsText = grayString + "FPS " + ChatFormatting.WHITE + Minecraft.debugFPS;
-            final String str4 = grayString + "Ping " + ChatFormatting.WHITE + McDonalds.serverManager.getPing();
+            final String str4 = grayString + "Ping " + ChatFormatting.WHITE + Carbon.serverManager.getPing();
             if (this.renderer.getStringWidth(str4) > this.renderer.getStringWidth(fpsText)) {
                 if (this.ping.getValue()) {
                     this.renderer.drawString(str4, (float)(width - this.renderer.getStringWidth(str4) - 2), (float)(2 + i++ * 10), ((boolean)ClickGui.getInstance().rainbow.getValue()) ? ((ClickGui.getInstance().rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * ClickGui.getInstance().rainbowHue.getValue()).getRGB() : ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRGB()) : this.color, true);
@@ -316,7 +316,7 @@ public class HUD extends Module
         final int hposZ = (int)(Util.mc.player.posZ * nether);
         i = ((Util.mc.currentScreen instanceof GuiChat) ? 14 : 0);
         final String coordinates = ChatFormatting.WHITE + "XYZ " + ChatFormatting.RESET + (inHell ? (posX + ", " + posY + ", " + posZ + ChatFormatting.WHITE + " [" + ChatFormatting.RESET + hposX + ", " + hposZ + ChatFormatting.WHITE + "]" + ChatFormatting.RESET) : (posX + ", " + posY + ", " + posZ + ChatFormatting.WHITE + " [" + ChatFormatting.RESET + hposX + ", " + hposZ + ChatFormatting.WHITE + "]"));
-        final String direction = this.direction.getValue() ? McDonalds.rotationManager.getDirection4D(false) : "";
+        final String direction = this.direction.getValue() ? Carbon.rotationManager.getDirection4D(false) : "";
         final String coords = this.coords.getValue() ? coordinates : "";
         i += 10;
         if (ClickGui.getInstance().rainbow.getValue()) {
@@ -419,8 +419,8 @@ public class HUD extends Module
     
     public void renderLag() {
         final int width = this.renderer.scaledWidth;
-        if (McDonalds.serverManager.isServerNotResponding()) {
-            final String text = ChatFormatting.RED + "Server not responding " + MathUtil.round(McDonalds.serverManager.serverRespondingTime() / 1000.0f, 1) + "s.";
+        if (Carbon.serverManager.isServerNotResponding()) {
+            final String text = ChatFormatting.RED + "Server not responding " + MathUtil.round(Carbon.serverManager.serverRespondingTime() / 1000.0f, 1) + "s.";
             this.renderer.drawString(text, width / 2.0f - this.renderer.getStringWidth(text) / 2.0f + 2.0f, 20.0f, this.color, true);
         }
     }
@@ -494,13 +494,13 @@ public class HUD extends Module
     
     @Override
     public void onLoad() {
-        McDonalds.commandManager.setClientMessage(this.getCommandMessage());
+        Carbon.commandManager.setClientMessage(this.getCommandMessage());
     }
     
     @SubscribeEvent
     public void onSettingChange(final ClientEvent event) {
         if (event.getStage() == 2 && this.equals(event.getSetting().getFeature())) {
-            McDonalds.commandManager.setClientMessage(this.getCommandMessage());
+            Carbon.commandManager.setClientMessage(this.getCommandMessage());
         }
     }
     

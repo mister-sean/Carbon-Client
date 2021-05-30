@@ -15,8 +15,8 @@ public class HelpCommand extends Command
     @Override
     public void execute(final String[] commands) {
         Command.sendMessage("Commands: ");
-        for (final Command command : McDonalds.commandManager.getCommands()) {
-            Command.sendMessage(ChatFormatting.GRAY + McDonalds.commandManager.getPrefix() + command.getName());
+        for (final Command command : Carbon.commandManager.getCommands()) {
+            Command.sendMessage(ChatFormatting.GRAY + Carbon.commandManager.getPrefix() + command.getName());
         }
     }
 }

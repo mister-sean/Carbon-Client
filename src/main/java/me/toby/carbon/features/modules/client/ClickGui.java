@@ -8,7 +8,7 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.ClientEvent;
 import me.toby.carbon.features.command.Command;
-import me.toby.carbon.features.gui.McDonaldsGui;
+import me.toby.carbon.features.gui.CarbonGui;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
 import me.toby.carbon.util.Util;
@@ -34,7 +34,7 @@ public class ClickGui extends Module
     public Setting<Integer> rainbowHue;
     public Setting<Float> rainbowBrightness;
     public Setting<Float> rainbowSaturation;
-    private McDonaldsGui click;
+    private CarbonGui click;
     
     public ClickGui() {
         super("Clickgui", "Clickgui", Category.CLIENT, true, false, false);
@@ -82,27 +82,27 @@ public class ClickGui extends Module
     public void onSettingChange(final ClientEvent event) {
         if (event.getStage() == 2 && event.getSetting().getFeature().equals(this)) {
             if (event.getSetting().equals(this.prefix)) {
-                McDonalds.commandManager.setPrefix(this.prefix.getPlannedValue());
-                Command.sendMessage("Prefix set to " + ChatFormatting.DARK_GRAY + McDonalds.commandManager.getPrefix());
+                Carbon.commandManager.setPrefix(this.prefix.getPlannedValue());
+                Command.sendMessage("Prefix set to " + ChatFormatting.DARK_GRAY + Carbon.commandManager.getPrefix());
             }
-            McDonalds.colorManager.setColor(this.red.getPlannedValue(), this.green.getPlannedValue(), this.blue.getPlannedValue(), this.hoverAlpha.getPlannedValue());
+            Carbon.colorManager.setColor(this.red.getPlannedValue(), this.green.getPlannedValue(), this.blue.getPlannedValue(), this.hoverAlpha.getPlannedValue());
         }
     }
     
     @Override
     public void onEnable() {
-        Util.mc.displayGuiScreen((GuiScreen)McDonaldsGui.getClickGui());
+        Util.mc.displayGuiScreen((GuiScreen)CarbonGui.getClickGui());
     }
     
     @Override
     public void onLoad() {
-        McDonalds.colorManager.setColor(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.hoverAlpha.getValue());
-        McDonalds.commandManager.setPrefix(this.prefix.getValue());
+        Carbon.colorManager.setColor(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.hoverAlpha.getValue());
+        Carbon.commandManager.setPrefix(this.prefix.getValue());
     }
     
     @Override
     public void onTick() {
-        if (!(ClickGui.mc.currentScreen instanceof McDonaldsGui)) {
+        if (!(ClickGui.mc.currentScreen instanceof CarbonGui)) {
             this.disable();
         }
     }

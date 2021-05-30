@@ -21,16 +21,16 @@ public class Discord extends Module
         final DiscordEventHandlers handlers = new DiscordEventHandlers();
         Discord.rpc.Discord_Initialize("833348373708275712", handlers, true, "");
         Discord.presence.startTimestamp = System.currentTimeMillis() / 1000L;
-        Discord.presence.details = "Smoking childs on the McDonalds playground";
-        Discord.presence.state = "Smoking childs";
+        Discord.presence.details = "pvping with carbon client 😎";
+        Discord.presence.state = "Carbon Client v0.0.01";
         Discord.presence.largeImageKey = "large";
-        Discord.presence.largeImageText = "https://discord.gg/snDa88Vjfz";
+        Discord.presence.largeImageText = "https://discord.gg/DXrFHJCakX";
         Discord.rpc.Discord_UpdatePresence(Discord.presence);
         (Discord.thread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 Discord.rpc.Discord_RunCallbacks();
-                Discord.presence.details = "Smoking childs on the McDonalds playground";
-                Discord.presence.state = "https://discord.gg/snDa88Vjfz";
+                Discord.presence.details = "using Carbon v0.0.01";
+                Discord.presence.state = "https://discord.gg/DXrFHJCakX";
                 Discord.rpc.Discord_UpdatePresence(Discord.presence);
                 try {
                     Thread.sleep(2000L);

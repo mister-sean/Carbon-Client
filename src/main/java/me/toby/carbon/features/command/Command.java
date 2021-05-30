@@ -27,7 +27,7 @@ public abstract class Command extends Feature
     }
     
     public static void sendMessage(final String message) {
-        sendSilentMessage(McDonalds.commandManager.getClientMessage() + " " + ChatFormatting.GRAY + message);
+        sendSilentMessage(Carbon.commandManager.getClientMessage() + " " + ChatFormatting.GRAY + message);
     }
     
     public static void sendSilentMessage(final String message) {
@@ -38,7 +38,7 @@ public abstract class Command extends Feature
     }
     
     public static String getCommandPrefix() {
-        return McDonalds.commandManager.getPrefix();
+        return Carbon.commandManager.getPrefix();
     }
     
     public abstract void execute(final String[] p0);

@@ -49,7 +49,7 @@ public class ConfigManager implements Util
     
     public ConfigManager() {
         this.features = new ArrayList<Feature>();
-        this.config = "McDonalds/config/";
+        this.config = "Carbon/config/";
     }
     
     public static void setValueFromJson(final Feature feature, final Setting setting, final JsonElement element) {
@@ -83,7 +83,7 @@ public class ConfigManager implements Util
                 catch (Exception ex) {}
             }
             default: {
-                McDonalds.LOGGER.error("Unknown Setting type for: " + feature.getName() + " : " + setting.getName());
+                Carbon.LOGGER.error("Unknown Setting type for: " + feature.getName() + " : " + setting.getName());
             }
         }
     }
@@ -94,7 +94,7 @@ public class ConfigManager implements Util
             final JsonElement element = entry.getValue();
             if (feature instanceof FriendManager) {
                 try {
-                    McDonalds.friendManager.addFriend(new FriendManager.Friend(element.getAsString(), UUID.fromString(settingName)));
+                    Carbon.friendManager.addFriend(new FriendManager.Friend(element.getAsString(), UUID.fromString(settingName)));
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -119,14 +119,14 @@ public class ConfigManager implements Util
     }
     
     public void loadConfig(final String name) {
-        final List<File> files = Arrays.stream((File[])Objects.requireNonNull((T[])new File("McDonalds").listFiles())).filter(File::isDirectory).collect((Collector<? super File, ?, List<File>>)Collectors.toList());
-        if (files.contains(new File("McDonalds/" + name + "/"))) {
-            this.config = "McDonalds/" + name + "/";
+        final List<File> files = Arrays.stream((File[])Objects.requireNonNull((T[])new File("Carbon").listFiles())).filter(File::isDirectory).collect((Collector<? super File, ?, List<File>>)Collectors.toList());
+        if (files.contains(new File("Carbon/" + name + "/"))) {
+            this.config = "Carbon/" + name + "/";
         }
         else {
-            this.config = "McDonalds/config/";
+            this.config = "Carbon/config/";
         }
-        McDonalds.friendManager.onLoad();
+        Carbon.friendManager.onLoad();
         for (final Feature feature : this.features) {
             try {
                 this.loadSettings(feature);
@@ -139,17 +139,17 @@ public class ConfigManager implements Util
     }
     
     public boolean configExists(final String name) {
-        final List<File> files = Arrays.stream((File[])Objects.requireNonNull((T[])new File("McDonalds").listFiles())).filter(File::isDirectory).collect((Collector<? super File, ?, List<File>>)Collectors.toList());
-        return files.contains(new File("McDonalds/" + name + "/"));
+        final List<File> files = Arrays.stream((File[])Objects.requireNonNull((T[])new File("Carbon").listFiles())).filter(File::isDirectory).collect((Collector<? super File, ?, List<File>>)Collectors.toList());
+        return files.contains(new File("Carbon/" + name + "/"));
     }
     
     public void saveConfig(final String name) {
-        this.config = "McDonalds/" + name + "/";
+        this.config = "Carbon/" + name + "/";
         final File path = new File(this.config);
         if (!path.exists()) {
             path.mkdir();
         }
-        McDonalds.friendManager.saveFriends();
+        Carbon.friendManager.saveFriends();
         for (final Feature feature : this.features) {
             try {
                 this.saveSettings(feature);
@@ -162,19 +162,19 @@ public class ConfigManager implements Util
     }
     
     public void saveCurrentConfig() {
-        final File currentConfig = new File("McDonalds/currentconfig.txt");
+        final File currentConfig = new File("Carbon/currentconfig.txt");
         try {
             if (currentConfig.exists()) {
                 final FileWriter writer = new FileWriter(currentConfig);
                 final String tempConfig = this.config.replaceAll("/", "");
-                writer.write(tempConfig.replaceAll("McDonalds", ""));
+                writer.write(tempConfig.replaceAll("Carbon", ""));
                 writer.close();
             }
             else {
                 currentConfig.createNewFile();
                 final FileWriter writer = new FileWriter(currentConfig);
                 final String tempConfig = this.config.replaceAll("/", "");
-                writer.write(tempConfig.replaceAll("McDonalds", ""));
+                writer.write(tempConfig.replaceAll("Carbon", ""));
                 writer.close();
             }
         }
@@ -184,7 +184,7 @@ public class ConfigManager implements Util
     }
     
     public String loadCurrentConfig() {
-        final File currentConfig = new File("McDonalds/currentconfig.txt");
+        final File currentConfig = new File("Carbon/currentconfig.txt");
         String name = "config";
         try {
             if (currentConfig.exists()) {
@@ -229,11 +229,11 @@ public class ConfigManager implements Util
     }
     
     public void init() {
-        this.features.addAll(McDonalds.moduleManager.modules);
-        this.features.add(McDonalds.friendManager);
+        this.features.addAll(Carbon.moduleManager.modules);
+        this.features.add(Carbon.friendManager);
         final String name = this.loadCurrentConfig();
         this.loadConfig(name);
-        McDonalds.LOGGER.info("Config loaded.");
+        Carbon.LOGGER.info("Config loaded.");
     }
     
     private void loadSettings(final Feature feature) throws IOException {
@@ -251,7 +251,7 @@ public class ConfigManager implements Util
             loadFile(new JsonParser().parse((Reader)new InputStreamReader(stream)).getAsJsonObject(), feature);
         }
         catch (IllegalStateException e) {
-            McDonalds.LOGGER.error("Bad Config File for: " + feature.getName() + ". Resetting...");
+            Carbon.LOGGER.error("Bad Config File for: " + feature.getName() + ". Resetting...");
             loadFile(new JsonObject(), feature);
         }
         stream.close();

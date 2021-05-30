@@ -171,7 +171,7 @@ public class AutoTrap extends Module
         double distance = Math.pow(range, 2.0) + 1.0;
         for (final EntityPlayer player : AutoTrap.mc.world.playerEntities) {
             if (!EntityUtil.isntValid((Entity)player, range) && (!trapped || !EntityUtil.isTrapped(player, this.antiScaffold.getValue(), this.antiStep.getValue(), false, false, false))) {
-                if (McDonalds.speedManager.getPlayerSpeed(player) > 10.0) {
+                if (Carbon.speedManager.getPlayerSpeed(player) > 10.0) {
                     continue;
                 }
                 if (target == null) {

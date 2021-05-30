@@ -162,7 +162,7 @@ public class AutoWeb extends Module
         double distance = Math.pow(range, 2.0) + 1.0;
         for (final EntityPlayer player : AutoWeb.mc.world.playerEntities) {
             if (!EntityUtil.isntValid((Entity)player, range) && !player.isInWeb) {
-                if (McDonalds.speedManager.getPlayerSpeed(player) > 30.0) {
+                if (Carbon.speedManager.getPlayerSpeed(player) > 30.0) {
                     continue;
                 }
                 if (target == null) {

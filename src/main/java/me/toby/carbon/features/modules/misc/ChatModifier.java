@@ -16,7 +16,7 @@ public class ChatModifier extends Module
     public ChatModifier() {
         super("ChatSuffix", "Modifies your chat", Category.MISC, true, false, false);
         this.timer = new Timer();
-        this.suffix = (Setting<Suffix>)this.register(new Setting("Suffix", (T)Suffix.MCDONALDS, "Your Suffix."));
+        this.suffix = (Setting<Suffix>)this.register(new Setting("Suffix", (T)Suffix.Carbon, "Your Suffix."));
         this.setInstance();
     }
     
@@ -40,7 +40,7 @@ public class ChatModifier extends Module
                 return;
             }
             switch (this.suffix.getValue()) {
-                case MCDONALDS: {
+                case Carbon: {
                     s += " \u23d0 \u1d0d\u1d04\u1d05\u1d0f\u0274\u1d00\u029f\u1d05\ua731 \u1d04\u029f\u026a\u1d07\u0274\u1d1b";
                     break;
                 }
@@ -58,6 +58,6 @@ public class ChatModifier extends Module
     
     public enum Suffix
     {
-        MCDONALDS;
+        Carbon;
     }
 }

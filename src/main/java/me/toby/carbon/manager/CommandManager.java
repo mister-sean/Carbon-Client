@@ -27,7 +27,7 @@ public class CommandManager extends Feature
     public CommandManager() {
         super("Command");
         this.commands = new ArrayList<Command>();
-        this.clientMessage = "<McDonalds>";
+        this.clientMessage = "<Carbon>";
         this.prefix = ".";
         this.commands.add(new BindCommand());
         this.commands.add(new ModuleCommand());

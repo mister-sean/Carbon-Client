@@ -21,13 +21,13 @@ public class ConfigCommand extends Command
     @Override
     public void execute(final String[] commands) {
         if (commands.length == 1) {
-            Command.sendMessage("You`ll find the config files in your gameProfile directory under mcdonalds/config");
+            Command.sendMessage("You`ll find the config files in your gameProfile directory under Carbon/config");
             return;
         }
         if (commands.length == 2) {
             if ("list".equals(commands[0])) {
                 String configs = "Configs: ";
-                final File file = new File("mcdonalds/");
+                final File file = new File("Carbon/");
                 final List<File> directories = Arrays.stream(file.listFiles()).filter(File::isDirectory).filter(f -> !f.getName().equals("util")).collect((Collector<? super File, ?, List<File>>)Collectors.toList());
                 final StringBuilder builder = new StringBuilder(configs);
                 for (final File file2 : directories) {
@@ -44,12 +44,12 @@ public class ConfigCommand extends Command
             final String s = commands[0];
             switch (s) {
                 case "save": {
-                    McDonalds.configManager.saveConfig(commands[1]);
+                    Carbon.configManager.saveConfig(commands[1]);
                     Command.sendMessage(ChatFormatting.GREEN + "Config '" + commands[1] + "' has been saved.");
                 }
                 case "load": {
-                    if (McDonalds.configManager.configExists(commands[1])) {
-                        McDonalds.configManager.loadConfig(commands[1]);
+                    if (Carbon.configManager.configExists(commands[1])) {
+                        Carbon.configManager.loadConfig(commands[1]);
                         Command.sendMessage(ChatFormatting.GREEN + "Config '" + commands[1] + "' has been loaded.");
                     }
                     else {

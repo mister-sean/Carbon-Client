@@ -62,13 +62,13 @@ public class EventManager extends Feature
     @SubscribeEvent
     public void onUpdate(final LivingEvent.LivingUpdateEvent event) {
         if (!Feature.fullNullCheck() && event.getEntity().getEntityWorld().isRemote && event.getEntityLiving().equals((Object)EventManager.mc.player)) {
-            McDonalds.inventoryManager.update();
-            McDonalds.moduleManager.onUpdate();
+            Carbon.inventoryManager.update();
+            Carbon.moduleManager.onUpdate();
             if (HUD.getInstance().renderingMode.getValue() == HUD.RenderingMode.Length) {
-                McDonalds.moduleManager.sortModules(true);
+                Carbon.moduleManager.sortModules(true);
             }
             else {
-                McDonalds.moduleManager.sortModulesABC();
+                Carbon.moduleManager.sortModulesABC();
             }
         }
     }
@@ -76,12 +76,12 @@ public class EventManager extends Feature
     @SubscribeEvent
     public void onClientConnect(final FMLNetworkEvent.ClientConnectedToServerEvent event) {
         this.logoutTimer.reset();
-        McDonalds.moduleManager.onLogin();
+        Carbon.moduleManager.onLogin();
     }
     
     @SubscribeEvent
     public void onClientDisconnect(final FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
-        McDonalds.moduleManager.onLogout();
+        Carbon.moduleManager.onLogout();
     }
     
     @SubscribeEvent
@@ -89,7 +89,7 @@ public class EventManager extends Feature
         if (fullNullCheck()) {
             return;
         }
-        McDonalds.moduleManager.onTick();
+        Carbon.moduleManager.onTick();
         for (final EntityPlayer player : EventManager.mc.world.playerEntities) {
             if (player != null) {
                 if (player.getHealth() > 0.0f) {
@@ -107,13 +107,13 @@ public class EventManager extends Feature
             return;
         }
         if (event.getStage() == 0) {
-            McDonalds.speedManager.updateValues();
-            McDonalds.rotationManager.updateRotations();
-            McDonalds.positionManager.updatePosition();
+            Carbon.speedManager.updateValues();
+            Carbon.rotationManager.updateRotations();
+            Carbon.positionManager.updatePosition();
         }
         if (event.getStage() == 1) {
-            McDonalds.rotationManager.restoreRotations();
-            McDonalds.positionManager.restorePosition();
+            Carbon.rotationManager.restoreRotations();
+            Carbon.positionManager.restorePosition();
         }
     }
     
@@ -122,7 +122,7 @@ public class EventManager extends Feature
         if (event.getStage() != 0) {
             return;
         }
-        McDonalds.serverManager.onPacketReceived();
+        Carbon.serverManager.onPacketReceived();
         if (event.getPacket() instanceof SPacketEntityStatus) {
             final SPacketEntityStatus packet = event.getPacket();
             if (packet.getOpCode() == 35 && packet.getEntity((World)EventManager.mc.world) instanceof EntityPlayer) {
@@ -167,7 +167,7 @@ public class EventManager extends Feature
             });
         }
         if (event.getPacket() instanceof SPacketTimeUpdate) {
-            McDonalds.serverManager.update();
+            Carbon.serverManager.update();
         }
     }
     
@@ -176,7 +176,7 @@ public class EventManager extends Feature
         if (event.isCanceled()) {
             return;
         }
-        EventManager.mc.profiler.startSection("mcdonalds");
+        EventManager.mc.profiler.startSection("Carbon");
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
@@ -185,7 +185,7 @@ public class EventManager extends Feature
         GlStateManager.disableDepth();
         GlStateManager.glLineWidth(1.0f);
         final Render3DEvent render3dEvent = new Render3DEvent(event.getPartialTicks());
-        McDonalds.moduleManager.onRender3D(render3dEvent);
+        Carbon.moduleManager.onRender3D(render3dEvent);
         GlStateManager.glLineWidth(1.0f);
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();
@@ -204,7 +204,7 @@ public class EventManager extends Feature
     @SubscribeEvent
     public void renderHUD(final RenderGameOverlayEvent.Post event) {
         if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
-            McDonalds.textManager.updateResolution();
+            Carbon.textManager.updateResolution();
         }
     }
     
@@ -213,7 +213,7 @@ public class EventManager extends Feature
         if (event.getType().equals((Object)RenderGameOverlayEvent.ElementType.TEXT)) {
             final ScaledResolution resolution = new ScaledResolution(EventManager.mc);
             final Render2DEvent render2DEvent = new Render2DEvent(event.getPartialTicks(), resolution);
-            McDonalds.moduleManager.onRender2D(render2DEvent);
+            Carbon.moduleManager.onRender2D(render2DEvent);
             GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
         }
     }
@@ -221,7 +221,7 @@ public class EventManager extends Feature
     @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
     public void onKeyInput(final InputEvent.KeyInputEvent event) {
         if (Keyboard.getEventKeyState()) {
-            McDonalds.moduleManager.onKeyPressed(Keyboard.getEventKey());
+            Carbon.moduleManager.onKeyPressed(Keyboard.getEventKey());
         }
     }
     
@@ -232,7 +232,7 @@ public class EventManager extends Feature
             try {
                 EventManager.mc.ingameGUI.getChatGUI().addToSentMessages(event.getMessage());
                 if (event.getMessage().length() > 1) {
-                    McDonalds.commandManager.executeCommand(event.getMessage().substring(Command.getCommandPrefix().length() - 1));
+                    Carbon.commandManager.executeCommand(event.getMessage().substring(Command.getCommandPrefix().length() - 1));
                 }
                 else {
                     Command.sendMessage("Please enter a command.");

@@ -11,6 +11,6 @@ public class UnloadCommand extends Command
     
     @Override
     public void execute(final String[] commands) {
-        McDonalds.unload(true);
+        Carbon.unload(true);
     }
 }

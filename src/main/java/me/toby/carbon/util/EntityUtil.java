@@ -474,7 +474,7 @@ public class EntityUtil implements Util
     }
     
     public static boolean isntValid(final Entity entity, final double range) {
-        return entity == null || isDead(entity) || entity.equals((Object)EntityUtil.mc.player) || (entity instanceof EntityPlayer && McDonalds.friendManager.isFriend(entity.getName())) || EntityUtil.mc.player.getDistanceSq(entity) > MathUtil.square(range);
+        return entity == null || isDead(entity) || entity.equals((Object)EntityUtil.mc.player) || (entity instanceof EntityPlayer && Carbon.friendManager.isFriend(entity.getName())) || EntityUtil.mc.player.getDistanceSq(entity) > MathUtil.square(range);
     }
     
     public static boolean isValid(final Entity entity, final double range) {
@@ -562,7 +562,7 @@ public class EntityUtil implements Util
     
     public static Color getColor(final Entity entity, final int red, final int green, final int blue, final int alpha, final boolean colorFriends) {
         Color color = new Color(red / 255.0f, green / 255.0f, blue / 255.0f, alpha / 255.0f);
-        if (entity instanceof EntityPlayer && colorFriends && McDonalds.friendManager.isFriend((EntityPlayer)entity)) {
+        if (entity instanceof EntityPlayer && colorFriends && Carbon.friendManager.isFriend((EntityPlayer)entity)) {
             color = new Color(0.33333334f, 1.0f, 1.0f, alpha / 255.0f);
         }
         return color;
@@ -667,7 +667,7 @@ public class EntityUtil implements Util
                     distanceSB.append("c");
                 }
                 distanceSB.append(distance);
-                output.put(healthSB.toString() + " " + (McDonalds.friendManager.isFriend(player) ? ChatFormatting.AQUA : ChatFormatting.RED) + player.getName() + " " + distanceSB.toString() + " \u00c2§f0", (int)EntityUtil.mc.player.getDistance((Entity)player));
+                output.put(healthSB.toString() + " " + (Carbon.friendManager.isFriend(player) ? ChatFormatting.AQUA : ChatFormatting.RED) + player.getName() + " " + distanceSB.toString() + " \u00c2§f0", (int)EntityUtil.mc.player.getDistance((Entity)player));
                 healthSB.setLength(0);
                 distanceSB.setLength(0);
             }

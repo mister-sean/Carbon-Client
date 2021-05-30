@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 import me.toby.carbon.Carbon;
 import me.toby.carbon.features.Feature;
-import me.toby.carbon.features.gui.McDonaldsGui;
+import me.toby.carbon.features.gui.CarbonGui;
 import me.toby.carbon.features.gui.components.items.Item;
 import me.toby.carbon.features.gui.components.items.buttons.Button;
 import me.toby.carbon.features.modules.client.ClickGui;
@@ -65,7 +65,7 @@ public class Component extends Feature
         if (this.open) {
             RenderUtil.drawRect((float)this.x, this.y + 12.5f, (float)(this.x + this.width), this.y + this.height + totalItemHeight, 1996488704);
         }
-        McDonalds.textManager.drawStringWithShadow(this.getName(), this.x + 3.0f, this.y - 4.0f - McDonaldsGui.getClickGui().getTextOffset(), -1);
+        Carbon.textManager.drawStringWithShadow(this.getName(), this.x + 3.0f, this.y - 4.0f - CarbonGui.getClickGui().getTextOffset(), -1);
         if (this.open) {
             float y = this.getY() + this.getHeight() - 3.0f;
             for (final Item item : this.getItems()) {
@@ -85,7 +85,7 @@ public class Component extends Feature
         if (mouseButton == 0 && this.isHovering(mouseX, mouseY)) {
             this.x2 = this.x - mouseX;
             this.y2 = this.y - mouseY;
-            McDonaldsGui.getClickGui().getComponents().forEach(component -> {
+            CarbonGui.getClickGui().getComponents().forEach(component -> {
                 if (component.drag) {
                     component.drag = false;
                 }

@@ -401,7 +401,7 @@ public class AutoCrystal extends Module
             }
             this.realTarget = this.target;
             if (AutoGG.getINSTANCE().isOn()) {
-                final AutoGG autoGG = (AutoGG)McDonalds.moduleManager.getModuleByName("AutoGG");
+                final AutoGG autoGG = (AutoGG)Carbon.moduleManager.getModuleByName("AutoGG");
                 autoGG.addTargetedPlayer(this.target.getName());
             }
             if (this.hotBarSlot != -1 && this.autoswitch.getValue() && !AutoCrystal.mc.player.isPotionActive(MobEffects.WEAKNESS)) {
@@ -526,7 +526,7 @@ public class AutoCrystal extends Module
     EntityPlayer getTarget() {
         EntityPlayer closestPlayer = null;
         for (final EntityPlayer entity : AutoCrystal.mc.world.playerEntities) {
-            if (AutoCrystal.mc.player != null && !AutoCrystal.mc.player.isDead && !entity.isDead && entity != AutoCrystal.mc.player && !McDonalds.friendManager.isFriend(entity.getName())) {
+            if (AutoCrystal.mc.player != null && !AutoCrystal.mc.player.isDead && !entity.isDead && entity != AutoCrystal.mc.player && !Carbon.friendManager.isFriend(entity.getName())) {
                 if (entity.getDistance((Entity)AutoCrystal.mc.player) > 12.0f) {
                     continue;
                 }

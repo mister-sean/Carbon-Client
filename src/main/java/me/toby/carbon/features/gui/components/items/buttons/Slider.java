@@ -6,7 +6,7 @@ import java.util.Iterator;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import me.toby.carbon.Carbon;
-import me.toby.carbon.features.gui.McDonaldsGui;
+import me.toby.carbon.features.gui.CarbonGui;
 import me.toby.carbon.features.gui.components.Component;
 import me.toby.carbon.features.modules.client.ClickGui;
 import me.toby.carbon.features.setting.Setting;
@@ -32,8 +32,8 @@ public class Slider extends Button
     public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
         this.dragSetting(mouseX, mouseY);
         RenderUtil.drawRect(this.x, this.y, this.x + this.width + 7.4f, this.y + this.height - 0.5f, this.isHovering(mouseX, mouseY) ? -2007673515 : 290805077);
-        RenderUtil.drawRect(this.x, this.y, (this.setting.getValue().floatValue() <= this.min.floatValue()) ? this.x : (this.x + (this.width + 7.4f) * this.partialMultiplier()), this.y + this.height - 0.5f, this.isHovering(mouseX, mouseY) ? McDonalds.colorManager.getColorWithAlpha(McDonalds.moduleManager.getModuleByClass(ClickGui.class).alpha.getValue()) : McDonalds.colorManager.getColorWithAlpha(McDonalds.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue()));
-        McDonalds.textManager.drawStringWithShadow(this.getName() + " " + ChatFormatting.GRAY + ((this.setting.getValue() instanceof Float) ? this.setting.getValue() : this.setting.getValue().doubleValue()), this.x + 2.3f, this.y - 1.7f - McDonaldsGui.getClickGui().getTextOffset(), -1);
+        RenderUtil.drawRect(this.x, this.y, (this.setting.getValue().floatValue() <= this.min.floatValue()) ? this.x : (this.x + (this.width + 7.4f) * this.partialMultiplier()), this.y + this.height - 0.5f, this.isHovering(mouseX, mouseY) ? Carbon.colorManager.getColorWithAlpha(Carbon.moduleManager.getModuleByClass(ClickGui.class).alpha.getValue()) : Carbon.colorManager.getColorWithAlpha(Carbon.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue()));
+        Carbon.textManager.drawStringWithShadow(this.getName() + " " + ChatFormatting.GRAY + ((this.setting.getValue() instanceof Float) ? this.setting.getValue() : this.setting.getValue().doubleValue()), this.x + 2.3f, this.y - 1.7f - CarbonGui.getClickGui().getTextOffset(), -1);
     }
     
     @Override
@@ -46,7 +46,7 @@ public class Slider extends Button
     
     @Override
     public boolean isHovering(final int mouseX, final int mouseY) {
-        for (final Component component : McDonaldsGui.getClickGui().getComponents()) {
+        for (final Component component : CarbonGui.getClickGui().getComponents()) {
             if (!component.drag) {
                 continue;
             }

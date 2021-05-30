@@ -73,7 +73,7 @@ public class FontMod extends Module
     @Override
     public void onTick() {
         if (this.reloadFont) {
-            McDonalds.textManager.init(false);
+            Carbon.textManager.init(false);
             this.reloadFont = false;
         }
     }

@@ -88,7 +88,7 @@ public class Speedmine extends Module
     @Override
     public void onRender3D(final Render3DEvent event) {
         if (this.render.getValue() && this.currentPos != null && this.currentBlockState.getBlock() == Blocks.OBSIDIAN) {
-            final Color color = new Color(this.timer.passedMs((int)(2000.0f * McDonalds.serverManager.getTpsFactor())) ? 0 : 255, this.timer.passedMs((int)(2000.0f * McDonalds.serverManager.getTpsFactor())) ? 255 : 0, 0, 255);
+            final Color color = new Color(this.timer.passedMs((int)(2000.0f * Carbon.serverManager.getTpsFactor())) ? 0 : 255, this.timer.passedMs((int)(2000.0f * Carbon.serverManager.getTpsFactor())) ? 255 : 0, 0, 255);
             RenderUtil.drawBoxESP(this.currentPos, color, false, color, this.lineWidth.getValue(), this.outline.getValue(), this.box.getValue(), this.boxAlpha.getValue(), false);
         }
     }

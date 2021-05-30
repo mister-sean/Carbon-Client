@@ -69,7 +69,7 @@ public class Killaura extends Module
             Killaura.target = null;
             return;
         }
-        final int wait = this.delay.getValue() ? ((int)(DamageUtil.getCooldownByWeapon((EntityPlayer)Util.mc.player) * (this.tps.getValue() ? McDonalds.serverManager.getTpsFactor() : 1.0f))) : 0;
+        final int wait = this.delay.getValue() ? ((int)(DamageUtil.getCooldownByWeapon((EntityPlayer)Util.mc.player) * (this.tps.getValue() ? Carbon.serverManager.getTpsFactor() : 1.0f))) : 0;
         if (!this.timer.passedMs(wait)) {
             return;
         }
@@ -78,7 +78,7 @@ public class Killaura extends Module
             return;
         }
         if (this.rotate.getValue()) {
-            McDonalds.rotationManager.lookAtEntity(Killaura.target);
+            Carbon.rotationManager.lookAtEntity(Killaura.target);
         }
         EntityUtil.attackEntity(Killaura.target, this.packet.getValue(), true);
         this.timer.reset();

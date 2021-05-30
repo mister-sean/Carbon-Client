@@ -32,7 +32,7 @@ public class MixinPlayerControllerMP
 {
     @Redirect(method = { "onPlayerDamageBlock" }, at = @At(value = "INVOKE", target = "Lnet/minecraft/block/state/IBlockState;getPlayerRelativeBlockHardness(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)F"))
     public float getPlayerRelativeBlockHardnessHook(final IBlockState state, final EntityPlayer player, final World worldIn, final BlockPos pos) {
-        return state.getPlayerRelativeBlockHardness(player, worldIn, pos) * ((TpsSync.getInstance().isOn() && TpsSync.getInstance().mining.getValue()) ? (1.0f / McDonalds.serverManager.getTpsFactor()) : 1.0f);
+        return state.getPlayerRelativeBlockHardness(player, worldIn, pos) * ((TpsSync.getInstance().isOn() && TpsSync.getInstance().mining.getValue()) ? (1.0f / Carbon.serverManager.getTpsFactor()) : 1.0f);
     }
     
     @Inject(method = { "clickBlock" }, at = { @At("HEAD") }, cancellable = true)

@@ -11,6 +11,6 @@ public class ReloadCommand extends Command
     
     @Override
     public void execute(final String[] commands) {
-        McDonalds.reload();
+        Carbon.reload();
     }
 }

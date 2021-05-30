@@ -30,10 +30,10 @@ public class FileManager extends Feature
     private final Path config;
     
     public FileManager() {
-        this.base = this.getMkDirectory(this.getRoot(), "McDonalds");
+        this.base = this.getMkDirectory(this.getRoot(), "Carbon");
         this.config = this.getMkDirectory(this.base, "config");
         this.getMkDirectory(this.base, "pvp");
-        for (final Module.Category category : McDonalds.moduleManager.getCategories()) {
+        for (final Module.Category category : Carbon.moduleManager.getCategories()) {
             this.getMkDirectory(this.config, category.getName());
         }
     }

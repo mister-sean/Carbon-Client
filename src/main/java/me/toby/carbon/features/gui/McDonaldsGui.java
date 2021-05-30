@@ -17,44 +17,44 @@ import java.util.Comparator;
 import java.util.ArrayList;
 import net.minecraft.client.gui.GuiScreen;
 
-public class McDonaldsGui extends GuiScreen
+public class CarbonGui extends GuiScreen
 {
-    private static McDonaldsGui oyveyGui;
-    private static McDonaldsGui INSTANCE;
+    private static CarbonGui oyveyGui;
+    private static CarbonGui INSTANCE;
     private final ArrayList<Component> components;
     
-    public McDonaldsGui() {
+    public CarbonGui() {
         this.components = new ArrayList<Component>();
         this.setInstance();
         this.load();
     }
     
-    public static McDonaldsGui getInstance() {
-        if (McDonaldsGui.INSTANCE == null) {
-            McDonaldsGui.INSTANCE = new McDonaldsGui();
+    public static CarbonGui getInstance() {
+        if (CarbonGui.INSTANCE == null) {
+            CarbonGui.INSTANCE = new CarbonGui();
         }
-        return McDonaldsGui.INSTANCE;
+        return CarbonGui.INSTANCE;
     }
     
-    public static McDonaldsGui getClickGui() {
+    public static CarbonGui getClickGui() {
         return getInstance();
     }
     
     private void setInstance() {
-        McDonaldsGui.INSTANCE = this;
+        CarbonGui.INSTANCE = this;
     }
     
     private void load() {
         int x = -84;
-        for (final Module.Category category : McDonalds.moduleManager.getCategories()) {
+        for (final Module.Category category : Carbon.moduleManager.getCategories()) {
             final ArrayList<Component> components2 = this.components;
             final String name = category.getName();
             x += 90;
             components2.add(new Component(name, x, 4, true) {
                 @Override
                 public void setupItems() {
-                    McDonaldsGui$1.counter1 = new int[] { 1 };
-                    McDonalds.moduleManager.getModulesByCategory(category).forEach(module -> {
+                    CarbonGui$1.counter1 = new int[] { 1 };
+                    Carbon.moduleManager.getModulesByCategory(category).forEach(module -> {
                         if (!module.hidden) {
                             this.addButton(new ModuleButton(module));
                         }
@@ -136,6 +136,6 @@ public class McDonaldsGui extends GuiScreen
     }
     
     static {
-        McDonaldsGui.INSTANCE = new McDonaldsGui();
+        CarbonGui.INSTANCE = new CarbonGui();
     }
 }

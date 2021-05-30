@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.toby.carbon.Carbon;
-import me.toby.carbon.features.gui.McDonaldsGui;
+import me.toby.carbon.features.gui.CarbonGui;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
 import me.toby.carbon.manager.TextManager;
@@ -20,12 +20,12 @@ public class Feature implements Util
     
     public Feature() {
         this.settings = new ArrayList<Setting>();
-        this.renderer = McDonalds.textManager;
+        this.renderer = Carbon.textManager;
     }
     
     public Feature(final String name) {
         this.settings = new ArrayList<Setting>();
-        this.renderer = McDonalds.textManager;
+        this.renderer = Carbon.textManager;
         this.name = name;
     }
     
@@ -60,8 +60,8 @@ public class Feature implements Util
     public Setting register(final Setting setting) {
         setting.setFeature(this);
         this.settings.add(setting);
-        if (this instanceof Module && Feature.mc.currentScreen instanceof McDonaldsGui) {
-            McDonaldsGui.getInstance().updateModule((Module)this);
+        if (this instanceof Module && Feature.mc.currentScreen instanceof CarbonGui) {
+            CarbonGui.getInstance().updateModule((Module)this);
         }
         return setting;
     }
@@ -77,8 +77,8 @@ public class Feature implements Util
         if (!removeList.isEmpty()) {
             this.settings.removeAll(removeList);
         }
-        if (this instanceof Module && Feature.mc.currentScreen instanceof McDonaldsGui) {
-            McDonaldsGui.getInstance().updateModule((Module)this);
+        if (this instanceof Module && Feature.mc.currentScreen instanceof CarbonGui) {
+            CarbonGui.getInstance().updateModule((Module)this);
         }
     }
     

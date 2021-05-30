@@ -193,7 +193,7 @@ public class BlockUtil implements Util
             sneaking = true;
         }
         if (rotate) {
-            McDonalds.rotationManager.lookAtVec3d(hitVec);
+            Carbon.rotationManager.lookAtVec3d(hitVec);
         }
         rightClickBlock(neighbour, hitVec, hand, opposite, packet);
         BlockUtil.mc.player.swingArm(EnumHand.MAIN_HAND);

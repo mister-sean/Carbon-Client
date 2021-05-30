@@ -19,7 +19,7 @@ public class ReloadManager extends Feature
         this.prefix = prefix;
         MinecraftForge.EVENT_BUS.register((Object)this);
         if (!Feature.fullNullCheck()) {
-            Command.sendMessage(ChatFormatting.RED + "McDonalds has been unloaded. Type " + prefix + "reload to reload.");
+            Command.sendMessage(ChatFormatting.RED + "Carbon has been unloaded. Type " + prefix + "reload to reload.");
         }
     }
     
@@ -31,7 +31,7 @@ public class ReloadManager extends Feature
     public void onPacketSend(final PacketEvent.Send event) {
         final CPacketChatMessage packet;
         if (event.getPacket() instanceof CPacketChatMessage && (packet = event.getPacket()).getMessage().startsWith(this.prefix) && packet.getMessage().contains("reload")) {
-            McDonalds.load();
+            Carbon.load();
             event.setCanceled(true);
         }
     }

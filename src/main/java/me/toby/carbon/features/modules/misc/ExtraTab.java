@@ -23,7 +23,7 @@ public class ExtraTab extends Module
     public static String getPlayerName(final NetworkPlayerInfo networkPlayerInfoIn) {
         final String string;
         final String name = string = ((networkPlayerInfoIn.getDisplayName() != null) ? networkPlayerInfoIn.getDisplayName().getFormattedText() : ScorePlayerTeam.formatPlayerName((Team)networkPlayerInfoIn.getPlayerTeam(), networkPlayerInfoIn.getGameProfile().getName()));
-        if (McDonalds.friendManager.isFriend(name)) {
+        if (Carbon.friendManager.isFriend(name)) {
             return ChatFormatting.AQUA + name;
         }
         return name;

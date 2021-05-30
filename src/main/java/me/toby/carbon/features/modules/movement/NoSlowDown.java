@@ -89,7 +89,7 @@ public class NoSlowDown extends Module
                 }
             }
         }
-        if (this.webs.getValue() && McDonalds.moduleManager.getModuleByClass(Flight.class).isDisabled() && McDonalds.moduleManager.getModuleByClass(PacketFly.class).isDisabled() && NoSlowDown.mc.player.isInWeb) {
+        if (this.webs.getValue() && Carbon.moduleManager.getModuleByClass(Flight.class).isDisabled() && Carbon.moduleManager.getModuleByClass(PacketFly.class).isDisabled() && NoSlowDown.mc.player.isInWeb) {
             final EntityPlayerSP player4;
             final EntityPlayerSP player = player4 = NoSlowDown.mc.player;
             player4.motionX *= this.webHorizontalFactor.getValue();

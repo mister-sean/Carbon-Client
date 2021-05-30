@@ -25,7 +25,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase
     @Inject(method = { "getCooldownPeriod" }, at = { @At("HEAD") }, cancellable = true)
     private void getCooldownPeriodHook(final CallbackInfoReturnable<Float> callbackInfoReturnable) {
         if (TpsSync.getInstance().isOn() && TpsSync.getInstance().attack.getValue()) {
-            callbackInfoReturnable.setReturnValue((float)(1.0 / EntityPlayer.class.cast(this).getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).getBaseValue() * 20.0 * McDonalds.serverManager.getTpsFactor()));
+            callbackInfoReturnable.setReturnValue((float)(1.0 / EntityPlayer.class.cast(this).getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).getBaseValue() * 20.0 * Carbon.serverManager.getTpsFactor()));
         }
     }
 }

@@ -7,7 +7,7 @@ import net.minecraft.init.SoundEvents;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import me.toby.carbon.Carbon;
-import me.toby.carbon.features.gui.McDonaldsGui;
+import me.toby.carbon.features.gui.CarbonGui;
 import me.toby.carbon.features.modules.client.ClickGui;
 import me.toby.carbon.features.setting.Setting;
 import me.toby.carbon.util.RenderUtil;
@@ -25,8 +25,8 @@ public class UnlimitedSlider extends Button
     
     @Override
     public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
-        RenderUtil.drawRect(this.x, this.y, this.x + this.width + 7.4f, this.y + this.height - 0.5f, this.isHovering(mouseX, mouseY) ? McDonalds.colorManager.getColorWithAlpha(McDonalds.moduleManager.getModuleByClass(ClickGui.class).alpha.getValue()) : McDonalds.colorManager.getColorWithAlpha(McDonalds.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue()));
-        McDonalds.textManager.drawStringWithShadow(" - " + this.setting.getName() + " " + ChatFormatting.GRAY + this.setting.getValue() + ChatFormatting.WHITE + " +", this.x + 2.3f, this.y - 1.7f - McDonaldsGui.getClickGui().getTextOffset(), this.getState() ? -1 : -5592406);
+        RenderUtil.drawRect(this.x, this.y, this.x + this.width + 7.4f, this.y + this.height - 0.5f, this.isHovering(mouseX, mouseY) ? Carbon.colorManager.getColorWithAlpha(Carbon.moduleManager.getModuleByClass(ClickGui.class).alpha.getValue()) : Carbon.colorManager.getColorWithAlpha(Carbon.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue()));
+        Carbon.textManager.drawStringWithShadow(" - " + this.setting.getName() + " " + ChatFormatting.GRAY + this.setting.getValue() + ChatFormatting.WHITE + " +", this.x + 2.3f, this.y - 1.7f - CarbonGui.getClickGui().getTextOffset(), this.getState() ? -1 : -5592406);
     }
     
     @Override

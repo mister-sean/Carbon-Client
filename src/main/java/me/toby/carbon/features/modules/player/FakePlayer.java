@@ -64,22 +64,22 @@ public class FakePlayer extends Module
             try {
                 final WorldClient world = FakePlayer.mc.world;
                 Objects.requireNonNull(this);
-                final UUID fromString = UUID.fromString(getUuid("McDonalds"));
+                final UUID fromString = UUID.fromString(getUuid("Carbon"));
                 Objects.requireNonNull(this);
-                this._fakePlayer = new EntityOtherPlayerMP((World)world, new GameProfile(fromString, "McDonalds"));
+                this._fakePlayer = new EntityOtherPlayerMP((World)world, new GameProfile(fromString, "Carbon"));
             }
             catch (Exception e) {
                 final WorldClient world2 = FakePlayer.mc.world;
                 final UUID fromString2 = UUID.fromString("c46feba4-46ce-456d-a07b-b2d9da413265");
                 Objects.requireNonNull(this);
-                this._fakePlayer = new EntityOtherPlayerMP((World)world2, new GameProfile(fromString2, "McDonalds"));
+                this._fakePlayer = new EntityOtherPlayerMP((World)world2, new GameProfile(fromString2, "Carbon"));
                 Command.sendMessage("Failed to load uuid, setting another one.");
             }
             final String format = "%s has been spawned.";
             final Object[] args = { null };
             final int n = 0;
             Objects.requireNonNull(this);
-            args[n] = "McDonalds";
+            args[n] = "Carbon";
             Command.sendMessage(String.format(format, args));
             this._fakePlayer.copyLocationAndAnglesFrom((Entity)FakePlayer.mc.player);
             this._fakePlayer.rotationYawHead = FakePlayer.mc.player.rotationYawHead;

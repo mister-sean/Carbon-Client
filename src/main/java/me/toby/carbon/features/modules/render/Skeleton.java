@@ -69,7 +69,7 @@ public class Skeleton extends Module
             GL11.glPushMatrix();
             GL11.glEnable(2848);
             GL11.glLineWidth((float)this.lineWidth.getValue());
-            if (McDonalds.friendManager.isFriend(e.getName())) {
+            if (Carbon.friendManager.isFriend(e.getName())) {
                 GlStateManager.color(0.0f, 191.0f, 230.0f, (float)this.alpha.getValue());
             }
             else {

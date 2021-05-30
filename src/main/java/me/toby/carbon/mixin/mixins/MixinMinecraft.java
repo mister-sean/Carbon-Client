@@ -42,9 +42,9 @@ public abstract class MixinMinecraft
     }
     
     private void unload() {
-        McDonalds.LOGGER.info("Initiated client shutdown.");
-        McDonalds.onUnload();
-        McDonalds.LOGGER.info("Finished client shutdown.");
+        Carbon.LOGGER.info("Initiated client shutdown.");
+        Carbon.onUnload();
+        Carbon.LOGGER.info("Finished client shutdown.");
     }
     
     @Redirect(method = { "sendClickBlockToController" }, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/EntityPlayerSP;isHandActive()Z"))

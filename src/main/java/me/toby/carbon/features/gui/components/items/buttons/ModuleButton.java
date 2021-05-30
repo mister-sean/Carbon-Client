@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 import org.lwjgl.opengl.GL11;
 
-import me.toby.carbon.features.gui.McDonaldsGui;
+import me.toby.carbon.features.gui.CarbonGui;
 import me.toby.carbon.features.gui.components.Component;
 import me.toby.carbon.features.gui.components.items.Item;
 import me.toby.carbon.features.modules.Module;
@@ -30,7 +30,7 @@ public class ModuleButton extends Button
     
     public ModuleButton(final Module module) {
         super(module.getName());
-        this.logo = new ResourceLocation("textures/mcdonalds.png");
+        this.logo = new ResourceLocation("textures/Carbon.png");
         this.items = new ArrayList<Item>();
         this.module = module;
         this.initSettings();
@@ -86,7 +86,7 @@ public class ModuleButton extends Button
         if (!this.items.isEmpty()) {
             if (HUD.getInstance().magenDavid.getValue()) {
                 Util.mc.getTextureManager().bindTexture(this.logo);
-                drawCompleteImage(this.x - 1.5f + this.width - 7.4f, this.y - 2.2f - McDonaldsGui.getClickGui().getTextOffset(), 8, 8);
+                drawCompleteImage(this.x - 1.5f + this.width - 7.4f, this.y - 2.2f - CarbonGui.getClickGui().getTextOffset(), 8, 8);
             }
             if (this.subOpen) {
                 float height = 1.0f;

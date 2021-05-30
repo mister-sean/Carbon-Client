@@ -73,7 +73,7 @@ public class Surround extends Module
         this.lastHotbarSlot = Surround.mc.player.inventory.currentItem;
         this.startPos = EntityUtil.getRoundedBlockPos((Entity)Surround.mc.player);
         if (this.center.getValue()) {
-            McDonalds.positionManager.setPositionPacket(this.startPos.getX() + 0.5, this.startPos.getY(), this.startPos.getZ() + 0.5, true, true, true);
+            Carbon.positionManager.setPositionPacket(this.startPos.getX() + 0.5, this.startPos.getY(), this.startPos.getZ() + 0.5, true, true, true);
         }
         this.retries.clear();
         this.retryTimer.reset();
@@ -183,7 +183,7 @@ public class Surround extends Module
                         this.retryTimer.reset();
                         break;
                     }
-                    if (McDonalds.speedManager.getSpeedKpH() != 0.0) {
+                    if (Carbon.speedManager.getSpeedKpH() != 0.0) {
                         break;
                     }
                     if (isExtending) {

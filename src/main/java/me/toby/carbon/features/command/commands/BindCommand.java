@@ -22,7 +22,7 @@ public class BindCommand extends Command
         }
         final String rkey = commands[1];
         final String moduleName = commands[0];
-        final Module module = McDonalds.moduleManager.getModuleByName(moduleName);
+        final Module module = Carbon.moduleManager.getModuleByName(moduleName);
         if (module == null) {
             Command.sendMessage("Unknown module '" + module + "'!");
             return;

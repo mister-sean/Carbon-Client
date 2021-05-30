@@ -8,7 +8,7 @@ import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.Render2DEvent;
 import me.toby.carbon.event.events.Render3DEvent;
 import me.toby.carbon.features.Feature;
-import me.toby.carbon.features.gui.McDonaldsGui;
+import me.toby.carbon.features.gui.CarbonGui;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.modules.client.ClickGui;
 import me.toby.carbon.features.modules.client.FontMod;
@@ -37,7 +37,7 @@ import me.toby.carbon.features.modules.misc.BuildHeight2;
 import me.toby.carbon.features.modules.misc.ChatModifier;
 import me.toby.carbon.features.modules.misc.ExtraTab;
 import me.toby.carbon.features.modules.misc.MCF;
-import me.toby.carbon.features.modules.misc.McDonaldsDupe;
+import me.toby.carbon.features.modules.misc.CarbonDupe;
 import me.toby.carbon.features.modules.misc.NoHandShake;
 import me.toby.carbon.features.modules.misc.NoHitBox;
 import me.toby.carbon.features.modules.misc.PearlNotify;
@@ -146,7 +146,7 @@ public class ModuleManager extends Feature
         this.modules.add(new ToolTips());
         this.modules.add(new Tracker());
         this.modules.add(new NoHitBox());
-        this.modules.add(new McDonaldsDupe());
+        this.modules.add(new CarbonDupe());
         this.modules.add(new PopCounter());
         this.modules.add(new XCarry());
         this.modules.add(new BetterPortals());
@@ -352,7 +352,7 @@ public class ModuleManager extends Feature
     }
     
     public void onKeyPressed(final int eventKey) {
-        if (eventKey == 0 || !Keyboard.getEventKeyState() || ModuleManager.mc.currentScreen instanceof McDonaldsGui) {
+        if (eventKey == 0 || !Keyboard.getEventKeyState() || ModuleManager.mc.currentScreen instanceof CarbonGui) {
             return;
         }
         this.modules.forEach(module -> {
@@ -412,7 +412,7 @@ public class ModuleManager extends Feature
             }
             else {
                 for (final String e : ModuleManager.this.sortedModulesABC) {
-                    final Module module2 = McDonalds.moduleManager.getModuleByName(e);
+                    final Module module2 = Carbon.moduleManager.getModuleByName(e);
                     final String text2 = module2.getDisplayName() + ChatFormatting.GRAY + ((module2.getDisplayInfo() != null) ? (" [" + ChatFormatting.WHITE + module2.getDisplayInfo() + ChatFormatting.GRAY + "]") : "");
                     module2.offset = ModuleManager.this.renderer.getStringWidth(text2) / (float)HUD.getInstance().animationHorizontalTime.getValue();
                     module2.vOffset = ModuleManager.this.renderer.getFontHeight() / (float)HUD.getInstance().animationVerticalTime.getValue();

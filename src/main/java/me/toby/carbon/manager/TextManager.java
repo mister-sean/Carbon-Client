@@ -26,7 +26,7 @@ public class TextManager extends Feature
     }
     
     public void init(final boolean startup) {
-        final FontMod cFont = McDonalds.moduleManager.getModuleByClass(FontMod.class);
+        final FontMod cFont = Carbon.moduleManager.getModuleByClass(FontMod.class);
         try {
             this.setFontRenderer(new Font(cFont.fontName.getValue(), cFont.fontStyle.getValue(), cFont.fontSize.getValue()), cFont.antiAlias.getValue(), cFont.fractionalMetrics.getValue());
         }
@@ -38,7 +38,7 @@ public class TextManager extends Feature
     }
     
     public void drawString(final String text, final float x, final float y, final int color, final boolean shadow) {
-        if (McDonalds.moduleManager.isModuleEnabled(FontMod.getInstance().getName())) {
+        if (Carbon.moduleManager.isModuleEnabled(FontMod.getInstance().getName())) {
             if (shadow) {
                 this.customFont.drawStringWithShadow(text, x, y, color);
             }
@@ -51,14 +51,14 @@ public class TextManager extends Feature
     }
     
     public int getStringWidth(final String text) {
-        if (McDonalds.moduleManager.isModuleEnabled(FontMod.getInstance().getName())) {
+        if (Carbon.moduleManager.isModuleEnabled(FontMod.getInstance().getName())) {
             return this.customFont.getStringWidth(text);
         }
         return TextManager.mc.fontRenderer.getStringWidth(text);
     }
     
     public int getFontHeight() {
-        if (McDonalds.moduleManager.isModuleEnabled(FontMod.getInstance().getName())) {
+        if (Carbon.moduleManager.isModuleEnabled(FontMod.getInstance().getName())) {
             final String text = "A";
             return this.customFont.getStringHeight(text);
         }

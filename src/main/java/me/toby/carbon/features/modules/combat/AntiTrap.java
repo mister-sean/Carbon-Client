@@ -123,7 +123,7 @@ public class AntiTrap extends Module
         final float[] angle = MathUtil.calcAngle(AntiTrap.mc.player.getPositionEyes(AntiTrap.mc.getRenderPartialTicks()), new Vec3d((double)(pos.getX() + 0.5f), (double)(pos.getY() - 0.5f), (double)(pos.getZ() + 0.5f)));
         switch (this.rotate.getValue()) {
             case NORMAL: {
-                McDonalds.rotationManager.setPlayerRotations(angle[0], angle[1]);
+                Carbon.rotationManager.setPlayerRotations(angle[0], angle[1]);
                 break;
             }
             case PACKET: {
