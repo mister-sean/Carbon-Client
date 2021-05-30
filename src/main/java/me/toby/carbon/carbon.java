@@ -21,7 +21,7 @@ import org.lwjgl.opengl.Display;
  * @author travis - began work on 8th april 2021
  */
 @Mod(modid = carbonclient.MODID, name = Carbon.MODNAME, version = carbonclient.MODVER)
-public class WurstplusThree {
+public class Carbon {
 
     public static final String MODID = "carbonclient";
     public static final String MODNAME = "Carbon";
