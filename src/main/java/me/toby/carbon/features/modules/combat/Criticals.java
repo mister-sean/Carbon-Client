@@ -30,12 +30,12 @@ public class Criticals extends Module
     
     public Criticals() {
         super("Criticals", "Scores criticals for you", Category.COMBAT, true, false, false);
-        this.mode = (Setting<Mode>)this.register(new Setting("Mode", (T)Mode.PACKET));
-        this.noDesync = (Setting<Boolean>)this.register(new Setting("NoDesync", (T)true));
-        this.packets = (Setting<Integer>)this.register(new Setting("Packets", (T)2, (T)1, (T)5, v -> this.mode.getValue() == Mode.PACKET, "Amount of packets you want to send."));
-        this.desyncDelay = (Setting<Integer>)this.register(new Setting("DesyncDelay", (T)10, (T)0, (T)500, v -> this.mode.getValue() == Mode.PACKET, "Amount of packets you want to send."));
-        this.cancelFirst = (Setting<Boolean>)this.register(new Setting("CancelFirst32k", (T)true));
-        this.delay32k = (Setting<Integer>)this.register(new Setting("32kDelay", (T)25, (T)0, (T)500, v -> this.cancelFirst.getValue()));
+        this.mode = (Setting<Mode>)this.register(new Setting("Mode", Mode.PACKET));
+        this.noDesync = (Setting<Boolean>)this.register(new Setting("NoDesync", true));
+        this.packets = (Setting<Integer>)this.register(new Setting("Packets", 2, 1, 5, v -> this.mode.getValue() == Mode.PACKET, "Amount of packets you want to send."));
+        this.desyncDelay = (Setting<Integer>)this.register(new Setting("DesyncDelay", 10, 0, 500, v -> this.mode.getValue() == Mode.PACKET, "Amount of packets you want to send."));
+        this.cancelFirst = (Setting<Boolean>)this.register(new Setting("CancelFirst32k", true));
+        this.delay32k = (Setting<Integer>)this.register(new Setting("32kDelay", 25, 0, 500, v -> this.cancelFirst.getValue()));
         this.timer = new Timer();
         this.timer32k = new Timer();
         this.firstCanceled = false;

@@ -20,11 +20,11 @@ public class BlockHighlight extends Module
     
     public BlockHighlight() {
         super("BlockHighlight", "Highlights the block u look at.", Category.RENDER, false, false, false);
-        this.lineWidth = (Setting<Float>)this.register(new Setting("LineWidth", (T)1.0f, (T)0.1f, (T)5.0f));
-        this.alpha = (Setting<Integer>)this.register(new Setting("Alpha", (T)255, (T)0, (T)255));
-        this.red = (Setting<Integer>)this.register(new Setting("Red", (T)255, (T)0, (T)255));
-        this.green = (Setting<Integer>)this.register(new Setting("Green", (T)255, (T)0, (T)255));
-        this.blue = (Setting<Integer>)this.register(new Setting("Blue", (T)255, (T)0, (T)255));
+        this.lineWidth = (Setting<Float>)this.register(new Setting("LineWidth", 1.0f, 0.1f, 5.0f));
+        this.alpha = (Setting<Integer>)this.register(new Setting("Alpha", 255, 0, 255));
+        this.red = (Setting<Integer>)this.register(new Setting("Red", 255, 0, 255));
+        this.green = (Setting<Integer>)this.register(new Setting("Green", 255, 0, 255));
+        this.blue = (Setting<Integer>)this.register(new Setting("Blue", 255, 0, 255));
     }
     
     @Override

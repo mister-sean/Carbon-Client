@@ -26,13 +26,13 @@ public class Velocity extends Module
     
     public Velocity() {
         super("Velocity", "Allows you to control your velocity", Category.MOVEMENT, true, false, false);
-        this.noPush = (Setting<Boolean>)this.register(new Setting("NoPush", (T)true));
-        this.horizontal = (Setting<Float>)this.register(new Setting("Horizontal", (T)0.0f, (T)0.0f, (T)100.0f));
-        this.vertical = (Setting<Float>)this.register(new Setting("Vertical", (T)0.0f, (T)0.0f, (T)100.0f));
-        this.explosions = (Setting<Boolean>)this.register(new Setting("Explosions", (T)true));
-        this.bobbers = (Setting<Boolean>)this.register(new Setting("Bobbers", (T)true));
-        this.water = (Setting<Boolean>)this.register(new Setting("Water", (T)false));
-        this.blocks = (Setting<Boolean>)this.register(new Setting("Blocks", (T)false));
+        this.noPush = (Setting<Boolean>)this.register(new Setting("NoPush", true));
+        this.horizontal = (Setting<Float>)this.register(new Setting("Horizontal", 0.0f, 0.0f, 100.0f));
+        this.vertical = (Setting<Float>)this.register(new Setting("Vertical", 0.0f, 0.0f, 100.0f));
+        this.explosions = (Setting<Boolean>)this.register(new Setting("Explosions", true));
+        this.bobbers = (Setting<Boolean>)this.register(new Setting("Bobbers", true));
+        this.water = (Setting<Boolean>)this.register(new Setting("Water", false));
+        this.blocks = (Setting<Boolean>)this.register(new Setting("Blocks", false));
         this.setInstance();
     }
     

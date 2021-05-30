@@ -15,9 +15,9 @@ public class AutoRespawn extends Module
     
     public AutoRespawn() {
         super("AutoRespawn", "Respawns you when you die.", Category.MISC, true, false, false);
-        this.antiDeathScreen = (Setting<Boolean>)this.register(new Setting("AntiDeathScreen", (T)true));
-        this.deathCoords = (Setting<Boolean>)this.register(new Setting("DeathCoords", (T)true));
-        this.respawn = (Setting<Boolean>)this.register(new Setting("Respawn", (T)true));
+        this.antiDeathScreen = (Setting<Boolean>)this.register(new Setting("AntiDeathScreen", true));
+        this.deathCoords = (Setting<Boolean>)this.register(new Setting("DeathCoords", true));
+        this.respawn = (Setting<Boolean>)this.register(new Setting("Respawn", true));
     }
     
     @SubscribeEvent

@@ -35,12 +35,12 @@ public class Module extends Feature
     
     public Module(final String name, final String description, final Category category, final boolean hasListener, final boolean hidden, final boolean alwaysListening) {
         super(name);
-        this.enabled = (Setting<Boolean>)this.register(new Setting("Enabled", (T)false));
-        this.drawn = (Setting<Boolean>)this.register(new Setting("Drawn", (T)true));
-        this.bind = (Setting<Bind>)this.register(new Setting("Keybind", (T)new Bind(-1)));
+        this.enabled = (Setting<Boolean>)this.register(new Setting("Enabled", false));
+        this.drawn = (Setting<Boolean>)this.register(new Setting("Drawn", true));
+        this.bind = (Setting<Bind>)this.register(new Setting("Keybind", new Bind(-1)));
         this.arrayListOffset = 0.0f;
         this.arrayListVOffset = 0.0f;
-        this.displayName = (Setting<String>)this.register(new Setting("DisplayName", (T)name));
+        this.displayName = (Setting<String>)this.register(new Setting("DisplayName", name));
         this.description = description;
         this.category = category;
         this.hasListener = hasListener;

@@ -26,9 +26,9 @@ public class Skeleton extends Module
     
     public Skeleton() {
         super("Skeleton", "Draws a skeleton inside the player.", Category.RENDER, false, false, false);
-        this.lineWidth = (Setting<Float>)this.register(new Setting("LineWidth", (T)1.0f, (T)0.1f, (T)5.0f));
-        this.invisibles = (Setting<Boolean>)this.register(new Setting("Invisibles", (T)false));
-        this.alpha = (Setting<Integer>)this.register(new Setting("Alpha", (T)255, (T)0, (T)255));
+        this.lineWidth = (Setting<Float>)this.register(new Setting("LineWidth", 1.0f, 0.1f, 5.0f));
+        this.invisibles = (Setting<Boolean>)this.register(new Setting("Invisibles", false));
+        this.alpha = (Setting<Integer>)this.register(new Setting("Alpha", 255, 0, 255));
     }
     
     public static void addEntity(final EntityPlayer e, final ModelPlayer model) {

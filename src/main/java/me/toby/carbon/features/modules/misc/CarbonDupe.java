@@ -10,7 +10,7 @@ public class CarbonDupe extends Module
     
     public CarbonDupe() {
         super("Advertise", "Advertises Carbon Client.", Category.MISC, true, false, false);
-        this.discord = (Setting<String>)this.register(new Setting("Discord", (T)"https://discord.gg/snDa88Vjfz"));
+        this.discord = (Setting<String>)this.register(new Setting("Discord", "https://discord.gg/snDa88Vjfz"));
     }
     
     @Override

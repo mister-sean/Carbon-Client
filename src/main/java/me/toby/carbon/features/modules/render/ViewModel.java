@@ -19,15 +19,15 @@ public class ViewModel extends Module
     
     public ViewModel() {
         super("Viewmodel", "Changes to the viewmodel.", Category.RENDER, false, false, false);
-        this.sizeX = (Setting<Float>)this.register(new Setting("Size-X", (T)1.0f, (T)0.0f, (T)2.0f));
-        this.sizeY = (Setting<Float>)this.register(new Setting("Size-Y", (T)1.0f, (T)0.0f, (T)2.0f));
-        this.sizeZ = (Setting<Float>)this.register(new Setting("Size-X", (T)1.0f, (T)0.0f, (T)2.0f));
-        this.rotationX = (Setting<Float>)this.register(new Setting("Rotation-X", (T)0.0f, (T)0.0f, (T)1.0f));
-        this.rotationY = (Setting<Float>)this.register(new Setting("Rotation-Y", (T)0.0f, (T)0.0f, (T)1.0f));
-        this.rotationZ = (Setting<Float>)this.register(new Setting("Rotation-Z", (T)0.0f, (T)0.0f, (T)1.0f));
-        this.positionX = (Setting<Float>)this.register(new Setting("Position-X", (T)0.0f, (T)(-2.0f), (T)2.0f));
-        this.positionY = (Setting<Float>)this.register(new Setting("Position-Y", (T)0.0f, (T)(-2.0f), (T)2.0f));
-        this.positionZ = (Setting<Float>)this.register(new Setting("Position-Z", (T)0.0f, (T)(-2.0f), (T)2.0f));
+        this.sizeX = (Setting<Float>)this.register(new Setting("Size-X", 1.0f, 0.0f, 2.0f));
+        this.sizeY = (Setting<Float>)this.register(new Setting("Size-Y", 1.0f, 0.0f, 2.0f));
+        this.sizeZ = (Setting<Float>)this.register(new Setting("Size-X", 1.0f, 0.0f, 2.0f));
+        this.rotationX = (Setting<Float>)this.register(new Setting("Rotation-X", 0.0f, 0.0f, 1.0f));
+        this.rotationY = (Setting<Float>)this.register(new Setting("Rotation-Y", 0.0f, 0.0f, 1.0f));
+        this.rotationZ = (Setting<Float>)this.register(new Setting("Rotation-Z", 0.0f, 0.0f, 1.0f));
+        this.positionX = (Setting<Float>)this.register(new Setting("Position-X", 0.0f, (-2.0f), 2.0f));
+        this.positionY = (Setting<Float>)this.register(new Setting("Position-Y", 0.0f, (-2.0f), 2.0f));
+        this.positionZ = (Setting<Float>)this.register(new Setting("Position-Z", 0.0f, (-2.0f), 2.0f));
         this.setInstance();
     }
     

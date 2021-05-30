@@ -14,7 +14,7 @@ public class Swing extends Module
     
     public Swing() {
         super("06dModule", "Swing", Category.RENDER, false, false, false);
-        this.hand = (Setting<Hand>)this.register(new Setting("Mode:", (T)Hand.OFFHAND));
+        this.hand = (Setting<Hand>)this.register(new Setting("Mode:", Hand.OFFHAND));
     }
     
     @Override

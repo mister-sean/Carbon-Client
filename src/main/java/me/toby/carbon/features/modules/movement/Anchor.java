@@ -20,8 +20,8 @@ public class Anchor extends Module
     
     public Anchor() {
         super("Anchor", "Disables movement over holes", Category.MOVEMENT, true, false, false);
-        this.onground = (Setting<Boolean>)this.register(new Setting("Guarantee", (T)true));
-        this.activateHeight = (Setting<Integer>)this.register(new Setting("ActivateHeight", (T)2, (T)1, (T)5));
+        this.onground = (Setting<Boolean>)this.register(new Setting("Guarantee", true));
+        this.activateHeight = (Setting<Integer>)this.register(new Setting("ActivateHeight", 2, 1, 5));
     }
     
     @Override

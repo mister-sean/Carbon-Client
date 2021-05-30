@@ -35,7 +35,7 @@ public class Blink extends Module
     
     public Blink() {
         super("Blink", "Exploite", Category.PLAYER, true, false, false);
-        this.cPacketPlayer = (Setting<Boolean>)this.register(new Setting("Packet", (T)true));
+        this.cPacketPlayer = (Setting<Boolean>)this.register(new Setting("Packet", true));
         this.timer = new Timer();
         this.packets = new ConcurrentLinkedQueue<Packet<?>>();
         this.packetsCanceled = 0;

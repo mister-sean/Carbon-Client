@@ -22,7 +22,7 @@ public class Quiver extends Module
     
     public Quiver() {
         super("Quiver", "Rotates and shoots yourself with good potion effects", Category.PLAYER, true, false, false);
-        this.tickDelay = (Setting<Integer>)this.register(new Setting("Hold time", (T)3, (T)0, (T)8));
+        this.tickDelay = (Setting<Integer>)this.register(new Setting("Hold time", 3, 0, 8));
     }
     
     @Override

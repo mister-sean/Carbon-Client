@@ -21,9 +21,9 @@ public class MCP extends Module
     
     public MCP() {
         super("MCP", "Throws a pearl", Category.PLAYER, false, false, false);
-        this.mode = (Setting<Mode>)this.register(new Setting("Mode", (T)Mode.MIDDLECLICK));
-        this.stopRotation = (Setting<Boolean>)this.register(new Setting("Rotation", (T)true));
-        this.rotation = (Setting<Integer>)this.register(new Setting("Delay", (T)10, (T)0, (T)100, v -> this.stopRotation.getValue()));
+        this.mode = (Setting<Mode>)this.register(new Setting("Mode", Mode.MIDDLECLICK));
+        this.stopRotation = (Setting<Boolean>)this.register(new Setting("Rotation", true));
+        this.rotation = (Setting<Integer>)this.register(new Setting("Delay", 10, 0, 100, v -> this.stopRotation.getValue()));
         this.clicked = false;
     }
     

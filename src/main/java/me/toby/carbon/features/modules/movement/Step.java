@@ -33,14 +33,14 @@ public class Step extends Module
     
     public Step() {
         super("Step", "Allows you to step up blocks", Category.MOVEMENT, true, false, false);
-        this.vanilla = (Setting<Boolean>)this.register(new Setting("Vanilla", (T)false));
-        this.stepHeightVanilla = (Setting<Float>)this.register(new Setting("VHeight", (T)2.0f, (T)0.0f, (T)4.0f, v -> this.vanilla.getValue()));
-        this.stepHeight = (Setting<Integer>)this.register(new Setting("Height", (T)2, (T)1, (T)4, v -> !this.vanilla.getValue()));
-        this.spoof = (Setting<Boolean>)this.register(new Setting("Spoof", (T)true, v -> !this.vanilla.getValue()));
-        this.ticks = (Setting<Integer>)this.register(new Setting("Delay", (T)0, (T)0, (T)25, v -> this.spoof.getValue() && !this.vanilla.getValue()));
-        this.turnOff = (Setting<Boolean>)this.register(new Setting("Disable", (T)true, v -> !this.vanilla.getValue()));
-        this.check = (Setting<Boolean>)this.register(new Setting("Check", (T)true, v -> !this.vanilla.getValue()));
-        this.small = (Setting<Boolean>)this.register(new Setting("Offset", (T)false, v -> this.stepHeight.getValue() > 1 && !this.vanilla.getValue()));
+        this.vanilla = (Setting<Boolean>)this.register(new Setting("Vanilla", false));
+        this.stepHeightVanilla = (Setting<Float>)this.register(new Setting("VHeight", 2.0f, 0.0f, 4.0f, v -> this.vanilla.getValue()));
+        this.stepHeight = (Setting<Integer>)this.register(new Setting("Height", 2, 1, 4, v -> !this.vanilla.getValue()));
+        this.spoof = (Setting<Boolean>)this.register(new Setting("Spoof", true, v -> !this.vanilla.getValue()));
+        this.ticks = (Setting<Integer>)this.register(new Setting("Delay", 0, 0, 25, v -> this.spoof.getValue() && !this.vanilla.getValue()));
+        this.turnOff = (Setting<Boolean>)this.register(new Setting("Disable", true, v -> !this.vanilla.getValue()));
+        this.check = (Setting<Boolean>)this.register(new Setting("Check", true, v -> !this.vanilla.getValue()));
+        this.small = (Setting<Boolean>)this.register(new Setting("Offset", false, v -> this.stepHeight.getValue() > 1 && !this.vanilla.getValue()));
         this.oneblockPositions = new double[] { 0.42, 0.75 };
         this.twoblockPositions = new double[] { 0.4, 0.75, 0.5, 0.41, 0.83, 1.16, 1.41, 1.57, 1.58, 1.42 };
         this.futurePositions = new double[] { 0.42, 0.78, 0.63, 0.51, 0.9, 1.21, 1.45, 1.43 };

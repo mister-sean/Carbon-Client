@@ -15,7 +15,7 @@ public class FastBow extends Module
     
     public FastBow() {
         super("FastBow", "bow go burr", Category.PLAYER, false, false, false);
-        this.drawLength = (Setting<Integer>)this.register(new Setting("Hold time", (T)3, (T)3, (T)21));
+        this.drawLength = (Setting<Integer>)this.register(new Setting("Hold time", 3, 3, 21));
     }
     
     @Override

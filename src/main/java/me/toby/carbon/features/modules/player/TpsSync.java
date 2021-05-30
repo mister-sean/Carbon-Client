@@ -11,8 +11,8 @@ public class TpsSync extends Module
     
     public TpsSync() {
         super("TpsSync", "Syncs your client with the TPS.", Category.PLAYER, true, true, false);
-        this.attack = (Setting<Boolean>)this.register(new Setting("Attack", (T)Boolean.FALSE));
-        this.mining = (Setting<Boolean>)this.register(new Setting("Mine", (T)Boolean.TRUE));
+        this.attack = (Setting<Boolean>)this.register(new Setting("Attack", Boolean.FALSE));
+        this.mining = (Setting<Boolean>)this.register(new Setting("Mine", Boolean.TRUE));
         this.setInstance();
     }
     

@@ -22,7 +22,7 @@ public class AutoGG extends Module
     
     public AutoGG() {
         super("AutoGG", "Sends msg after you kill someone", Category.MISC, true, false, false);
-        this.custom = (Setting<String>)this.register(new Setting("Custom", (T)"GG, CarbonClient owns me!"));
+        this.custom = (Setting<String>)this.register(new Setting("Custom", "GG, CarbonClient owns me!"));
         this.targetedPlayers = null;
         this.setInstance();
     }

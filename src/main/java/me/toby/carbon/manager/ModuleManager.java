@@ -204,7 +204,7 @@ public class ModuleManager extends Feature
             if (!clazz.isInstance(module)) {
                 continue;
             }
-            return (T)module;
+            return module;
         }
         return null;
     }

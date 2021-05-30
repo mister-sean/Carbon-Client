@@ -30,8 +30,8 @@ public class Freecam extends Module
     
     public Freecam() {
         super("Freecam", "Look around freely.", Category.PLAYER, true, false, false);
-        this.speed = (Setting<Double>)this.register(new Setting("Speed", (T)0.5, (T)0.1, (T)5.0));
-        this.packet = (Setting<Boolean>)this.register(new Setting("Cancel Packets", (T)true));
+        this.speed = (Setting<Double>)this.register(new Setting("Speed", 0.5, 0.1, 5.0));
+        this.packet = (Setting<Boolean>)this.register(new Setting("Cancel Packets", true));
         this.setInstance();
     }
     

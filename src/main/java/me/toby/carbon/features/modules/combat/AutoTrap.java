@@ -50,13 +50,13 @@ public class AutoTrap extends Module
     
     public AutoTrap() {
         super("AutoTrap", "Traps other players", Category.COMBAT, true, false, false);
-        this.delay = (Setting<Integer>)this.register(new Setting("Delay", (T)50, (T)0, (T)250));
-        this.blocksPerPlace = (Setting<Integer>)this.register(new Setting("BlocksPerTick", (T)8, (T)1, (T)30));
-        this.rotate = (Setting<Boolean>)this.register(new Setting("Rotate", (T)true));
-        this.raytrace = (Setting<Boolean>)this.register(new Setting("Raytrace", (T)false));
-        this.antiScaffold = (Setting<Boolean>)this.register(new Setting("Double head block", (T)false));
-        this.antiStep = (Setting<Boolean>)this.register(new Setting("Anti Step", (T)false));
-        this.noGhost = (Setting<Boolean>)this.register(new Setting("Packet", (T)false));
+        this.delay = (Setting<Integer>)this.register(new Setting("Delay", 50, 0, 250));
+        this.blocksPerPlace = (Setting<Integer>)this.register(new Setting("BlocksPerTick", 8, 1, 30));
+        this.rotate = (Setting<Boolean>)this.register(new Setting("Rotate", true));
+        this.raytrace = (Setting<Boolean>)this.register(new Setting("Raytrace", false));
+        this.antiScaffold = (Setting<Boolean>)this.register(new Setting("Double head block", false));
+        this.antiStep = (Setting<Boolean>)this.register(new Setting("Anti Step", false));
+        this.noGhost = (Setting<Boolean>)this.register(new Setting("Packet", false));
         this.timer = new Timer();
         this.retries = new HashMap<BlockPos, Integer>();
         this.retryTimer = new Timer();

@@ -30,10 +30,10 @@ public class Replenish extends Module
     
     public Replenish() {
         super("Hotbar Refill", "refills your hotbar", Category.PLAYER, false, false, false);
-        this.threshold = (Setting<Integer>)this.register(new Setting("Threshold", (T)0, (T)0, (T)63));
-        this.replenishments = (Setting<Integer>)this.register(new Setting("Fill delay", (T)0, (T)0, (T)1000));
-        this.updates = (Setting<Integer>)this.register(new Setting("Delay", (T)100, (T)0, (T)1000));
-        this.actions = (Setting<Integer>)this.register(new Setting("Actions", (T)2, (T)1, (T)30));
+        this.threshold = (Setting<Integer>)this.register(new Setting("Threshold", 0, 0, 63));
+        this.replenishments = (Setting<Integer>)this.register(new Setting("Fill delay", 0, 0, 1000));
+        this.updates = (Setting<Integer>)this.register(new Setting("Delay", 100, 0, 1000));
+        this.actions = (Setting<Integer>)this.register(new Setting("Actions", 2, 1, 30));
         this.timer = new Timer();
         this.replenishTimer = new Timer();
         this.hotbar = new ConcurrentHashMap<Integer, ItemStack>();

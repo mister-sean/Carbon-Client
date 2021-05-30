@@ -63,17 +63,17 @@ public class XCarry extends Module
     
     public XCarry() {
         super("XCarry", "Uses the crafting inventory for storage", Category.PLAYER, true, false, false);
-        this.simpleMode = (Setting<Boolean>)this.register(new Setting("Simple", (T)false));
-        this.autoStore = (Setting<Bind>)this.register(new Setting("AutoSort", (T)new Bind(-1)));
-        this.obbySlot = (Setting<Integer>)this.register(new Setting("ObbySlot", (T)3, (T)1, (T)9, v -> this.autoStore.getValue().getKey() != -1));
-        this.slot1 = (Setting<Integer>)this.register(new Setting("Slot1", (T)22, (T)9, (T)44, v -> this.autoStore.getValue().getKey() != -1));
-        this.slot2 = (Setting<Integer>)this.register(new Setting("Slot2", (T)23, (T)9, (T)44, v -> this.autoStore.getValue().getKey() != -1));
-        this.slot3 = (Setting<Integer>)this.register(new Setting("Slot3", (T)24, (T)9, (T)44, v -> this.autoStore.getValue().getKey() != -1));
-        this.tasks = (Setting<Integer>)this.register(new Setting("Actions", (T)3, (T)1, (T)12, v -> this.autoStore.getValue().getKey() != -1));
-        this.store = (Setting<Boolean>)this.register(new Setting("Store", (T)false));
-        this.shiftClicker = (Setting<Boolean>)this.register(new Setting("ShiftClick", (T)false));
-        this.withShift = (Setting<Boolean>)this.register(new Setting("WithShift", (T)true, v -> this.shiftClicker.getValue()));
-        this.keyBind = (Setting<Bind>)this.register(new Setting("ShiftBind", (T)new Bind(-1), v -> this.shiftClicker.getValue()));
+        this.simpleMode = (Setting<Boolean>)this.register(new Setting("Simple", false));
+        this.autoStore = (Setting<Bind>)this.register(new Setting("AutoSort", new Bind(-1)));
+        this.obbySlot = (Setting<Integer>)this.register(new Setting("ObbySlot", 3, 1, 9, v -> this.autoStore.getValue().getKey() != -1));
+        this.slot1 = (Setting<Integer>)this.register(new Setting("Slot1", 22, 9, 44, v -> this.autoStore.getValue().getKey() != -1));
+        this.slot2 = (Setting<Integer>)this.register(new Setting("Slot2", 23, 9, 44, v -> this.autoStore.getValue().getKey() != -1));
+        this.slot3 = (Setting<Integer>)this.register(new Setting("Slot3", 24, 9, 44, v -> this.autoStore.getValue().getKey() != -1));
+        this.tasks = (Setting<Integer>)this.register(new Setting("Actions", 3, 1, 12, v -> this.autoStore.getValue().getKey() != -1));
+        this.store = (Setting<Boolean>)this.register(new Setting("Store", false));
+        this.shiftClicker = (Setting<Boolean>)this.register(new Setting("ShiftClick", false));
+        this.withShift = (Setting<Boolean>)this.register(new Setting("WithShift", true, v -> this.shiftClicker.getValue()));
+        this.keyBind = (Setting<Bind>)this.register(new Setting("ShiftBind", new Bind(-1), v -> this.shiftClicker.getValue()));
         this.openedGui = null;
         this.guiNeedsClose = new AtomicBoolean(false);
         this.guiCloseGuard = false;

@@ -17,11 +17,11 @@ public class BetterPortals extends Module
     
     public BetterPortals() {
         super("BetterPortals", "Tweaks for Portals", Category.MISC, true, false, false);
-        this.portalChat = (Setting<Boolean>)this.register(new Setting("Chat", (T)true, "Allows you to chat in portals."));
-        this.godmode = (Setting<Boolean>)this.register(new Setting("Godmode", (T)false, "Portal Godmode."));
-        this.fastPortal = (Setting<Boolean>)this.register(new Setting("FastPortal", (T)false));
-        this.cooldown = (Setting<Integer>)this.register(new Setting("Cooldown", (T)5, (T)1, (T)10, v -> this.fastPortal.getValue(), "Portal cooldown."));
-        this.time = (Setting<Integer>)this.register(new Setting("Time", (T)5, (T)0, (T)80, v -> this.fastPortal.getValue(), "Time in Portal"));
+        this.portalChat = (Setting<Boolean>)this.register(new Setting("Chat", true, "Allows you to chat in portals."));
+        this.godmode = (Setting<Boolean>)this.register(new Setting("Godmode", false, "Portal Godmode."));
+        this.fastPortal = (Setting<Boolean>)this.register(new Setting("FastPortal", false));
+        this.cooldown = (Setting<Integer>)this.register(new Setting("Cooldown", 5, 1, 10, v -> this.fastPortal.getValue(), "Portal cooldown."));
+        this.time = (Setting<Integer>)this.register(new Setting("Time", 5, 0, 80, v -> this.fastPortal.getValue(), "Time in Portal"));
         this.setInstance();
     }
     

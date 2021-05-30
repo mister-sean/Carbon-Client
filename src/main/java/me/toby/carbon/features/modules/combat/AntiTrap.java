@@ -47,10 +47,10 @@ public class AntiTrap extends Module
     
     public AntiTrap() {
         super("AntiTrap", "Places a crystal to prevent you getting trapped.", Category.COMBAT, true, false, false);
-        this.rotate = (Setting<Rotate>)this.register(new Setting("Rotate", (T)Rotate.NORMAL));
-        this.coolDown = (Setting<Integer>)this.register(new Setting("CoolDown", (T)400, (T)0, (T)1000));
-        this.switchMode = (Setting<InventoryUtil.Switch>)this.register(new Setting("Switch", (T)InventoryUtil.Switch.NORMAL));
-        this.sortY = (Setting<Boolean>)this.register(new Setting("SortY", (T)true));
+        this.rotate = (Setting<Rotate>)this.register(new Setting("Rotate", Rotate.NORMAL));
+        this.coolDown = (Setting<Integer>)this.register(new Setting("CoolDown", 400, 0, 1000));
+        this.switchMode = (Setting<InventoryUtil.Switch>)this.register(new Setting("Switch", InventoryUtil.Switch.NORMAL));
+        this.sortY = (Setting<Boolean>)this.register(new Setting("SortY", true));
         this.surroundTargets = new Vec3d[] { new Vec3d(1.0, 0.0, 0.0), new Vec3d(0.0, 0.0, 1.0), new Vec3d(-1.0, 0.0, 0.0), new Vec3d(0.0, 0.0, -1.0), new Vec3d(1.0, 0.0, -1.0), new Vec3d(1.0, 0.0, 1.0), new Vec3d(-1.0, 0.0, -1.0), new Vec3d(-1.0, 0.0, 1.0), new Vec3d(1.0, 1.0, 0.0), new Vec3d(0.0, 1.0, 1.0), new Vec3d(-1.0, 1.0, 0.0), new Vec3d(0.0, 1.0, -1.0), new Vec3d(1.0, 1.0, -1.0), new Vec3d(1.0, 1.0, 1.0), new Vec3d(-1.0, 1.0, -1.0), new Vec3d(-1.0, 1.0, 1.0) };
         this.lastHotbarSlot = -1;
         this.offhand = false;

@@ -16,7 +16,7 @@ public class ChatModifier extends Module
     public ChatModifier() {
         super("ChatSuffix", "Modifies your chat", Category.MISC, true, false, false);
         this.timer = new Timer();
-        this.suffix = (Setting<Suffix>)this.register(new Setting("Suffix", (T)Suffix.Carbon, "Your Suffix."));
+        this.suffix = (Setting<Suffix>)this.register(new Setting("Suffix", Suffix.Carbon, "Your Suffix."));
         this.setInstance();
     }
     

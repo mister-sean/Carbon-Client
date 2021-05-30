@@ -16,8 +16,8 @@ public class W0M3NMode extends Module
     
     public W0M3NMode() {
         super("InfiniteRangeCA", "Crazy module", Category.COMBAT, true, false, false);
-        this.range = (Setting<Integer>)this.register(new Setting("Range", (T)20, (T)0, (T)50));
-        final Setting<mode> mode = (Setting<mode>)this.register(new Setting("Bypass:", (T)W0M3NMode.mode.CRYSTALPVPCC));
+        this.range = (Setting<Integer>)this.register(new Setting("Range", 20, 0, 50));
+        final Setting<mode> mode = (Setting<mode>)this.register(new Setting("Bypass:", W0M3NMode.mode.CRYSTALPVPCC));
     }
     
     @Override

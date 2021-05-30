@@ -14,7 +14,7 @@ public class PacketEvent extends EventStage
     }
     
     public <T extends Packet<?>> T getPacket() {
-        return (T)this.packet;
+        return this.packet;
     }
     
     @Cancelable

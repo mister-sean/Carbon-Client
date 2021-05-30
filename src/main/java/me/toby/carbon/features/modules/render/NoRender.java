@@ -66,27 +66,27 @@ public class NoRender extends Module
     
     public NoRender() {
         super("NoRender", "Allows you to stop rendering stuff", Category.RENDER, true, false, false);
-        this.fire = (Setting<Boolean>)this.register(new Setting("Fire", (T)false, "Removes the portal overlay."));
-        this.portal = (Setting<Boolean>)this.register(new Setting("Portal", (T)false, "Removes the portal overlay."));
-        this.pumpkin = (Setting<Boolean>)this.register(new Setting("Pumpkin", (T)false, "Removes the pumpkin overlay."));
-        this.totemPops = (Setting<Boolean>)this.register(new Setting("TotemPop", (T)false, "Removes the Totem overlay."));
-        this.items = (Setting<Boolean>)this.register(new Setting("Items", (T)false, "Removes items on the ground."));
-        this.nausea = (Setting<Boolean>)this.register(new Setting("Nausea", (T)false, "Removes Portal Nausea."));
-        this.hurtcam = (Setting<Boolean>)this.register(new Setting("HurtCam", (T)false, "Removes shaking after taking damage."));
-        this.fog = (Setting<Fog>)this.register(new Setting("Fog", (T)Fog.NONE, "Removes Fog."));
-        this.noWeather = (Setting<Boolean>)this.register(new Setting("Weather", (T)false, "AntiWeather"));
-        this.boss = (Setting<Boss>)this.register(new Setting("BossBars", (T)Boss.NONE, "Modifies the bossbars."));
-        this.scale = (Setting<Float>)this.register(new Setting("Scale", (T)0.0f, (T)0.5f, (T)1.0f, v -> this.boss.getValue() == Boss.MINIMIZE || this.boss.getValue() != Boss.STACK, "Scale of the bars."));
-        this.bats = (Setting<Boolean>)this.register(new Setting("Bats", (T)false, "Removes bats."));
-        this.noArmor = (Setting<NoArmor>)this.register(new Setting("NoArmor", (T)NoArmor.NONE, "Doesnt Render Armor on players."));
-        this.glint = (Setting<Boolean>)this.register(new Setting("Glint", (T)false, v -> this.noArmor.getValue() != NoArmor.NONE));
-        this.skylight = (Setting<Skylight>)this.register(new Setting("Skylight", (T)Skylight.NONE));
-        this.barriers = (Setting<Boolean>)this.register(new Setting("Barriers", (T)false, "Barriers"));
-        this.blocks = (Setting<Boolean>)this.register(new Setting("Blocks", (T)false, "Blocks"));
-        this.advancements = (Setting<Boolean>)this.register(new Setting("Advancements", (T)false));
-        this.pigmen = (Setting<Boolean>)this.register(new Setting("Pigmen", (T)false));
-        this.timeChange = (Setting<Boolean>)this.register(new Setting("TimeChange", (T)false));
-        this.time = (Setting<Integer>)this.register(new Setting("Time", (T)0, (T)0, (T)23000, v -> this.timeChange.getValue()));
+        this.fire = (Setting<Boolean>)this.register(new Setting("Fire", false, "Removes the portal overlay."));
+        this.portal = (Setting<Boolean>)this.register(new Setting("Portal", false, "Removes the portal overlay."));
+        this.pumpkin = (Setting<Boolean>)this.register(new Setting("Pumpkin", false, "Removes the pumpkin overlay."));
+        this.totemPops = (Setting<Boolean>)this.register(new Setting("TotemPop", false, "Removes the Totem overlay."));
+        this.items = (Setting<Boolean>)this.register(new Setting("Items", false, "Removes items on the ground."));
+        this.nausea = (Setting<Boolean>)this.register(new Setting("Nausea", false, "Removes Portal Nausea."));
+        this.hurtcam = (Setting<Boolean>)this.register(new Setting("HurtCam", false, "Removes shaking after taking damage."));
+        this.fog = (Setting<Fog>)this.register(new Setting("Fog", Fog.NONE, "Removes Fog."));
+        this.noWeather = (Setting<Boolean>)this.register(new Setting("Weather", false, "AntiWeather"));
+        this.boss = (Setting<Boss>)this.register(new Setting("BossBars", Boss.NONE, "Modifies the bossbars."));
+        this.scale = (Setting<Float>)this.register(new Setting("Scale", 0.0f, 0.5f, 1.0f, v -> this.boss.getValue() == Boss.MINIMIZE || this.boss.getValue() != Boss.STACK, "Scale of the bars."));
+        this.bats = (Setting<Boolean>)this.register(new Setting("Bats", false, "Removes bats."));
+        this.noArmor = (Setting<NoArmor>)this.register(new Setting("NoArmor", NoArmor.NONE, "Doesnt Render Armor on players."));
+        this.glint = (Setting<Boolean>)this.register(new Setting("Glint", false, v -> this.noArmor.getValue() != NoArmor.NONE));
+        this.skylight = (Setting<Skylight>)this.register(new Setting("Skylight", Skylight.NONE));
+        this.barriers = (Setting<Boolean>)this.register(new Setting("Barriers", false, "Barriers"));
+        this.blocks = (Setting<Boolean>)this.register(new Setting("Blocks", false, "Blocks"));
+        this.advancements = (Setting<Boolean>)this.register(new Setting("Advancements", false));
+        this.pigmen = (Setting<Boolean>)this.register(new Setting("Pigmen", false));
+        this.timeChange = (Setting<Boolean>)this.register(new Setting("TimeChange", false));
+        this.time = (Setting<Integer>)this.register(new Setting("Time", 0, 0, 23000, v -> this.timeChange.getValue()));
         this.setInstance();
     }
     

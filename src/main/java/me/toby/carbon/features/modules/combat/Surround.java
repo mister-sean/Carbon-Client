@@ -49,11 +49,11 @@ public class Surround extends Module
     
     public Surround() {
         super("Surround", "Surrounds you with Obsidian", Category.COMBAT, true, false, false);
-        this.blocksPerTick = (Setting<Integer>)this.register(new Setting("BlocksPerTick", (T)8, (T)1, (T)30));
-        this.delay = (Setting<Integer>)this.register(new Setting("Delay", (T)0, (T)0, (T)500));
-        this.noGhost = (Setting<Boolean>)this.register(new Setting("Packet", (T)false));
-        this.center = (Setting<Boolean>)this.register(new Setting("Center Lock", (T)true));
-        this.rotate = (Setting<Boolean>)this.register(new Setting("Rotate", (T)true));
+        this.blocksPerTick = (Setting<Integer>)this.register(new Setting("BlocksPerTick", 8, 1, 30));
+        this.delay = (Setting<Integer>)this.register(new Setting("Delay", 0, 0, 500));
+        this.noGhost = (Setting<Boolean>)this.register(new Setting("Packet", false));
+        this.center = (Setting<Boolean>)this.register(new Setting("Center Lock", true));
+        this.rotate = (Setting<Boolean>)this.register(new Setting("Rotate", true));
         this.timer = new Timer();
         this.retryTimer = new Timer();
         this.extendingBlocks = new HashSet<Vec3d>();

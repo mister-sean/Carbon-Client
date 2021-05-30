@@ -49,15 +49,15 @@ public class NoSlowDown extends Module
     
     public NoSlowDown() {
         super("NoSlowDown", "Prevents you from getting slowed down.", Category.MOVEMENT, true, false, false);
-        this.guiMove = (Setting<Boolean>)this.register(new Setting("GuiMove", (T)true));
-        this.noSlow = (Setting<Boolean>)this.register(new Setting("NoSlow", (T)true));
-        this.soulSand = (Setting<Boolean>)this.register(new Setting("SoulSand", (T)true));
-        this.strict = (Setting<Boolean>)this.register(new Setting("Strict", (T)false));
-        this.sneakPacket = (Setting<Boolean>)this.register(new Setting("SneakPacket", (T)false));
-        this.endPortal = (Setting<Boolean>)this.register(new Setting("EndPortal", (T)false));
-        this.webs = (Setting<Boolean>)this.register(new Setting("Webs", (T)false));
-        this.webHorizontalFactor = (Setting<Double>)this.register(new Setting("WebHSpeed", (T)2.0, (T)0.0, (T)100.0));
-        this.webVerticalFactor = (Setting<Double>)this.register(new Setting("WebVSpeed", (T)2.0, (T)0.0, (T)100.0));
+        this.guiMove = (Setting<Boolean>)this.register(new Setting("GuiMove", true));
+        this.noSlow = (Setting<Boolean>)this.register(new Setting("NoSlow", true));
+        this.soulSand = (Setting<Boolean>)this.register(new Setting("SoulSand", true));
+        this.strict = (Setting<Boolean>)this.register(new Setting("Strict", false));
+        this.sneakPacket = (Setting<Boolean>)this.register(new Setting("SneakPacket", false));
+        this.endPortal = (Setting<Boolean>)this.register(new Setting("EndPortal", false));
+        this.webs = (Setting<Boolean>)this.register(new Setting("Webs", false));
+        this.webHorizontalFactor = (Setting<Double>)this.register(new Setting("WebHSpeed", 2.0, 0.0, 100.0));
+        this.webVerticalFactor = (Setting<Double>)this.register(new Setting("WebVSpeed", 2.0, 0.0, 100.0));
         this.sneaking = false;
         this.setInstance();
     }

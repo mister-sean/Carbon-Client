@@ -13,7 +13,7 @@ public class Sprint extends Module
     
     public Sprint() {
         super("Sprint", "Modifies sprinting", Category.MOVEMENT, false, false, false);
-        this.mode = (Setting<Mode>)this.register(new Setting("Mode", (T)Mode.INSTANT));
+        this.mode = (Setting<Mode>)this.register(new Setting("Mode", Mode.INSTANT));
         this.setInstance();
     }
     

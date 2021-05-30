@@ -37,15 +37,15 @@ public class ArrowESP extends Module
     
     public ArrowESP() {
         super("ArrowESP", "Arrow tracers ", Category.RENDER, true, false, false);
-        this.red = (Setting<Integer>)this.register(new Setting("Red", (T)255, (T)0, (T)255));
-        this.green = (Setting<Integer>)this.register(new Setting("Green", (T)0, (T)0, (T)255));
-        this.blue = (Setting<Integer>)this.register(new Setting("Blue", (T)255, (T)0, (T)255));
-        this.radius = (Setting<Integer>)this.register(new Setting("Placement", (T)45, (T)10, (T)200));
-        this.size = (Setting<Float>)this.register(new Setting("Size", (T)10.0f, (T)5.0f, (T)25.0f));
-        this.outline = (Setting<Boolean>)this.register(new Setting("Outline", (T)true));
-        this.outlineWidth = (Setting<Float>)this.register(new Setting("Outline-Width", (T)1.0f, (T)0.1f, (T)3.0f));
-        this.fadeDistance = (Setting<Integer>)this.register(new Setting("Range", (T)100, (T)10, (T)200));
-        this.invisibles = (Setting<Boolean>)this.register(new Setting("Invisibles", (T)false));
+        this.red = (Setting<Integer>)this.register(new Setting("Red", 255, 0, 255));
+        this.green = (Setting<Integer>)this.register(new Setting("Green", 0, 0, 255));
+        this.blue = (Setting<Integer>)this.register(new Setting("Blue", 255, 0, 255));
+        this.radius = (Setting<Integer>)this.register(new Setting("Placement", 45, 10, 200));
+        this.size = (Setting<Float>)this.register(new Setting("Size", 10.0f, 5.0f, 25.0f));
+        this.outline = (Setting<Boolean>)this.register(new Setting("Outline", true));
+        this.outlineWidth = (Setting<Float>)this.register(new Setting("Outline-Width", 1.0f, 0.1f, 3.0f));
+        this.fadeDistance = (Setting<Integer>)this.register(new Setting("Range", 100, 10, 200));
+        this.invisibles = (Setting<Boolean>)this.register(new Setting("Invisibles", false));
         this.entityListener = new EntityListener();
     }
     
