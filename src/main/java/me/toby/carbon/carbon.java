@@ -1,113 +1,149 @@
+// 
+// Decompiled by Procyon v0.5.36
+// 
+
 package me.toby.carbon;
 
-import me.toby.carbon.command.Commands;
-import me.toby.carbon.event.Events;
-import me.toby.carbon.guirewrite.WurstplusGuiNew;
-import me.toby.carbon.hack.Hacks;
-import me.toby.carbon.manager.*;
-import me.toby.carbon.manager.fonts.DonatorFont;
-import me.toby.carbon.manager.fonts.GuiFont;
-import me.toby.carbon.manager.fonts.MenuFont;
-import me.toby.carbon.setting.Settings;
-import me.toby.carbon.util.RenderUtil2D;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
-/**
- * @author travis - began work on 8th april 2021
- */
-@Mod(modid = carbonclient.MODID, name = Carbon.MODNAME, version = carbonclient.MODVER)
-public class Carbon {
+import me.toby.carbon.manager.ColorManager;
+import me.toby.carbon.manager.CommandManager;
+import me.toby.carbon.manager.ConfigManager;
+import me.toby.carbon.manager.EventManager;
+import me.toby.carbon.manager.FileManager;
+import me.toby.carbon.manager.FriendManager;
+import me.toby.carbon.manager.HoleManager;
+import me.toby.carbon.manager.InventoryManager;
+import me.toby.carbon.manager.ModuleManager;
+import me.toby.carbon.manager.PacketManager;
+import me.toby.carbon.manager.PositionManager;
+import me.toby.carbon.manager.PotionManager;
+import me.toby.carbon.manager.ReloadManager;
+import me.toby.carbon.manager.RotationManager;
+import me.toby.carbon.manager.ServerManager;
+import me.toby.carbon.manager.SpeedManager;
+import me.toby.carbon.manager.TextManager;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import org.apache.logging.log4j.Logger;
+import net.minecraftforge.fml.common.Mod;
+
+@Mod(modid = "carbonclient", name = "Carbon Client", version = "alpha-0.0.01")
+public class Carbon
+{
     public static final String MODID = "carbonclient";
-    public static final String MODNAME = "Carbon";
-    public static final String MODVER = "0.0.01";
-
-    public static final Logger LOGGER = LogManager.getLogger(MODID);
-
-    // events
-    public static Events EVENTS;
-
-    // commands
-    public static Commands COMMANDS;
-
-    // hacks
-    public static Hacks HACKS;
-
-    // settings
-    public static Settings SETTINGS;
-
-    // gui
-    public static CarbonGuiNew GUI1;
-
-    // managers
-    public static MenuFont MENU_FONT_MANAGER;
-    public static GuiFont GUI_FONT_MANAGER;
-    public static DonatorFont DONATOR_FONT_MANAGER;
-    public static FriendManager FRIEND_MANAGER;
-    public static EnemyManager ENEMY_MANAGER;
-    public static PopManager POP_MANAGER;
-    public static ServerManager SERVER_MANAGER;
-    public static PositionManager POS_MANAGER;
-    public static RotationManager ROTATION_MANAGER;
-    public static ConfigManager CONFIG_MANAGER;
-    public static SongManager SONG_MANAGER;
-    public static CapeManager CAPE_MANAGER;
-    public static CosmeticManager COSMETIC_MANAGER;
-    public static AltManager ALT_MANAGER;
-
-    // megs weird thingy
-    public static RenderUtil2D RENDER_UTIL_2D;
-
+    public static final String MODNAME = "Carbon Client";
+    public static final String MODVER = "alpha-0.0.01";
+    public static final Logger LOGGER;
+    public static CommandManager commandManager;
+    public static FriendManager friendManager;
+    public static ModuleManager moduleManager;
+    public static PacketManager packetManager;
+    public static ColorManager colorManager;
+    public static HoleManager holeManager;
+    public static InventoryManager inventoryManager;
+    public static PotionManager potionManager;
+    public static RotationManager rotationManager;
+    public static PositionManager positionManager;
+    public static SpeedManager speedManager;
+    public static ReloadManager reloadManager;
+    public static FileManager fileManager;
+    public static ConfigManager configManager;
+    public static ServerManager serverManager;
+    public static EventManager eventManager;
+    public static TextManager textManager;
     @Mod.Instance
-    public static carbon INSTANCE;
-
+    public static Carbon INSTANCE;
+    private static boolean unloaded;
+    
+    public static void load() {
+        Carbon.LOGGER.info("\n\nLoading Carbon Client by Toby & noat");
+        Carbon.unloaded = false;
+        if (Carbon.reloadManager != null) {
+            Carbon.reloadManager.unload();
+            Carbon.reloadManager = null;
+        }
+        Carbon.textManager = new TextManager();
+        Carbon.commandManager = new CommandManager();
+        Carbon.friendManager = new FriendManager();
+        Carbon.moduleManager = new ModuleManager();
+        Carbon.rotationManager = new RotationManager();
+        Carbon.packetManager = new PacketManager();
+        Carbon.eventManager = new EventManager();
+        Carbon.speedManager = new SpeedManager();
+        Carbon.potionManager = new PotionManager();
+        Carbon.inventoryManager = new InventoryManager();
+        Carbon.serverManager = new ServerManager();
+        Carbon.fileManager = new FileManager();
+        Carbon.colorManager = new ColorManager();
+        Carbon.positionManager = new PositionManager();
+        Carbon.configManager = new ConfigManager();
+        Carbon.holeManager = new HoleManager();
+        Carbon.LOGGER.info("Managers loaded.");
+        Carbon.moduleManager.init();
+        Carbon.LOGGER.info("Modules loaded.");
+        Carbon.configManager.init();
+        Carbon.eventManager.init();
+        Carbon.LOGGER.info("EventManager loaded.");
+        Carbon.textManager.init(true);
+        Carbon.moduleManager.onLoad();
+        Carbon.LOGGER.info("Carbon Client successfully loaded!\n");
+    }
+    
+    public static void unload(final boolean unload) {
+        Carbon.LOGGER.info("\n\nUnloading Carbon Client by zPrestige_ & ad6q");
+        if (unload) {
+            (Carbon.reloadManager = new ReloadManager()).init((Carbon.commandManager != null) ? Carbon.commandManager.getPrefix() : ".");
+        }
+        onUnload();
+        Carbon.eventManager = null;
+        Carbon.friendManager = null;
+        Carbon.speedManager = null;
+        Carbon.holeManager = null;
+        Carbon.positionManager = null;
+        Carbon.rotationManager = null;
+        Carbon.configManager = null;
+        Carbon.commandManager = null;
+        Carbon.colorManager = null;
+        Carbon.serverManager = null;
+        Carbon.fileManager = null;
+        Carbon.potionManager = null;
+        Carbon.inventoryManager = null;
+        Carbon.moduleManager = null;
+        Carbon.textManager = null;
+        Carbon.LOGGER.info("Carbon Client unloaded!\n");
+    }
+    
+    public static void reload() {
+        unload(false);
+        load();
+    }
+    
+    public static void onUnload() {
+        if (!Carbon.unloaded) {
+            Carbon.eventManager.onUnload();
+            Carbon.moduleManager.onUnload();
+            Carbon.configManager.saveConfig(Carbon.configManager.config.replaceFirst("Carbon/", ""));
+            Carbon.moduleManager.onUnloadPost();
+            Carbon.unloaded = true;
+        }
+    }
+    
     @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        LOGGER.info("loading " + MODNAME);
+    public void preInit(final FMLPreInitializationEvent event) {
+        Carbon.LOGGER.info("Carbon Client");
     }
-
+    
     @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-        this.load();
-        LOGGER.info(MODNAME + " : " + MODVER + " has been loaded");
-        Display.setTitle("carbon | v" + MODVER);
+    public void init(final FMLInitializationEvent event) {
+        Display.setTitle("Carbon Client alpha-0.0.01");
+        load();
     }
-
-    public void load() {
-        EVENTS = new Events();
-        SETTINGS = new Settings();
-        RENDER_UTIL_2D = new RenderUtil2D();
-        COMMANDS = new Commands();
-        HACKS = new Hacks();
-        this.loadManagers();
-        CONFIG_MANAGER.loadConfig();
-        GUI2 = new carbonGuiNew();
+    
+    static {
+        LOGGER = LogManager.getLogger("Carbon Client");
+        Carbon.unloaded = false;
     }
-
-    public static void unLoad() {
-        CONFIG_MANAGER.saveConfig();
-    }
-
-    public void loadManagers() {
-        MENU_FONT_MANAGER = new MenuFont();
-        GUI_FONT_MANAGER = new GuiFont();
-        FRIEND_MANAGER = new FriendManager();
-        ENEMY_MANAGER = new EnemyManager();
-        POP_MANAGER = new PopManager();
-        SERVER_MANAGER = new ServerManager();
-        POS_MANAGER = new PositionManager();
-        ROTATION_MANAGER = new RotationManager();
-        CONFIG_MANAGER = new ConfigManager();
-        SONG_MANAGER = new SongManager();
-        CAPE_MANAGER = new CapeManager();
-        DONATOR_FONT_MANAGER = new DonatorFont();
-        COSMETIC_MANAGER = new CosmeticManager();
-        ALT_MANAGER = new AltManager();
-    }
-
 }
