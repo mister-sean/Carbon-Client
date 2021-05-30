@@ -1,4 +1,5 @@
 # Carbon Client
+![logo](https://github.com/noatmc/Carbon-Assets/blob/main/banner.png)
 The brand new McDonalds skid and w+3 skid?!, Carbon Client!
 # Contributors
 - thebrandnewtoby (toby) - added the main code & stuff.
