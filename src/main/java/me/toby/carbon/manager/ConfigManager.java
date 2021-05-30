@@ -139,7 +139,7 @@ public class ConfigManager implements Util
     }
     
     public boolean configExists(final String name) {
-        final List<File> files = Arrays.stream((File[])Objects.requireNonNullnew File("Carbon").listFiles())).filter(File::isDirectory).collect((Collector<? super File, ?, List<File>>)Collectors.toList());
+        final List<File> files = Arrays.stream((File[])Objects.requireNonNullnew File("McDonalds").listFiles())).filter(File::isDirectory).collect((Collector<? super File, ?, List<File>>)Collectors.toList());
         return files.contains(new File("Carbon/" + name + "/"));
     }
     
