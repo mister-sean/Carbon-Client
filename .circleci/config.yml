@@ -6,7 +6,7 @@ orbs:
 parameters:
   version:
     type: string
-    default: 1.2.1
+    default: 0.0.01
 
 general:
   branches:
@@ -17,7 +17,7 @@ jobs:
     docker:
       - image: circleci/openjdk:8-jdk
 
-    working_directory: ~/momentum-<< pipeline.parameters.version >>
+    working_directory: ~/Carbon-Client-<< pipeline.parameters.version >>
 
     environment:
       JVM_OPTS: -Xmx3200m
