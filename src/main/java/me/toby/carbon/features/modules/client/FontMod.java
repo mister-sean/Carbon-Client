@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package me.toby.carbon.features.modules.client;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

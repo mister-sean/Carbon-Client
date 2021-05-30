@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package me.toby.carbon.features.modules.render;
 
 import me.toby.carbon.features.modules.Module;

@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package me.toby.carbon.features.gui.components.items.buttons;
 
 import me.toby.carbon.Carbon;

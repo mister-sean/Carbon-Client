@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package me.toby.carbon.features.modules.render;
 
 import net.minecraft.util.math.BlockPos;
