@@ -56,7 +56,7 @@ import java.util.List;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityEnderCrystal;
-package me.toby.carbon.features.command;
+import me.toby.carbon.features.command;
 
 public class AutoCrystal extends Module
 {
@@ -322,7 +322,7 @@ public class AutoCrystal extends Module
             targetFound = 1;
             Command.sendSilentMessage("AutoCrystal now targetting" + this.realTarget.getName());
         } else {
-            targetFound == 0;
+            targetFound = 0;
         }
         this.crystal = (EntityEnderCrystal)AutoCrystal.mc.world.loadedEntityList.stream().filter(this::IsValidCrystal).map(p_Entity -> p_Entity).min(Comparator.comparing(p_Entity -> this.target.getDistance(p_Entity))).orElse(null);
         if (this.crystal != null && this.explode.getValue() && this.breakTimer.passedMs(this.breakDelay.getValue().longValue())) {
