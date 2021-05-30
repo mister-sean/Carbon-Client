@@ -7,6 +7,8 @@ The brand new McDonalds skid and w+3 skid?!, Carbon Client!
 # Plans
 > #### ❎ Elevator / AntiHoleCamp (Not finished, figured out how the code will works)
 > #### ❎ InstaMine (Not finished / hasn't started yet)
+# To-Do List
+> #### ❎ Fixing stuff
 # Credits
 - <a href="https://github.com/WurstPlus/wurst-plus-three">Wurst+ 3</a>
 - <a href="https://github.com/ciruu1/InstantBurrow">InstantBurrow</a>
