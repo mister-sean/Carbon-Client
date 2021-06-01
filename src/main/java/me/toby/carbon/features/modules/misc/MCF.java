@@ -2,7 +2,7 @@ package me.toby.carbon.features.modules.misc;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.command.Command;
 import me.toby.carbon.features.modules.Module;
 import net.minecraft.entity.Entity;
@@ -33,11 +33,11 @@ public class MCF extends Module {
         Entity entity;
         RayTraceResult result = MCF.mc.objectMouseOver;
         if (result != null && result.typeOfHit == RayTraceResult.Type.ENTITY && (entity = result.entityHit) instanceof EntityPlayer) {
-            if (OyVey.friendManager.isFriend(entity.getName())) {
-                OyVey.friendManager.removeFriend(entity.getName());
+            if (Carbon.friendManager.isFriend(entity.getName())) {
+                Carbon.friendManager.removeFriend(entity.getName());
                 Command.sendMessage(ChatFormatting.RED + entity.getName() + ChatFormatting.RED + " has been unfriended.");
             } else {
-                OyVey.friendManager.addFriend(entity.getName());
+                Carbon.friendManager.addFriend(entity.getName());
                 Command.sendMessage(ChatFormatting.AQUA + entity.getName() + ChatFormatting.AQUA + " has been friended.");
             }
         }

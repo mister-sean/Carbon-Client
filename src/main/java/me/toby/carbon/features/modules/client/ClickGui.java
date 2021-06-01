@@ -2,10 +2,10 @@ package me.toby.carbon.features.modules.client;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.ClientEvent;
 import me.toby.carbon.features.command.Command;
-import me.toby.carbon.features.gui.OyVeyGui;
+import me.toby.carbon.features.gui.CarbonGui;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
 import net.minecraft.client.settings.GameSettings;
@@ -30,7 +30,7 @@ public class ClickGui extends Module {
     public Setting<Integer> rainbowHue = register(new Setting<Object>("Delay", Integer.valueOf(240), Integer.valueOf(0), Integer.valueOf(600), v -> rainbow.getValue()));
     public Setting<Float> rainbowBrightness = register(new Setting<Object>("Brightness ", Float.valueOf(150.0f), Float.valueOf(1.0f), Float.valueOf(255.0f), v -> rainbow.getValue()));
     public Setting<Float> rainbowSaturation = register(new Setting<Object>("Saturation", Float.valueOf(150.0f), Float.valueOf(1.0f), Float.valueOf(255.0f), v -> rainbow.getValue()));
-    private OyVeyGui click;
+    private CarbonGui click;
 
     public ClickGui() {
         super("ClickGui", "Opens the ClickGui", Module.Category.CLIENT, true, false, false);
@@ -59,27 +59,27 @@ public class ClickGui extends Module {
     public void onSettingChange(ClientEvent event) {
         if (event.getStage() == 2 && event.getSetting().getFeature().equals(this)) {
             if (event.getSetting().equals(prefix)) {
-                OyVey.commandManager.setPrefix(prefix.getPlannedValue());
-                Command.sendMessage("Prefix set to " + ChatFormatting.DARK_GRAY + OyVey.commandManager.getPrefix());
+                Carbon.commandManager.setPrefix(prefix.getPlannedValue());
+                Command.sendMessage("Prefix set to " + ChatFormatting.DARK_GRAY + Carbon.commandManager.getPrefix());
             }
-            OyVey.colorManager.setColor(red.getPlannedValue(), green.getPlannedValue(), blue.getPlannedValue(), hoverAlpha.getPlannedValue());
+            Carbon.colorManager.setColor(red.getPlannedValue(), green.getPlannedValue(), blue.getPlannedValue(), hoverAlpha.getPlannedValue());
         }
     }
 
     @Override
     public void onEnable() {
-        mc.displayGuiScreen(OyVeyGui.getClickGui());
+        mc.displayGuiScreen(CarbonGui.getClickGui());
     }
 
     @Override
     public void onLoad() {
-        OyVey.colorManager.setColor(red.getValue(), green.getValue(), blue.getValue(), hoverAlpha.getValue());
-        OyVey.commandManager.setPrefix(prefix.getValue());
+        Carbon.colorManager.setColor(red.getValue(), green.getValue(), blue.getValue(), hoverAlpha.getValue());
+        Carbon.commandManager.setPrefix(prefix.getValue());
     }
 
     @Override
     public void onTick() {
-        if (!(ClickGui.mc.currentScreen instanceof OyVeyGui)) {
+        if (!(ClickGui.mc.currentScreen instanceof CarbonGui)) {
             disable();
         }
     }

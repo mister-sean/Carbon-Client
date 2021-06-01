@@ -2,13 +2,13 @@ package me.toby.carbon.features.modules.combat;
 
 import com.mojang.authlib.GameProfile;
 import io.netty.util.internal.ConcurrentSet;
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.ClientEvent;
 import me.toby.carbon.event.events.PacketEvent;
 import me.toby.carbon.event.events.Render3DEvent;
 import me.toby.carbon.event.events.UpdateWalkingPlayerEvent;
 import me.toby.carbon.features.command.Command;
-import me.toby.carbon.features.gui.OyVeyGui;
+import me.toby.carbon.features.gui.CarbonGui;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.modules.client.ClickGui;
 import me.toby.carbon.features.modules.misc.NoSoundLag;
@@ -344,7 +344,7 @@ public class AutoCrystal
                 }
                 if (this.predictFriendDmg.getValue().booleanValue() && (this.antiFriendPop.getValue() == AntiFriendPop.BREAK || this.antiFriendPop.getValue() == AntiFriendPop.ALL) && this.isRightThread()) {
                     for (EntityPlayer friend : AutoCrystal.mc.world.playerEntities) {
-                        if (friend == null || AutoCrystal.mc.player.equals(friend) || friend.getDistanceSq(pos) > MathUtil.square(this.range.getValue().floatValue() + this.placeRange.getValue().floatValue()) || !OyVey.friendManager.isFriend(friend) || !((double) DamageUtil.calculateDamage(pos, friend) > (double) EntityUtil.getHealth(friend) + 0.5))
+                        if (friend == null || AutoCrystal.mc.player.equals(friend) || friend.getDistanceSq(pos) > MathUtil.square(this.range.getValue().floatValue() + this.placeRange.getValue().floatValue()) || !Carbon.friendManager.isFriend(friend) || !((double) DamageUtil.calculateDamage(pos, friend) > (double) EntityUtil.getHealth(friend) + 0.5))
                             continue;
                         return;
                     }
@@ -413,7 +413,7 @@ public class AutoCrystal
     }
 
     private boolean isRightThread() {
-        return mc.isCallingFromMinecraftThread() || !OyVey.eventManager.ticksOngoing() && !this.threadOngoing.get();
+        return mc.isCallingFromMinecraftThread() || !Carbon.eventManager.ticksOngoing() && !this.threadOngoing.get();
     }
 
     private void attackCrystalPredict(int entityID, BlockPos pos) {
@@ -454,9 +454,9 @@ public class AutoCrystal
 
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {
-        if (Keyboard.getEventKeyState() && !(AutoCrystal.mc.currentScreen instanceof OyVeyGui) && this.switchBind.getValue().getKey() == Keyboard.getEventKey()) {
+        if (Keyboard.getEventKeyState() && !(AutoCrystal.mc.currentScreen instanceof CarbonGui) && this.switchBind.getValue().getKey() == Keyboard.getEventKey()) {
             if (this.switchBack.getValue().booleanValue() && this.offhandSwitch.getValue().booleanValue() && this.offHand) {
-                Offhand module = OyVey.moduleManager.getModuleByClass(Offhand.class);
+                Offhand module = Carbon.moduleManager.getModuleByClass(Offhand.class);
                 if (module.isOff()) {
                     Command.sendMessage("<" + this.getDisplayName() + "> " + "\u00a7c" + "Switch failed. Enable the Offhand module.");
                 } else {
@@ -692,7 +692,7 @@ public class AutoCrystal
                         this.crystalMap.put(entity, Float.valueOf(damage));
                         continue;
                     }
-                    if (this.antiFriendPop.getValue() != AntiFriendPop.BREAK && this.antiFriendPop.getValue() != AntiFriendPop.ALL || !OyVey.friendManager.isFriend(player.getName()) || !((double) (damage = DamageUtil.calculateDamage(entity, player)) > (double) EntityUtil.getHealth(player) + 0.5))
+                    if (this.antiFriendPop.getValue() != AntiFriendPop.BREAK && this.antiFriendPop.getValue() != AntiFriendPop.ALL || !Carbon.friendManager.isFriend(player.getName()) || !((double) (damage = DamageUtil.calculateDamage(entity, player)) > (double) EntityUtil.getHealth(player) + 0.5))
                         continue;
                     maxCrystal = beforeCrystal;
                     maxDamage = beforeDamage;
@@ -853,7 +853,7 @@ public class AutoCrystal
 
     private boolean doSwitch() {
         if (this.offhandSwitch.getValue().booleanValue()) {
-            Offhand module = OyVey.moduleManager.getModuleByClass(Offhand.class);
+            Offhand module = Carbon.moduleManager.getModuleByClass(Offhand.class);
             if (module.isOff()) {
                 Command.sendMessage("<" + this.getDisplayName() + "> " + "\u00a7c" + "Switch failed. Enable the Offhand module.");
                 this.switching = false;
@@ -906,7 +906,7 @@ public class AutoCrystal
                     boolean friendPop = false;
                     for (EntityPlayer friend : AutoCrystal.mc.world.playerEntities) {
                         float friendDamage;
-                        if (friend == null || AutoCrystal.mc.player.equals(friend) || friend.getDistanceSq(pos) > MathUtil.square(this.range.getValue().floatValue() + this.placeRange.getValue().floatValue()) || !OyVey.friendManager.isFriend(friend) || !((double) (friendDamage = DamageUtil.calculateDamage(pos, friend)) > (double) EntityUtil.getHealth(friend) + 0.5))
+                        if (friend == null || AutoCrystal.mc.player.equals(friend) || friend.getDistanceSq(pos) > MathUtil.square(this.range.getValue().floatValue() + this.placeRange.getValue().floatValue()) || !Carbon.friendManager.isFriend(friend) || !((double) (friendDamage = DamageUtil.calculateDamage(pos, friend)) > (double) EntityUtil.getHealth(friend) + 0.5))
                             continue;
                         friendPop = true;
                         break;
@@ -955,7 +955,7 @@ public class AutoCrystal
                     maxSelfDamage = selfDamage;
                     continue;
                 }
-                if (this.antiFriendPop.getValue() != AntiFriendPop.ALL && this.antiFriendPop.getValue() != AntiFriendPop.PLACE || player == null || !(player.getDistanceSq(pos) <= MathUtil.square(this.range.getValue().floatValue() + this.placeRange.getValue().floatValue())) || !OyVey.friendManager.isFriend(player) || !((double) (friendDamage = DamageUtil.calculateDamage(pos, player)) > (double) EntityUtil.getHealth(player) + 0.5))
+                if (this.antiFriendPop.getValue() != AntiFriendPop.ALL && this.antiFriendPop.getValue() != AntiFriendPop.PLACE || player == null || !(player.getDistanceSq(pos) <= MathUtil.square(this.range.getValue().floatValue() + this.placeRange.getValue().floatValue())) || !Carbon.friendManager.isFriend(player) || !((double) (friendDamage = DamageUtil.calculateDamage(pos, player)) > (double) EntityUtil.getHealth(player) + 0.5))
                     continue;
                 maxDamage = maxDamageBefore;
                 currentTarget = currentTargetBefore;
@@ -1105,7 +1105,7 @@ public class AutoCrystal
             case ALL: {
                 float[] angle = MathUtil.calcAngle(AutoCrystal.mc.player.getPositionEyes(mc.getRenderPartialTicks()), entity.getPositionVector());
                 if (this.eventMode.getValue() == 2 && this.threadMode.getValue() == ThreadMode.NONE) {
-                    OyVey.rotationManager.setPlayerRotations(angle[0], angle[1]);
+                    Carbon.rotationManager.setPlayerRotations(angle[0], angle[1]);
                     break;
                 }
                 this.yaw = angle[0];
@@ -1127,7 +1127,7 @@ public class AutoCrystal
             case ALL: {
                 float[] angle = MathUtil.calcAngle(AutoCrystal.mc.player.getPositionEyes(mc.getRenderPartialTicks()), new Vec3d((float) pos.getX() + 0.5f, (float) pos.getY() - 0.5f, (float) pos.getZ() + 0.5f));
                 if (this.eventMode.getValue() == 2 && this.threadMode.getValue() == ThreadMode.NONE) {
-                    OyVey.rotationManager.setPlayerRotations(angle[0], angle[1]);
+                    Carbon.rotationManager.setPlayerRotations(angle[0], angle[1]);
                     break;
                 }
                 this.yaw = angle[0];
@@ -1284,7 +1284,7 @@ public class AutoCrystal
         public void run() {
             if (this.autoCrystal.threadMode.getValue() == ThreadMode.WHILE) {
                 while (this.autoCrystal.isOn() && this.autoCrystal.threadMode.getValue() == ThreadMode.WHILE) {
-                    while (OyVey.eventManager.ticksOngoing()) {
+                    while (Carbon.eventManager.ticksOngoing()) {
                     }
                     if (this.autoCrystal.shouldInterrupt.get()) {
                         this.autoCrystal.shouldInterrupt.set(false);
@@ -1303,7 +1303,7 @@ public class AutoCrystal
                     }
                 }
             } else if (this.autoCrystal.threadMode.getValue() != ThreadMode.NONE && this.autoCrystal.isOn()) {
-                while (OyVey.eventManager.ticksOngoing()) {
+                while (Carbon.eventManager.ticksOngoing()) {
                 }
                 this.autoCrystal.threadOngoing.set(true);
                 this.autoCrystal.doAutoCrystal();

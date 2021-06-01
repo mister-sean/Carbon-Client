@@ -16,7 +16,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.opengl.GL11;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.Render3DEvent;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
@@ -243,7 +243,7 @@ public class NameTags extends Module {
 
     private int getDisplayColor(EntityPlayer player) {
         int displaycolor = ColorHolder.toHex(NCred.getValue(), NCgreen.getValue(), NCblue.getValue());
-        if (OyVey.friendManager.isFriend(player) ) {
+        if (Carbon.friendManager.isFriend(player) ) {
             return ColorHolder.toHex(FCred.getValue(), FCgreen.getValue(), FCblue.getValue());
         } else if (player.isInvisible() && invisibles.getValue()) {
             displaycolor = ColorHolder.toHex(ICred.getValue(), ICgreen.getValue(), ICblue.getValue());
@@ -255,7 +255,7 @@ public class NameTags extends Module {
 
     private int getOutlineColor(EntityPlayer player) {
         int outlinecolor = ColorHolder.toHex(Ored.getValue(), Ogreen.getValue(), Oblue.getValue());
-        if (OyVey.friendManager.isFriend(player)) {
+        if (Carbon.friendManager.isFriend(player)) {
             outlinecolor = ColorHolder.toHex(FOred.getValue(), FOgreen.getValue(), FOblue.getValue());
         } else if (player.isInvisible() && invisibles.getValue()) {
             outlinecolor = ColorHolder.toHex(IOred.getValue(), IOgreen.getValue(), IOblue.getValue());

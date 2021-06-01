@@ -3,7 +3,7 @@ package me.toby.carbon.features.gui;
 import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Mouse;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.Feature;
 import me.toby.carbon.features.gui.components.Component;
 import me.toby.carbon.features.gui.components.items.Item;
@@ -14,31 +14,31 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class OyVeyGui
+public class CarbonGui
         extends GuiScreen {
-    private static OyVeyGui oyveyGui;
-    private static OyVeyGui INSTANCE;
+    private static CarbonGui CarbonGui;
+    private static CarbonGui INSTANCE;
 
     static {
-        INSTANCE = new OyVeyGui();
+        INSTANCE = new CarbonGui();
     }
 
     private final ArrayList<Component> components = new ArrayList();
 
-    public OyVeyGui() {
+    public CarbonGui() {
         this.setInstance();
         this.load();
     }
 
-    public static OyVeyGui getInstance() {
+    public static CarbonGui getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new OyVeyGui();
+            INSTANCE = new CarbonGui();
         }
         return INSTANCE;
     }
 
-    public static OyVeyGui getClickGui() {
-        return OyVeyGui.getInstance();
+    public static CarbonGui getClickGui() {
+        return CarbonGui.getInstance();
     }
 
     private void setInstance() {
@@ -47,13 +47,13 @@ public class OyVeyGui
 
     private void load() {
         int x = -84;
-        for (final Module.Category category : OyVey.moduleManager.getCategories()) {
+        for (final Module.Category category : Carbon.moduleManager.getCategories()) {
             this.components.add(new Component(category.getName(), x += 90, 4, true) {
 
                 @Override
                 public void setupItems() {
                     counter1 = new int[]{1};
-                    OyVey.moduleManager.getModulesByCategory(category).forEach(module -> {
+                    Carbon.moduleManager.getModulesByCategory(category).forEach(module -> {
                         if (!module.hidden) {
                             this.addButton(new ModuleButton(module));
                         }

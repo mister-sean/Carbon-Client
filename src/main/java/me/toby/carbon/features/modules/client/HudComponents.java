@@ -21,7 +21,7 @@ import static me.toby.carbon.util.RenderUtil.itemRender;
 
 import org.lwjgl.opengl.GL11;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.Render2DEvent;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
@@ -85,7 +85,7 @@ public class HudComponents extends Module {
         EntityPlayer closestPlayer = null;
         for (EntityPlayer player : mc.world.playerEntities) {
             if (player == mc.player) continue;
-            if (OyVey.friendManager.isFriend(player)) continue;
+            if (Carbon.friendManager.isFriend(player)) continue;
             if (closestPlayer == null) {
                 closestPlayer = player;
             } else if (mc.player.getDistanceSq(player) < mc.player.getDistanceSq(closestPlayer)) {

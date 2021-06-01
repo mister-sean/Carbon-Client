@@ -1,6 +1,6 @@
 package me.toby.carbon.features.modules.misc;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.PacketEvent;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
@@ -33,7 +33,7 @@ public class ChatModifier extends Module {
     public void onPacketSend(PacketEvent.Send event) {
         if (event.getPacket() instanceof CPacketChatMessage) {
             String s = ((CPacketChatMessage) event.getPacket()).getMessage();
-            check = !s.startsWith(OyVey.commandManager.getPrefix());
+            check = !s.startsWith(Carbon.commandManager.getPrefix());
         }
     }
 }

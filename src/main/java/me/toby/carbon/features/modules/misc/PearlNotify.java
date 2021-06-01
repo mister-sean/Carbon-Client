@@ -2,7 +2,7 @@ package me.toby.carbon.features.modules.misc;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.command.Command;
 import me.toby.carbon.features.modules.Module;
 import net.minecraft.entity.Entity;
@@ -64,7 +64,7 @@ public class PearlNotify extends Module {
             } else if (faceing.equals("east")) {
                 faceing = "west";
             }
-            Command.sendSilentMessage(OyVey.friendManager.isFriend(closestPlayer.getName()) ? (ChatFormatting.AQUA + closestPlayer.getName() + ChatFormatting.DARK_GRAY + " has just thrown a pearl heading " + faceing + "!") : (ChatFormatting.RED + closestPlayer.getName() + ChatFormatting.DARK_GRAY + " has just thrown a pearl heading " + faceing + "!"));
+            Command.sendSilentMessage(Carbon.friendManager.isFriend(closestPlayer.getName()) ? (ChatFormatting.AQUA + closestPlayer.getName() + ChatFormatting.DARK_GRAY + " has just thrown a pearl heading " + faceing + "!") : (ChatFormatting.RED + closestPlayer.getName() + ChatFormatting.DARK_GRAY + " has just thrown a pearl heading " + faceing + "!"));
             flag = false;
         }
     }

@@ -5,20 +5,20 @@ import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.Mixins;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 
 import java.util.Map;
 
-public class OyVeyMixinLoader
+public class CarbonMixinLoader
         implements IFMLLoadingPlugin {
     private static boolean isObfuscatedEnvironment = false;
 
-    public OyVeyMixinLoader() {
-        OyVey.LOGGER.info("\n\nLoading mixins by Alpha432");
+    public CarbonMixinLoader() {
+        Carbon.LOGGER.info("\n\nLoading mixins by Alpha432");
         MixinBootstrap.init();
-        Mixins.addConfiguration("mixins.oyvey.json");
+        Mixins.addConfiguration("mixins.Carbon.json");
         MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
-        OyVey.LOGGER.info(MixinEnvironment.getDefaultEnvironment().getObfuscationContext());
+        Carbon.LOGGER.info(MixinEnvironment.getDefaultEnvironment().getObfuscationContext());
     }
 
     public String[] getASMTransformerClass() {

@@ -2,8 +2,8 @@ package me.toby.carbon.features.gui.components.items.buttons;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.OyVey;
-import me.toby.carbon.features.gui.OyVeyGui;
+import me.toby.carbon.Carbon;
+import me.toby.carbon.features.gui.CarbonGui;
 import me.toby.carbon.features.modules.client.ClickGui;
 import me.toby.carbon.features.setting.Bind;
 import me.toby.carbon.features.setting.Setting;
@@ -26,11 +26,11 @@ public class BindButton
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         int color = ColorUtil.toARGB(ClickGui.getInstance().red.getValue(), ClickGui.getInstance().green.getValue(), ClickGui.getInstance().blue.getValue(), 255);
-        RenderUtil.drawRect(this.x, this.y, this.x + (float) this.width + 7.4f, this.y + (float) this.height - 0.5f, this.getState() ? (!this.isHovering(mouseX, mouseY) ? 0x11555555 : -2007673515) : (!this.isHovering(mouseX, mouseY) ? OyVey.colorManager.getColorWithAlpha(OyVey.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue()) : OyVey.colorManager.getColorWithAlpha(OyVey.moduleManager.getModuleByClass(ClickGui.class).alpha.getValue())));
+        RenderUtil.drawRect(this.x, this.y, this.x + (float) this.width + 7.4f, this.y + (float) this.height - 0.5f, this.getState() ? (!this.isHovering(mouseX, mouseY) ? 0x11555555 : -2007673515) : (!this.isHovering(mouseX, mouseY) ? Carbon.colorManager.getColorWithAlpha(Carbon.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue()) : Carbon.colorManager.getColorWithAlpha(Carbon.moduleManager.getModuleByClass(ClickGui.class).alpha.getValue())));
         if (this.isListening) {
-            OyVey.textManager.drawStringWithShadow("Press a Key...", this.x + 2.3f, this.y - 1.7f - (float) OyVeyGui.getClickGui().getTextOffset(), -1);
+            Carbon.textManager.drawStringWithShadow("Press a Key...", this.x + 2.3f, this.y - 1.7f - (float) CarbonGui.getClickGui().getTextOffset(), -1);
         } else {
-            OyVey.textManager.drawStringWithShadow(this.setting.getName() + " " + ChatFormatting.GRAY + this.setting.getValue().toString().toUpperCase(), this.x + 2.3f, this.y - 1.7f - (float) OyVeyGui.getClickGui().getTextOffset(), this.getState() ? -1 : -5592406);
+            Carbon.textManager.drawStringWithShadow(this.setting.getName() + " " + ChatFormatting.GRAY + this.setting.getValue().toString().toUpperCase(), this.x + 2.3f, this.y - 1.7f - (float) CarbonGui.getClickGui().getTextOffset(), this.getState() ? -1 : -5592406);
         }
     }
 

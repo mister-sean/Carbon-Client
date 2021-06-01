@@ -5,7 +5,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import java.lang.reflect.Field;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.PlayerJumpEvent;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.modules.movement.ReverseStep;
@@ -30,7 +30,7 @@ public class SelfFill extends Module {
             setTimer(50.0f);
         }
         if (toggleRStep.getValue()) {
-            OyVey.moduleManager.getModuleByName("ReverseStep").isEnabled(); {
+            Carbon.moduleManager.getModuleByName("ReverseStep").isEnabled(); {
                 ReverseStep.getInstance().disable();
             }
         }
@@ -45,7 +45,7 @@ public class SelfFill extends Module {
     @Override
     public void onDisable() {
         if (toggleRStep.getValue()) {
-            OyVey.moduleManager.getModuleByName("ReverseStep").isDisabled(); {
+            Carbon.moduleManager.getModuleByName("ReverseStep").isDisabled(); {
                 ReverseStep.getInstance().enable();
             }
         }

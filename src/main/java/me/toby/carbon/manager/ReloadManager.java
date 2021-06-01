@@ -2,7 +2,7 @@ package me.toby.carbon.manager;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.PacketEvent;
 import me.toby.carbon.features.Feature;
 import me.toby.carbon.features.command.Command;
@@ -18,7 +18,7 @@ public class ReloadManager
         this.prefix = prefix;
         MinecraftForge.EVENT_BUS.register(this);
         if (!ReloadManager.fullNullCheck()) {
-            Command.sendMessage(ChatFormatting.RED + "OyVey has been unloaded. Type " + prefix + "reload to reload.");
+            Command.sendMessage(ChatFormatting.RED + "Carbon has been unloaded. Type " + prefix + "reload to reload.");
         }
     }
 
@@ -30,7 +30,7 @@ public class ReloadManager
     public void onPacketSend(PacketEvent.Send event) {
         CPacketChatMessage packet;
         if (event.getPacket() instanceof CPacketChatMessage && (packet = event.getPacket()).getMessage().startsWith(this.prefix) && packet.getMessage().contains("reload")) {
-            OyVey.load();
+            Carbon.load();
             event.setCanceled(true);
         }
     }

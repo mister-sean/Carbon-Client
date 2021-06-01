@@ -3,8 +3,8 @@ package me.toby.carbon.features;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.toby.carbon.OyVey;
-import me.toby.carbon.features.gui.OyVeyGui;
+import me.toby.carbon.Carbon;
+import me.toby.carbon.features.gui.CarbonGui;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
 import me.toby.carbon.manager.TextManager;
@@ -13,7 +13,7 @@ import me.toby.carbon.util.Util;
 public class Feature
         implements Util {
     public List<Setting> settings = new ArrayList<Setting>();
-    public TextManager renderer = OyVey.textManager;
+    public TextManager renderer = Carbon.textManager;
     private String name;
 
     public Feature() {
@@ -57,8 +57,8 @@ public class Feature
     public Setting register(Setting setting) {
         setting.setFeature(this);
         this.settings.add(setting);
-        if (this instanceof Module && Feature.mc.currentScreen instanceof OyVeyGui) {
-            OyVeyGui.getInstance().updateModule((Module) this);
+        if (this instanceof Module && Feature.mc.currentScreen instanceof CarbonGui) {
+            CarbonGui.getInstance().updateModule((Module) this);
         }
         return setting;
     }
@@ -72,8 +72,8 @@ public class Feature
         if (!removeList.isEmpty()) {
             this.settings.removeAll(removeList);
         }
-        if (this instanceof Module && Feature.mc.currentScreen instanceof OyVeyGui) {
-            OyVeyGui.getInstance().updateModule((Module) this);
+        if (this instanceof Module && Feature.mc.currentScreen instanceof CarbonGui) {
+            CarbonGui.getInstance().updateModule((Module) this);
         }
     }
 

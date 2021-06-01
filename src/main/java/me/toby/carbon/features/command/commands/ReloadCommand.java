@@ -1,6 +1,6 @@
 package me.toby.carbon.features.command.commands;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.command.Command;
 
 public class ReloadCommand
@@ -11,7 +11,7 @@ public class ReloadCommand
 
     @Override
     public void execute(String[] commands) {
-        OyVey.reload();
+        Carbon.reload();
     }
 }
 

@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.modules.render.Wireframe;
 import me.toby.carbon.util.ColorUtil;
 
@@ -117,7 +117,7 @@ public abstract class MixinRenderLivingBase<T extends EntityLivingBase> extends 
                         GL11.glBlendFunc(770, 771);
                         GL11.glDisable(2929);
                         GL11.glDepthMask(false);
-                        if (OyVey.friendManager.isFriend(entity.getName()) || entity == (Minecraft.getMinecraft()).player) {
+                        if (Carbon.friendManager.isFriend(entity.getName()) || entity == (Minecraft.getMinecraft()).player) {
                             GL11.glColor4f(0.0F, 191.0F, 255.0F, (Wireframe.getInstance()).alpha.getValue().floatValue() / 255.0F);
                         } else {
                             GL11.glColor4f((Wireframe.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((Wireframe.getInstance()).rainbowHue.getValue().intValue()).getRed() / 255.0F) : this.red, (Wireframe.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((Wireframe.getInstance()).rainbowHue.getValue().intValue()).getGreen() / 255.0F) : this.green, (Wireframe.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((Wireframe.getInstance()).rainbowHue.getValue().intValue()).getBlue() / 255.0F) : this.blue, (Wireframe.getInstance()).alpha.getValue().floatValue() / 255.0F);
@@ -126,7 +126,7 @@ public abstract class MixinRenderLivingBase<T extends EntityLivingBase> extends 
                         GL11.glDisable(2896);
                         GL11.glEnable(2929);
                         GL11.glDepthMask(true);
-                        if (OyVey.friendManager.isFriend(entity.getName()) || entity == (Minecraft.getMinecraft()).player) {
+                        if (Carbon.friendManager.isFriend(entity.getName()) || entity == (Minecraft.getMinecraft()).player) {
                             GL11.glColor4f(0.0F, 191.0F, 255.0F, (Wireframe.getInstance()).alpha.getValue().floatValue() / 255.0F);
                         } else {
                             GL11.glColor4f((Wireframe.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((Wireframe.getInstance()).rainbowHue.getValue().intValue()).getRed() / 255.0F) : this.red, (Wireframe.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((Wireframe.getInstance()).rainbowHue.getValue().intValue()).getGreen() / 255.0F) : this.green, (Wireframe.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((Wireframe.getInstance()).rainbowHue.getValue().intValue()).getBlue() / 255.0F) : this.blue, (Wireframe.getInstance()).alpha.getValue().floatValue() / 255.0F);
@@ -157,7 +157,7 @@ public abstract class MixinRenderLivingBase<T extends EntityLivingBase> extends 
                         GL11.glEnable(2848);
                         GL11.glEnable(3042);
                         GL11.glBlendFunc(770, 771);
-                        if (OyVey.friendManager.isFriend(entity.getName()) || entity == (Minecraft.getMinecraft()).player) {
+                        if (Carbon.friendManager.isFriend(entity.getName()) || entity == (Minecraft.getMinecraft()).player) {
                             GL11.glColor4f(0.0F, 191.0F, 255.0F, (Wireframe.getInstance()).alpha.getValue().floatValue() / 255.0F);
                         } else {
                             GL11.glColor4f((Wireframe.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((Wireframe.getInstance()).rainbowHue.getValue().intValue()).getRed() / 255.0F) : this.red, (Wireframe.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((Wireframe.getInstance()).rainbowHue.getValue().intValue()).getGreen() / 255.0F) : this.green, (Wireframe.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((Wireframe.getInstance()).rainbowHue.getValue().intValue()).getBlue() / 255.0F) : this.blue, (Wireframe.getInstance()).alpha.getValue().floatValue() / 255.0F);

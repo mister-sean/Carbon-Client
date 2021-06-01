@@ -5,7 +5,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-import me.toby.carbon.features.gui.OyVeyGui;
+import me.toby.carbon.features.gui.CarbonGui;
 import me.toby.carbon.features.gui.components.Component;
 import me.toby.carbon.features.gui.components.items.Item;
 import me.toby.carbon.features.modules.Module;
@@ -19,7 +19,7 @@ import java.util.List;
 public class ModuleButton
         extends Button {
     private final Module module;
-    private final ResourceLocation logo = new ResourceLocation("textures/oyvey.png");
+    private final ResourceLocation logo = new ResourceLocation("textures/Carbon.png");
     private List<Item> items = new ArrayList<Item>();
     private boolean subOpen;
 
@@ -76,7 +76,7 @@ public class ModuleButton
         if (!this.items.isEmpty()) {
             if (HUD.getInstance().magenDavid.getValue().booleanValue()) {
                 mc.getTextureManager().bindTexture(this.logo);
-                ModuleButton.drawCompleteImage(this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.2f - (float) OyVeyGui.getClickGui().getTextOffset(), 8, 8);
+                ModuleButton.drawCompleteImage(this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.2f - (float) CarbonGui.getClickGui().getTextOffset(), 8, 8);
             }
             if (this.subOpen) {
                 float height = 1.0f;

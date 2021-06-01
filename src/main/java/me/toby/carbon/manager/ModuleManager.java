@@ -2,11 +2,11 @@ package me.toby.carbon.manager;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.Render2DEvent;
 import me.toby.carbon.event.events.Render3DEvent;
 import me.toby.carbon.features.Feature;
-import me.toby.carbon.features.gui.OyVeyGui;
+import me.toby.carbon.features.gui.CarbonGui;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.modules.client.*;
 import me.toby.carbon.features.modules.combat.*;
@@ -273,7 +273,7 @@ public class ModuleManager
     }
 
     public void onKeyPressed(int eventKey) {
-        if (eventKey == 0 || !Keyboard.getEventKeyState() || ModuleManager.mc.currentScreen instanceof OyVeyGui) {
+        if (eventKey == 0 || !Keyboard.getEventKeyState() || ModuleManager.mc.currentScreen instanceof CarbonGui) {
             return;
         }
         this.modules.forEach(module -> {
@@ -318,7 +318,7 @@ public class ModuleManager
                 }
             } else {
                 for (String e : ModuleManager.this.sortedModulesABC) {
-                    Module module = OyVey.moduleManager.getModuleByName(e);
+                    Module module = Carbon.moduleManager.getModuleByName(e);
                     String text = module.getDisplayName() + ChatFormatting.GRAY + (module.getDisplayInfo() != null ? " [" + ChatFormatting.WHITE + module.getDisplayInfo() + ChatFormatting.GRAY + "]" : "");
                     module.offset = (float) ModuleManager.this.renderer.getStringWidth(text) / HUD.getInstance().animationHorizontalTime.getValue().floatValue();
                     module.vOffset = (float) ModuleManager.this.renderer.getFontHeight() / HUD.getInstance().animationVerticalTime.getValue().floatValue();

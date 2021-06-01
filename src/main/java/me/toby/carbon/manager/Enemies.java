@@ -1,7 +1,7 @@
 package me.toby.carbon.manager;
 
 import io.netty.util.internal.ConcurrentSet;
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.util.Enemy;
 
 import com.google.gson.annotations.SerializedName;
@@ -16,7 +16,7 @@ public class Enemies extends RotationManager {
     }
     public static Enemy getEnemyByName(String name) {
         for (Enemy e : enemies) {
-            if (OyVey.enemy.username.equalsIgnoreCase(name)) {
+            if (Carbon.enemy.username.equalsIgnoreCase(name)) {
                 return e;
             }
         }

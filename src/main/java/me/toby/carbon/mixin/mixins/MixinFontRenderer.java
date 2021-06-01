@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.modules.client.FontMod;
 import me.toby.carbon.features.modules.client.NickHider;
 
@@ -35,8 +35,8 @@ public abstract class MixinFontRenderer {
 
     @Inject(method={"drawString(Ljava/lang/String;FFIZ)I"}, at={@At(value="HEAD")}, cancellable=true)
     public void renderStringHook(String text, float x, float y, int color, boolean dropShadow, CallbackInfoReturnable<Integer> info) {
-        if (FontMod.getInstance().isOn() && OyVey.moduleManager.getModuleT(FontMod.class).customAll.getValue() && OyVey.textManager != null) {
-            float result = OyVey.textManager.drawString(text, x, y, color, dropShadow);
+        if (FontMod.getInstance().isOn() && Carbon.moduleManager.getModuleT(FontMod.class).customAll.getValue() && Carbon.textManager != null) {
+            float result = Carbon.textManager.drawString(text, x, y, color, dropShadow);
             info.setReturnValue((int)result);
         }
     }

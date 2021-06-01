@@ -21,7 +21,7 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 @Mod(modid = "zori", name = "zori", version = "1.2.2")
-public class OyVey {
+public class Carbon {
     public static final String MODID = "zori";
     public static final String MODNAME = "Zori";
     public static final String MODVER = "1.2.2";
@@ -48,7 +48,7 @@ public class OyVey {
     public static Render3DEvent render3DEvent;
     public static Enemy enemy;
     @Mod.Instance
-    public static OyVey INSTANCE;
+    public static Carbon INSTANCE;
     private static boolean unloaded;
 
     static {
@@ -95,7 +95,7 @@ public class OyVey {
             reloadManager = new ReloadManager();
             reloadManager.init(commandManager != null ? commandManager.getPrefix() : ".");
         }
-        OyVey.onUnload();
+        Carbon.onUnload();
         eventManager = null;
         friendManager = null;
         speedManager = null;
@@ -115,15 +115,15 @@ public class OyVey {
     }
 
     public static void reload() {
-        OyVey.unload(false);
-        OyVey.load();
+        Carbon.unload(false);
+        Carbon.load();
     }
 
     public static void onUnload() {
         if (!unloaded) {
             eventManager.onUnload();
             moduleManager.onUnload();
-            configManager.saveConfig(OyVey.configManager.config.replaceFirst("oyvey/", ""));
+            configManager.saveConfig(Carbon.configManager.config.replaceFirst("Carbon/", ""));
             moduleManager.onUnloadPost();
             unloaded = true;
         }
@@ -144,20 +144,20 @@ public class OyVey {
                 ByteBuffer[] icons = new ByteBuffer[]{IconUtil.INSTANCE.readImageToBuffer(inputStream16x), IconUtil.INSTANCE.readImageToBuffer(inputStream32x)};
                 Display.setIcon(icons);
             } catch (Exception e) {
-                OyVey.LOGGER.error("Couldn't set Windows Icon", e);
+                Carbon.LOGGER.error("Couldn't set Windows Icon", e);
             }
         }
     }
 
     private void setWindowsIcon() {
-        OyVey.setWindowIcon();
+        Carbon.setWindowIcon();
     }
 
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new Title());
-        OyVey.load();
+        Carbon.load();
         setWindowsIcon();
     }
 }

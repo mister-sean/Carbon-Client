@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.modules.render.GlintModify;
 
 @Mixin({ RenderItem.class })
@@ -20,7 +20,7 @@ public class MixinRenderItem {
 
     @ModifyArg(method = "renderEffect", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/RenderItem.renderModel(Lnet/minecraft/client/renderer/block/model/IBakedModel;I)V"), index = 1)
     private int renderEffect(int oldValue) {
-        return OyVey.moduleManager.getModuleByName("GlintModify").isEnabled() ? GlintModify.getColor(1, 1).getRGB()
+        return Carbon.moduleManager.getModuleByName("GlintModify").isEnabled() ? GlintModify.getColor(1, 1).getRGB()
                 : oldValue;
     }
 }

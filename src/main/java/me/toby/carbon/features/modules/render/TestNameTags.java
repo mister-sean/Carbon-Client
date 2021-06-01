@@ -19,7 +19,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.opengl.GL11;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.Render3DEvent;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
@@ -420,7 +420,7 @@ public class TestNameTags extends Module {
         if (this.whiter.getValue().booleanValue()) {
             colour = -1;
         }
-        if (OyVey.friendManager.isFriend(player)) {
+        if (Carbon.friendManager.isFriend(player)) {
             return -11157267;
         }
         if (player.isInvisible()) {

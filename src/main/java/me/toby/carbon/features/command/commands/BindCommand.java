@@ -2,7 +2,7 @@ package me.toby.carbon.features.command.commands;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.command.Command;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Bind;
@@ -23,7 +23,7 @@ public class BindCommand
         }
         String rkey = commands[1];
         String moduleName = commands[0];
-        Module module = OyVey.moduleManager.getModuleByName(moduleName);
+        Module module = Carbon.moduleManager.getModuleByName(moduleName);
         if (module == null) {
             BindCommand.sendMessage("Unknown module '" + module + "'!");
             return;
