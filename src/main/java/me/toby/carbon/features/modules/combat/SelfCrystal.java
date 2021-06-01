@@ -4,7 +4,7 @@
 package me.toby.carbon.features.modules.combat;
 
 import me.toby.carbon.features.modules.Module;
-import me.toby.carbon.features.modules.combat.AutoCrystal;
+import me.toby.carbon.features.modules.combat.CarbonAutoCrystal;
 
 public class SelfCrystal
 extends Module {
@@ -14,8 +14,8 @@ extends Module {
 
     @Override
     public void onTick() {
-        if (AutoCrystal.getInstance().isEnabled()) {
-            AutoCrystal.target = SelfCrystal.mc.player;
+        if (CarbonAutoCrystal.getInstance().isEnabled()) {
+            CarbonAutoCrystal.target = SelfCrystal.mc.player;
         }
     }
 }

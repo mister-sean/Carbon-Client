@@ -49,13 +49,13 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class CarbonAutoCrystal
+public class CarbonCarbonAutoCrystal
         extends Module {
     public static EntityPlayer target = null;
     public static Set<BlockPos> lowDmgPos = new ConcurrentSet();
     public static Set<BlockPos> placedPos = new HashSet<BlockPos>();
     public static Set<BlockPos> brokenPos = new HashSet<BlockPos>();
-    private static AutoCrystal instance;
+    private static CarbonAutoCrystal instance;
     public final Timer threadTimer = new Timer();
     private final Setting<Settings> setting = this.register(new Setting<Settings>("Settings", Settings.PLACE));
     public final Setting<Boolean> attackOppositeHand = this.register(new Setting<Object>("OppositeHand", Boolean.valueOf(false), v -> this.setting.getValue() == Settings.DEV));
@@ -218,14 +218,14 @@ public class CarbonAutoCrystal
     private boolean addTolowDmg;
     private Object BlockPos;
 
-    public AutoCrystal() {
-        super("AutoCrystal", "Best CA on the market", Category.COMBAT, true, false, false);
+    public CarbonAutoCrystal() {
+        super("CarbonAutoCrystal", "Best CA on the market", Category.COMBAT, true, false, false);
         instance = this;
     }
 
-    public static AutoCrystal getInstance() {
+    public static CarbonAutoCrystal getInstance() {
         if (instance == null) {
-            instance = new AutoCrystal();
+            instance = new CarbonAutoCrystal();
         }
         return instance;
     }
@@ -233,7 +233,7 @@ public class CarbonAutoCrystal
     @Override
     public void onTick() {
         if (this.threadMode.getValue() == ThreadMode.NONE && this.eventMode.getValue() == 3) {
-            this.doAutoCrystal();
+            this.doCarbonAutoCrystal();
         }
     }
 
@@ -246,7 +246,7 @@ public class CarbonAutoCrystal
             return;
         }
         if (this.eventMode.getValue() == 2) {
-            this.doAutoCrystal();
+            this.doCarbonAutoCrystal();
         }
     }
 
@@ -259,7 +259,7 @@ public class CarbonAutoCrystal
     @Override
     public void onUpdate() {
         if (this.threadMode.getValue() == ThreadMode.NONE && this.eventMode.getValue() == 1) {
-            this.doAutoCrystal();
+            this.doCarbonAutoCrystal();
         }
     }
 
@@ -313,15 +313,15 @@ public class CarbonAutoCrystal
             }
         }
         BlockPos pos = null;
-        if (event.getStage() == 0 && event.getPacket() instanceof CPacketUseEntity && (packet = event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && packet.getEntityFromWorld(AutoCrystal.mc.world) instanceof EntityEnderCrystal) {
-            pos = packet.getEntityFromWorld(AutoCrystal.mc.world).getPosition();
+        if (event.getStage() == 0 && event.getPacket() instanceof CPacketUseEntity && (packet = event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && packet.getEntityFromWorld(CarbonAutoCrystal.mc.world) instanceof EntityEnderCrystal) {
+            pos = packet.getEntityFromWorld(CarbonAutoCrystal.mc.world).getPosition();
             if (this.removeAfterAttack.getValue().booleanValue()) {
-                Objects.requireNonNull(packet.getEntityFromWorld(AutoCrystal.mc.world)).setDead();
-                AutoCrystal.mc.world.removeEntityFromWorld(packet.entityId);
+                Objects.requireNonNull(packet.getEntityFromWorld(CarbonAutoCrystal.mc.world)).setDead();
+                CarbonAutoCrystal.mc.world.removeEntityFromWorld(packet.entityId);
             }
         }
-        if (event.getStage() == 0 && event.getPacket() instanceof CPacketUseEntity && (packet = event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && packet.getEntityFromWorld(AutoCrystal.mc.world) instanceof EntityEnderCrystal) {
-            EntityEnderCrystal crystal = (EntityEnderCrystal) packet.getEntityFromWorld(AutoCrystal.mc.world);
+        if (event.getStage() == 0 && event.getPacket() instanceof CPacketUseEntity && (packet = event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && packet.getEntityFromWorld(CarbonAutoCrystal.mc.world) instanceof EntityEnderCrystal) {
+            EntityEnderCrystal crystal = (EntityEnderCrystal) packet.getEntityFromWorld(CarbonAutoCrystal.mc.world);
             if (this.antiBlock.getValue().booleanValue() && EntityUtil.isCrystalAtFeet(crystal, this.range.getValue().floatValue()) && pos != null) {
                 this.rotateToPos(pos);
                 BlockUtil.placeCrystalOnBlock(this.placePos, this.offHand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, this.placeSwing.getValue(), this.exactHand.getValue());
@@ -332,36 +332,36 @@ public class CarbonAutoCrystal
     @SubscribeEvent(priority = EventPriority.HIGH, receiveCanceled = true)
     public void onPacketReceive(PacketEvent.Receive event) {
         SPacketSoundEffect packet;
-        if (AutoCrystal.fullNullCheck()) {
+        if (CarbonAutoCrystal.fullNullCheck()) {
             return;
         }
         if (!this.justRender.getValue().booleanValue() && this.switchTimer.passedMs(this.switchCooldown.getValue().intValue()) && this.explode.getValue().booleanValue() && this.instant.getValue().booleanValue() && event.getPacket() instanceof SPacketSpawnObject && (this.syncedCrystalPos == null || !this.syncedFeetPlace.getValue().booleanValue() || this.damageSync.getValue() == DamageSync.NONE)) {
             BlockPos pos;
             SPacketSpawnObject packet2 = event.getPacket();
-            if (packet2.getType() == 51 && AutoCrystal.mc.player.getDistanceSq(pos = new BlockPos(packet2.getX(), packet2.getY(), packet2.getZ())) + (double) this.predictOffset.getValue().floatValue() <= MathUtil.square(this.breakRange.getValue().floatValue()) && (this.instantTimer.getValue() == PredictTimer.NONE || this.instantTimer.getValue() == PredictTimer.BREAK && this.breakTimer.passedMs(this.breakDelay.getValue().intValue()) || this.instantTimer.getValue() == PredictTimer.PREDICT && this.predictTimer.passedMs(this.predictDelay.getValue().intValue()))) {
+            if (packet2.getType() == 51 && CarbonAutoCrystal.mc.player.getDistanceSq(pos = new BlockPos(packet2.getX(), packet2.getY(), packet2.getZ())) + (double) this.predictOffset.getValue().floatValue() <= MathUtil.square(this.breakRange.getValue().floatValue()) && (this.instantTimer.getValue() == PredictTimer.NONE || this.instantTimer.getValue() == PredictTimer.BREAK && this.breakTimer.passedMs(this.breakDelay.getValue().intValue()) || this.instantTimer.getValue() == PredictTimer.PREDICT && this.predictTimer.passedMs(this.predictDelay.getValue().intValue()))) {
                 if (this.predictSlowBreak(pos.down())) {
                     return;
                 }
                 if (this.predictFriendDmg.getValue().booleanValue() && (this.antiFriendPop.getValue() == AntiFriendPop.BREAK || this.antiFriendPop.getValue() == AntiFriendPop.ALL) && this.isRightThread()) {
-                    for (EntityPlayer friend : AutoCrystal.mc.world.playerEntities) {
-                        if (friend == null || AutoCrystal.mc.player.equals(friend) || friend.getDistanceSq(pos) > MathUtil.square(this.range.getValue().floatValue() + this.placeRange.getValue().floatValue()) || !Carbon.friendManager.isFriend(friend) || !((double) DamageUtil.calculateDamage(pos, friend) > (double) EntityUtil.getHealth(friend) + 0.5))
+                    for (EntityPlayer friend : CarbonAutoCrystal.mc.world.playerEntities) {
+                        if (friend == null || CarbonAutoCrystal.mc.player.equals(friend) || friend.getDistanceSq(pos) > MathUtil.square(this.range.getValue().floatValue() + this.placeRange.getValue().floatValue()) || !Carbon.friendManager.isFriend(friend) || !((double) DamageUtil.calculateDamage(pos, friend) > (double) EntityUtil.getHealth(friend) + 0.5))
                             continue;
                         return;
                     }
                 }
                 if (placedPos.contains(pos.down())) {
                     float selfDamage;
-                    if (this.isRightThread() && this.superSafe.getValue() != false ? DamageUtil.canTakeDamage(this.suicide.getValue()) && ((double) (selfDamage = DamageUtil.calculateDamage(pos, AutoCrystal.mc.player)) - 0.5 > (double) EntityUtil.getHealth(AutoCrystal.mc.player) || selfDamage > this.maxSelfBreak.getValue().floatValue()) : this.superSafe.getValue() != false) {
+                    if (this.isRightThread() && this.superSafe.getValue() != false ? DamageUtil.canTakeDamage(this.suicide.getValue()) && ((double) (selfDamage = DamageUtil.calculateDamage(pos, CarbonAutoCrystal.mc.player)) - 0.5 > (double) EntityUtil.getHealth(CarbonAutoCrystal.mc.player) || selfDamage > this.maxSelfBreak.getValue().floatValue()) : this.superSafe.getValue() != false) {
                         return;
                     }
                     this.attackCrystalPredict(packet2.getEntityID(), pos);
                 } else if (this.predictCalc.getValue().booleanValue() && this.isRightThread()) {
                     float selfDamage = -1.0f;
                     if (DamageUtil.canTakeDamage(this.suicide.getValue())) {
-                        selfDamage = DamageUtil.calculateDamage(pos, AutoCrystal.mc.player);
+                        selfDamage = DamageUtil.calculateDamage(pos, CarbonAutoCrystal.mc.player);
                     }
-                    if ((double) selfDamage + 0.5 < (double) EntityUtil.getHealth(AutoCrystal.mc.player) && selfDamage <= this.maxSelfBreak.getValue().floatValue()) {
-                        for (EntityPlayer player : AutoCrystal.mc.world.playerEntities) {
+                    if ((double) selfDamage + 0.5 < (double) EntityUtil.getHealth(CarbonAutoCrystal.mc.player) && selfDamage <= this.maxSelfBreak.getValue().floatValue()) {
+                        for (EntityPlayer player : CarbonAutoCrystal.mc.world.playerEntities) {
                             float damage;
                             if (!(player.getDistanceSq(pos) <= MathUtil.square(this.range.getValue().floatValue())) || !EntityUtil.isValid(player, this.range.getValue().floatValue() + this.breakRange.getValue().floatValue()) || this.antiNaked.getValue().booleanValue() && DamageUtil.isNaked(player) || !((damage = DamageUtil.calculateDamage(pos, player)) > selfDamage || damage > this.minDamage.getValue().floatValue() && !DamageUtil.canTakeDamage(this.suicide.getValue())) && !(damage > EntityUtil.getHealth(player)))
                                 continue;
@@ -381,15 +381,15 @@ public class CarbonAutoCrystal
         } else if (event.getPacket() instanceof SPacketDestroyEntities) {
             SPacketDestroyEntities packet4 = event.getPacket();
             for (int id : packet4.getEntityIDs()) {
-                Entity entity = AutoCrystal.mc.world.getEntityByID(id);
+                Entity entity = CarbonAutoCrystal.mc.world.getEntityByID(id);
                 if (!(entity instanceof EntityEnderCrystal)) continue;
                 brokenPos.remove(new BlockPos(entity.getPositionVector()).down());
                 placedPos.remove(new BlockPos(entity.getPositionVector()).down());
             }
         } else if (event.getPacket() instanceof SPacketEntityStatus) {
             SPacketEntityStatus packet5 = event.getPacket();
-            if (packet5.getOpCode() == 35 && packet5.getEntity(AutoCrystal.mc.world) instanceof EntityPlayer) {
-                this.totemPops.put((EntityPlayer) packet5.getEntity(AutoCrystal.mc.world), new Timer().reset());
+            if (packet5.getOpCode() == 35 && packet5.getEntity(CarbonAutoCrystal.mc.world) instanceof EntityPlayer) {
+                this.totemPops.put((EntityPlayer) packet5.getEntity(CarbonAutoCrystal.mc.world), new Timer().reset());
             }
         } else if (event.getPacket() instanceof SPacketSoundEffect && (packet = event.getPacket()).getCategory() == SoundCategory.BLOCKS && packet.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE) {
             BlockPos pos = new BlockPos(packet.getX(), packet.getY(), packet.getZ());
@@ -399,7 +399,7 @@ public class CarbonAutoCrystal
             if (this.soundConfirm.getValue().booleanValue()) {
                 this.removePos(pos);
             }
-            if (this.threadMode.getValue() == ThreadMode.SOUND && this.isRightThread() && AutoCrystal.mc.player != null && AutoCrystal.mc.player.getDistanceSq(pos) < MathUtil.square(this.soundPlayer.getValue().floatValue())) {
+            if (this.threadMode.getValue() == ThreadMode.SOUND && this.isRightThread() && CarbonAutoCrystal.mc.player != null && CarbonAutoCrystal.mc.player.getDistanceSq(pos) < MathUtil.square(this.soundPlayer.getValue().floatValue())) {
                 this.handlePool(true);
             }
         }
@@ -423,9 +423,9 @@ public class CarbonAutoCrystal
         CPacketUseEntity attackPacket = new CPacketUseEntity();
         attackPacket.entityId = entityID;
         attackPacket.action = CPacketUseEntity.Action.ATTACK;
-        AutoCrystal.mc.player.connection.sendPacket(attackPacket);
+        CarbonAutoCrystal.mc.player.connection.sendPacket(attackPacket);
         if (this.breakSwing.getValue().booleanValue()) {
-            AutoCrystal.mc.player.connection.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
+            CarbonAutoCrystal.mc.player.connection.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
         }
         if (this.resetBreakTimer.getValue().booleanValue()) {
             this.breakTimer.reset();
@@ -454,7 +454,7 @@ public class CarbonAutoCrystal
 
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {
-        if (Keyboard.getEventKeyState() && !(AutoCrystal.mc.currentScreen instanceof CarbonGUI) && this.switchBind.getValue().getKey() == Keyboard.getEventKey()) {
+        if (Keyboard.getEventKeyState() && !(CarbonAutoCrystal.mc.currentScreen instanceof CarbonGUI) && this.switchBind.getValue().getKey() == Keyboard.getEventKey()) {
             if (this.switchBack.getValue().booleanValue() && this.offhandSwitch.getValue().booleanValue() && this.offHand) {
                 Offhand module = Carbon.moduleManager.getModuleByClass(Offhand.class);
                 if (module.isOff()) {
@@ -503,9 +503,9 @@ public class CarbonAutoCrystal
     private void postProcessBreak() {
         while (!this.packetUseEntities.isEmpty()) {
             CPacketUseEntity packet = this.packetUseEntities.poll();
-            AutoCrystal.mc.player.connection.sendPacket(packet);
+            CarbonAutoCrystal.mc.player.connection.sendPacket(packet);
             if (this.breakSwing.getValue().booleanValue()) {
-                AutoCrystal.mc.player.swingArm(EnumHand.MAIN_HAND);
+                CarbonAutoCrystal.mc.player.swingArm(EnumHand.MAIN_HAND);
             }
             this.breakTimer.reset();
         }
@@ -543,14 +543,14 @@ public class CarbonAutoCrystal
     private void handleWhile() {
         if (this.thread == null || this.thread.isInterrupted() || !this.thread.isAlive() || this.syncroTimer.passedMs(this.syncThreads.getValue().intValue()) && this.syncThreadBool.getValue().booleanValue()) {
             if (this.thread == null) {
-                this.thread = new Thread(RAutoCrystal.getInstance(this));
+                this.thread = new Thread(RCarbonAutoCrystal.getInstance(this));
             } else if (this.syncroTimer.passedMs(this.syncThreads.getValue().intValue()) && !this.shouldInterrupt.get() && this.syncThreadBool.getValue().booleanValue()) {
                 this.shouldInterrupt.set(true);
                 this.syncroTimer.reset();
                 return;
             }
             if (this.thread != null && (this.thread.isInterrupted() || !this.thread.isAlive())) {
-                this.thread = new Thread(RAutoCrystal.getInstance(this));
+                this.thread = new Thread(RCarbonAutoCrystal.getInstance(this));
             }
             if (this.thread != null && this.thread.getState() == Thread.State.NEW) {
                 try {
@@ -565,11 +565,11 @@ public class CarbonAutoCrystal
 
     private ScheduledExecutorService getExecutor() {
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(RAutoCrystal.getInstance(this), 0L, this.threadDelay.getValue().intValue(), TimeUnit.MILLISECONDS);
+        service.scheduleAtFixedRate(RCarbonAutoCrystal.getInstance(this), 0L, this.threadDelay.getValue().intValue(), TimeUnit.MILLISECONDS);
         return service;
     }
 
-    public void doAutoCrystal() {
+    public void doCarbonAutoCrystal() {
         if (this.brownZombie.getValue().booleanValue()) {
             return;
         }
@@ -591,7 +591,7 @@ public class CarbonAutoCrystal
     }
 
     private boolean check() {
-        if (AutoCrystal.fullNullCheck()) {
+        if (CarbonAutoCrystal.fullNullCheck()) {
             return false;
         }
         if (this.syncTimer.passedMs(this.damageSyncTime.getValue().intValue())) {
@@ -606,12 +606,12 @@ public class CarbonAutoCrystal
             this.renderPos = null;
             this.renderTimer.reset();
         }
-        this.mainHand = AutoCrystal.mc.player.getHeldItemMainhand().getItem() == Items.END_CRYSTAL;
-        this.offHand = AutoCrystal.mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL;
+        this.mainHand = CarbonAutoCrystal.mc.player.getHeldItemMainhand().getItem() == Items.END_CRYSTAL;
+        this.offHand = CarbonAutoCrystal.mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL;
         this.currentDamage = 0.0;
         this.placePos = null;
-        if (this.lastSlot != AutoCrystal.mc.player.inventory.currentItem || AutoTrap.isPlacing || Surround.isPlacing) {
-            this.lastSlot = AutoCrystal.mc.player.inventory.currentItem;
+        if (this.lastSlot != CarbonAutoCrystal.mc.player.inventory.currentItem || AutoTrap.isPlacing || Surround.isPlacing) {
+            this.lastSlot = CarbonAutoCrystal.mc.player.inventory.currentItem;
             this.switchTimer.reset();
         }
         if (!this.offHand && !this.mainHand) {
@@ -621,13 +621,13 @@ public class CarbonAutoCrystal
         if (this.offHand || this.mainHand) {
             this.switching = false;
         }
-        if (!((this.offHand || this.mainHand || this.switchMode.getValue() != Switch.BREAKSLOT || this.switching) && DamageUtil.canBreakWeakness(AutoCrystal.mc.player) && this.switchTimer.passedMs(this.switchCooldown.getValue().intValue()))) {
+        if (!((this.offHand || this.mainHand || this.switchMode.getValue() != Switch.BREAKSLOT || this.switching) && DamageUtil.canBreakWeakness(CarbonAutoCrystal.mc.player) && this.switchTimer.passedMs(this.switchCooldown.getValue().intValue()))) {
             this.renderPos = null;
             target = null;
             this.rotating = false;
             return false;
         }
-        if (this.mineSwitch.getValue().booleanValue() && Mouse.isButtonDown(0) && (this.switching || this.autoSwitch.getValue() == AutoSwitch.ALWAYS) && Mouse.isButtonDown(1) && AutoCrystal.mc.player.getHeldItemMainhand().getItem() instanceof ItemPickaxe) {
+        if (this.mineSwitch.getValue().booleanValue() && Mouse.isButtonDown(0) && (this.switching || this.autoSwitch.getValue() == AutoSwitch.ALWAYS) && Mouse.isButtonDown(1) && CarbonAutoCrystal.mc.player.getHeldItemMainhand().getItem() instanceof ItemPickaxe) {
             this.switchItem();
         }
         this.mapCrystals();
@@ -647,7 +647,7 @@ public class CarbonAutoCrystal
         this.minDmgCount = 0;
         Entity maxCrystal = null;
         float maxDamage = 0.5f;
-        for (Entity entity : AutoCrystal.mc.world.loadedEntityList) {
+        for (Entity entity : CarbonAutoCrystal.mc.world.loadedEntityList) {
             if (entity.isDead || !(entity instanceof EntityEnderCrystal) || !this.isValid(entity)) continue;
             if (this.syncedFeetPlace.getValue().booleanValue() && entity.getPosition().down().equals(this.syncedCrystalPos) && this.damageSync.getValue() != DamageSync.NONE) {
                 ++this.minDmgCount;
@@ -664,12 +664,12 @@ public class CarbonAutoCrystal
             boolean countMin = false;
             float selfDamage = -1.0f;
             if (DamageUtil.canTakeDamage(this.suicide.getValue())) {
-                selfDamage = DamageUtil.calculateDamage(entity, AutoCrystal.mc.player);
+                selfDamage = DamageUtil.calculateDamage(entity, CarbonAutoCrystal.mc.player);
             }
-            if ((double) selfDamage + 0.5 < (double) EntityUtil.getHealth(AutoCrystal.mc.player) && selfDamage <= this.maxSelfBreak.getValue().floatValue()) {
+            if ((double) selfDamage + 0.5 < (double) EntityUtil.getHealth(CarbonAutoCrystal.mc.player) && selfDamage <= this.maxSelfBreak.getValue().floatValue()) {
                 Entity beforeCrystal = maxCrystal;
                 float beforeDamage = maxDamage;
-                for (EntityPlayer player : AutoCrystal.mc.world.playerEntities) {
+                for (EntityPlayer player : CarbonAutoCrystal.mc.world.playerEntities) {
                     float damage;
                     if (!(player.getDistanceSq(entity) <= MathUtil.square(this.range.getValue().floatValue())))
                         continue;
@@ -719,10 +719,10 @@ public class CarbonAutoCrystal
             return;
         }
         if (this.webAttack.getValue().booleanValue() && this.webPos != null) {
-            if (AutoCrystal.mc.player.getDistanceSq(this.webPos.up()) > MathUtil.square(this.breakRange.getValue().floatValue())) {
+            if (CarbonAutoCrystal.mc.player.getDistanceSq(this.webPos.up()) > MathUtil.square(this.breakRange.getValue().floatValue())) {
                 this.webPos = null;
             } else {
-                for (Entity entity : AutoCrystal.mc.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(this.webPos.up()))) {
+                for (Entity entity : CarbonAutoCrystal.mc.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(this.webPos.up()))) {
                     if (!(entity instanceof EntityEnderCrystal)) continue;
                     this.attackList.add(entity);
                     this.efficientTarget = entity;
@@ -862,7 +862,7 @@ public class CarbonAutoCrystal
             this.switching = false;
             return true;
         }
-        if (AutoCrystal.mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL) {
+        if (CarbonAutoCrystal.mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL) {
             this.mainHand = false;
         } else {
             InventoryUtil.switchToHotbarSlot(ItemEndCrystal.class, false);
@@ -885,28 +885,28 @@ public class CarbonAutoCrystal
         this.foundDoublePop = false;
         BlockPos setToAir = null;
         IBlockState state = null;
-        if (this.webAttack.getValue().booleanValue() && targettedPlayer != null && (web = AutoCrystal.mc.world.getBlockState(playerPos = new BlockPos(targettedPlayer.getPositionVector())).getBlock()) == Blocks.WEB) {
+        if (this.webAttack.getValue().booleanValue() && targettedPlayer != null && (web = CarbonAutoCrystal.mc.world.getBlockState(playerPos = new BlockPos(targettedPlayer.getPositionVector())).getBlock()) == Blocks.WEB) {
             setToAir = playerPos;
-            state = AutoCrystal.mc.world.getBlockState(playerPos);
-            AutoCrystal.mc.world.setBlockToAir(playerPos);
+            state = CarbonAutoCrystal.mc.world.getBlockState(playerPos);
+            CarbonAutoCrystal.mc.world.setBlockToAir(playerPos);
         }
         block0:
         for (BlockPos pos : BlockUtil.possiblePlacePositions(this.placeRange.getValue().floatValue(), this.antiSurround.getValue(), this.oneDot15.getValue())) {
-            if (!BlockUtil.rayTracePlaceCheck(pos, (this.raytrace.getValue() == Raytrace.PLACE || this.raytrace.getValue() == Raytrace.FULL) && AutoCrystal.mc.player.getDistanceSq(pos) > MathUtil.square(this.placetrace.getValue().floatValue()), 1.0f))
+            if (!BlockUtil.rayTracePlaceCheck(pos, (this.raytrace.getValue() == Raytrace.PLACE || this.raytrace.getValue() == Raytrace.FULL) && CarbonAutoCrystal.mc.player.getDistanceSq(pos) > MathUtil.square(this.placetrace.getValue().floatValue()), 1.0f))
                 continue;
             float selfDamage = -1.0f;
             if (DamageUtil.canTakeDamage(this.suicide.getValue())) {
-                selfDamage = DamageUtil.calculateDamage(pos, AutoCrystal.mc.player);
+                selfDamage = DamageUtil.calculateDamage(pos, CarbonAutoCrystal.mc.player);
             }
-            if (!((double) selfDamage + 0.5 < (double) EntityUtil.getHealth(AutoCrystal.mc.player)) || !(selfDamage <= this.maxSelfPlace.getValue().floatValue()))
+            if (!((double) selfDamage + 0.5 < (double) EntityUtil.getHealth(CarbonAutoCrystal.mc.player)) || !(selfDamage <= this.maxSelfPlace.getValue().floatValue()))
                 continue;
             if (targettedPlayer != null) {
                 float playerDamage = DamageUtil.calculateDamage(pos, targettedPlayer);
                 if (this.calcEvenIfNoDamage.getValue().booleanValue() && (this.antiFriendPop.getValue() == AntiFriendPop.ALL || this.antiFriendPop.getValue() == AntiFriendPop.PLACE)) {
                     boolean friendPop = false;
-                    for (EntityPlayer friend : AutoCrystal.mc.world.playerEntities) {
+                    for (EntityPlayer friend : CarbonAutoCrystal.mc.world.playerEntities) {
                         float friendDamage;
-                        if (friend == null || AutoCrystal.mc.player.equals(friend) || friend.getDistanceSq(pos) > MathUtil.square(this.range.getValue().floatValue() + this.placeRange.getValue().floatValue()) || !Carbon.friendManager.isFriend(friend) || !((double) (friendDamage = DamageUtil.calculateDamage(pos, friend)) > (double) EntityUtil.getHealth(friend) + 0.5))
+                        if (friend == null || CarbonAutoCrystal.mc.player.equals(friend) || friend.getDistanceSq(pos) > MathUtil.square(this.range.getValue().floatValue() + this.placeRange.getValue().floatValue()) || !Carbon.friendManager.isFriend(friend) || !((double) (friendDamage = DamageUtil.calculateDamage(pos, friend)) > (double) EntityUtil.getHealth(friend) + 0.5))
                             continue;
                         friendPop = true;
                         break;
@@ -932,7 +932,7 @@ public class CarbonAutoCrystal
             EntityPlayer currentTargetBefore = currentTarget;
             BlockPos currentPosBefore = currentPos;
             float maxSelfDamageBefore = maxSelfDamage;
-            for (EntityPlayer player : AutoCrystal.mc.world.playerEntities) {
+            for (EntityPlayer player : CarbonAutoCrystal.mc.world.playerEntities) {
                 float friendDamage;
                 if (EntityUtil.isValid(player, this.placeRange.getValue().floatValue() + this.range.getValue().floatValue())) {
                     if (this.antiNaked.getValue().booleanValue() && DamageUtil.isNaked(player)) continue;
@@ -965,7 +965,7 @@ public class CarbonAutoCrystal
             }
         }
         if (setToAir != null) {
-            AutoCrystal.mc.world.setBlockState(setToAir, state);
+            CarbonAutoCrystal.mc.world.setBlockState(setToAir, state);
             this.webPos = currentPos;
         }
         target = currentTarget;
@@ -978,7 +978,7 @@ public class CarbonAutoCrystal
             return null;
         }
         EntityPlayer currentTarget = null;
-        for (EntityPlayer player : AutoCrystal.mc.world.playerEntities) {
+        for (EntityPlayer player : CarbonAutoCrystal.mc.world.playerEntities) {
             if (EntityUtil.isntValid(player, this.placeRange.getValue().floatValue() + this.range.getValue().floatValue()) || this.antiNaked.getValue().booleanValue() && DamageUtil.isNaked(player) || unsafe && EntityUtil.isSafe(player))
                 continue;
             if (this.minArmor.getValue() > 0 && DamageUtil.isArmorLow(player, this.minArmor.getValue())) {
@@ -989,7 +989,7 @@ public class CarbonAutoCrystal
                 currentTarget = player;
                 continue;
             }
-            if (!(AutoCrystal.mc.player.getDistanceSq(player) < AutoCrystal.mc.player.getDistanceSq(currentTarget)))
+            if (!(CarbonAutoCrystal.mc.player.getDistanceSq(player) < CarbonAutoCrystal.mc.player.getDistanceSq(currentTarget)))
                 continue;
             currentTarget = player;
         }
@@ -998,7 +998,7 @@ public class CarbonAutoCrystal
         }
         if (this.predictPos.getValue().booleanValue() && currentTarget != null) {
             GameProfile profile = new GameProfile(currentTarget.getUniqueID() == null ? UUID.fromString("8af022c8-b926-41a0-8b79-2b544ff00fcf") : currentTarget.getUniqueID(), currentTarget.getName());
-            EntityOtherPlayerMP newTarget = new EntityOtherPlayerMP(AutoCrystal.mc.world, profile);
+            EntityOtherPlayerMP newTarget = new EntityOtherPlayerMP(CarbonAutoCrystal.mc.world, profile);
             Vec3d extrapolatePosition = MathUtil.extrapolatePlayerPosition(currentTarget, this.predictTicks.getValue());
             newTarget.copyLocationAndAnglesFrom(currentTarget);
             newTarget.posX = extrapolatePosition.x;
@@ -1056,7 +1056,7 @@ public class CarbonAutoCrystal
 
     private void doFakeSwing() {
         if (this.fakeSwing.getValue().booleanValue()) {
-            EntityUtil.swingArmNoPacket(EnumHand.MAIN_HAND, AutoCrystal.mc.player);
+            EntityUtil.swingArmNoPacket(EnumHand.MAIN_HAND, CarbonAutoCrystal.mc.player);
         }
     }
 
@@ -1064,14 +1064,14 @@ public class CarbonAutoCrystal
         RayTraceResult result;
         if (this.rotate.getValue() != Rotate.OFF && this.eventMode.getValue() != 2 && this.rotating) {
             if (this.didRotation) {
-                AutoCrystal.mc.player.rotationPitch = (float) ((double) AutoCrystal.mc.player.rotationPitch + 4.0E-4);
+                CarbonAutoCrystal.mc.player.rotationPitch = (float) ((double) CarbonAutoCrystal.mc.player.rotationPitch + 4.0E-4);
                 this.didRotation = false;
             } else {
-                AutoCrystal.mc.player.rotationPitch = (float) ((double) AutoCrystal.mc.player.rotationPitch - 4.0E-4);
+                CarbonAutoCrystal.mc.player.rotationPitch = (float) ((double) CarbonAutoCrystal.mc.player.rotationPitch - 4.0E-4);
                 this.didRotation = true;
             }
         }
-        if ((this.offHand || this.mainHand) && this.manual.getValue().booleanValue() && this.manualTimer.passedMs(this.manualBreak.getValue().intValue()) && Mouse.isButtonDown(1) && AutoCrystal.mc.player.getHeldItemOffhand().getItem() != Items.GOLDEN_APPLE && AutoCrystal.mc.player.inventory.getCurrentItem().getItem() != Items.GOLDEN_APPLE && AutoCrystal.mc.player.inventory.getCurrentItem().getItem() != Items.BOW && AutoCrystal.mc.player.inventory.getCurrentItem().getItem() != Items.EXPERIENCE_BOTTLE && (result = AutoCrystal.mc.objectMouseOver) != null) {
+        if ((this.offHand || this.mainHand) && this.manual.getValue().booleanValue() && this.manualTimer.passedMs(this.manualBreak.getValue().intValue()) && Mouse.isButtonDown(1) && CarbonAutoCrystal.mc.player.getHeldItemOffhand().getItem() != Items.GOLDEN_APPLE && CarbonAutoCrystal.mc.player.inventory.getCurrentItem().getItem() != Items.GOLDEN_APPLE && CarbonAutoCrystal.mc.player.inventory.getCurrentItem().getItem() != Items.BOW && CarbonAutoCrystal.mc.player.inventory.getCurrentItem().getItem() != Items.EXPERIENCE_BOTTLE && (result = CarbonAutoCrystal.mc.objectMouseOver) != null) {
             switch (result.typeOfHit) {
                 case ENTITY: {
                     Entity entity = result.entityHit;
@@ -1081,8 +1081,8 @@ public class CarbonAutoCrystal
                     break;
                 }
                 case BLOCK: {
-                    BlockPos mousePos = AutoCrystal.mc.objectMouseOver.getBlockPos().up();
-                    for (Entity target : AutoCrystal.mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(mousePos))) {
+                    BlockPos mousePos = CarbonAutoCrystal.mc.objectMouseOver.getBlockPos().up();
+                    for (Entity target : CarbonAutoCrystal.mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(mousePos))) {
                         if (!(target instanceof EntityEnderCrystal)) continue;
                         EntityUtil.attackEntity(target, this.sync.getValue(), this.breakSwing.getValue());
                         this.manualTimer.reset();
@@ -1103,7 +1103,7 @@ public class CarbonAutoCrystal
             }
             case BREAK:
             case ALL: {
-                float[] angle = MathUtil.calcAngle(AutoCrystal.mc.player.getPositionEyes(mc.getRenderPartialTicks()), entity.getPositionVector());
+                float[] angle = MathUtil.calcAngle(CarbonAutoCrystal.mc.player.getPositionEyes(mc.getRenderPartialTicks()), entity.getPositionVector());
                 if (this.eventMode.getValue() == 2 && this.threadMode.getValue() == ThreadMode.NONE) {
                     Carbon.rotationManager.setPlayerRotations(angle[0], angle[1]);
                     break;
@@ -1125,7 +1125,7 @@ public class CarbonAutoCrystal
             }
             case PLACE:
             case ALL: {
-                float[] angle = MathUtil.calcAngle(AutoCrystal.mc.player.getPositionEyes(mc.getRenderPartialTicks()), new Vec3d((float) pos.getX() + 0.5f, (float) pos.getY() - 0.5f, (float) pos.getZ() + 0.5f));
+                float[] angle = MathUtil.calcAngle(CarbonAutoCrystal.mc.player.getPositionEyes(mc.getRenderPartialTicks()), new Vec3d((float) pos.getX() + 0.5f, (float) pos.getY() - 0.5f, (float) pos.getZ() + 0.5f));
                 if (this.eventMode.getValue() == 2 && this.threadMode.getValue() == ThreadMode.NONE) {
                     Carbon.rotationManager.setPlayerRotations(angle[0], angle[1]);
                     break;
@@ -1147,7 +1147,7 @@ public class CarbonAutoCrystal
     }
 
     private boolean isValid(Entity entity) {
-        return entity != null && AutoCrystal.mc.player.getDistanceSq(entity) <= MathUtil.square(this.breakRange.getValue().floatValue()) && (this.raytrace.getValue() == Raytrace.NONE || this.raytrace.getValue() == Raytrace.PLACE || AutoCrystal.mc.player.canEntityBeSeen(entity) || !AutoCrystal.mc.player.canEntityBeSeen(entity) && AutoCrystal.mc.player.getDistanceSq(entity) <= MathUtil.square(this.breaktrace.getValue().floatValue()));
+        return entity != null && CarbonAutoCrystal.mc.player.getDistanceSq(entity) <= MathUtil.square(this.breakRange.getValue().floatValue()) && (this.raytrace.getValue() == Raytrace.NONE || this.raytrace.getValue() == Raytrace.PLACE || CarbonAutoCrystal.mc.player.canEntityBeSeen(entity) || !CarbonAutoCrystal.mc.player.canEntityBeSeen(entity) && CarbonAutoCrystal.mc.player.getDistanceSq(entity) <= MathUtil.square(this.breaktrace.getValue().floatValue()));
     }
 
     private boolean isEligableForFeetSync(EntityPlayer player, BlockPos pos) {
@@ -1264,50 +1264,50 @@ public class CarbonAutoCrystal
         }
     }
 
-    private static class RAutoCrystal
+    private static class RCarbonAutoCrystal
             implements Runnable {
-        private static RAutoCrystal instance;
-        private AutoCrystal autoCrystal;
+        private static RCarbonAutoCrystal instance;
+        private CarbonAutoCrystal CarbonAutoCrystal;
 
-        private RAutoCrystal() {
+        private RCarbonAutoCrystal() {
         }
 
-        public static RAutoCrystal getInstance(AutoCrystal autoCrystal) {
+        public static RCarbonAutoCrystal getInstance(CarbonAutoCrystal CarbonAutoCrystal) {
             if (instance == null) {
-                instance = new RAutoCrystal();
-                RAutoCrystal.instance.autoCrystal = autoCrystal;
+                instance = new RCarbonAutoCrystal();
+                RCarbonAutoCrystal.instance.CarbonAutoCrystal = CarbonAutoCrystal;
             }
             return instance;
         }
 
         @Override
         public void run() {
-            if (this.autoCrystal.threadMode.getValue() == ThreadMode.WHILE) {
-                while (this.autoCrystal.isOn() && this.autoCrystal.threadMode.getValue() == ThreadMode.WHILE) {
+            if (this.CarbonAutoCrystal.threadMode.getValue() == ThreadMode.WHILE) {
+                while (this.CarbonAutoCrystal.isOn() && this.CarbonAutoCrystal.threadMode.getValue() == ThreadMode.WHILE) {
                     while (Carbon.eventManager.ticksOngoing()) {
                     }
-                    if (this.autoCrystal.shouldInterrupt.get()) {
-                        this.autoCrystal.shouldInterrupt.set(false);
-                        this.autoCrystal.syncroTimer.reset();
-                        this.autoCrystal.thread.interrupt();
+                    if (this.CarbonAutoCrystal.shouldInterrupt.get()) {
+                        this.CarbonAutoCrystal.shouldInterrupt.set(false);
+                        this.CarbonAutoCrystal.syncroTimer.reset();
+                        this.CarbonAutoCrystal.thread.interrupt();
                         break;
                     }
-                    this.autoCrystal.threadOngoing.set(true);
-                    this.autoCrystal.doAutoCrystal();
-                    this.autoCrystal.threadOngoing.set(false);
+                    this.CarbonAutoCrystal.threadOngoing.set(true);
+                    this.CarbonAutoCrystal.doCarbonAutoCrystal();
+                    this.CarbonAutoCrystal.threadOngoing.set(false);
                     try {
-                        Thread.sleep(this.autoCrystal.threadDelay.getValue().intValue());
+                        Thread.sleep(this.CarbonAutoCrystal.threadDelay.getValue().intValue());
                     } catch (InterruptedException e) {
-                        this.autoCrystal.thread.interrupt();
+                        this.CarbonAutoCrystal.thread.interrupt();
                         e.printStackTrace();
                     }
                 }
-            } else if (this.autoCrystal.threadMode.getValue() != ThreadMode.NONE && this.autoCrystal.isOn()) {
+            } else if (this.CarbonAutoCrystal.threadMode.getValue() != ThreadMode.NONE && this.CarbonAutoCrystal.isOn()) {
                 while (Carbon.eventManager.ticksOngoing()) {
                 }
-                this.autoCrystal.threadOngoing.set(true);
-                this.autoCrystal.doAutoCrystal();
-                this.autoCrystal.threadOngoing.set(false);
+                this.CarbonAutoCrystal.threadOngoing.set(true);
+                this.CarbonAutoCrystal.doCarbonAutoCrystal();
+                this.CarbonAutoCrystal.threadOngoing.set(false);
             }
         }
     }
@@ -1343,7 +1343,7 @@ public class CarbonAutoCrystal
             return this.getMs(System.nanoTime() - this.time);
         }
 
-        public AutoCrystal.switchTimer reset() {
+        public CarbonAutoCrystal.switchTimer reset() {
             this.time = System.nanoTime();
             return this;
         }

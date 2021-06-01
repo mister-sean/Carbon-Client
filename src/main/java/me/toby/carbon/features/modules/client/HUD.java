@@ -482,7 +482,7 @@ public class HUD extends Module {
         String hfOn = (String) "HF:" + ChatFormatting.GREEN + " TRUE";
         String hfOff = (String) "HF:" + ChatFormatting.DARK_RED + " FALSE";
 
-        if (Carbon.moduleManager.getModuleByName("AutoCrystal").isEnabled()) {
+        if (Carbon.moduleManager.getModuleByName("CarbonAutoCrystal").isEnabled()) {
             if (((Boolean) (ClickGui.getInstance()).rainbow.getValue()).booleanValue()) {
                 if ((ClickGui.getInstance()).rainbowModeHud.getValue() == ClickGui.rainbowMode.Static) {
                     renderer.drawString(caOn, 2.0F, 10.0f, ColorUtil.rainbow(((Integer) (ClickGui.getInstance()).rainbowHue.getValue()).intValue()).getRGB(), true);
@@ -554,7 +554,7 @@ public class HUD extends Module {
                 renderer.drawString(hfOn, 2.0F, 40.0f, color, true);
             }
         }
-        if (Carbon.moduleManager.getModuleByName("AutoCrystal").isDisabled()) {
+        if (Carbon.moduleManager.getModuleByName("CarbonAutoCrystal").isDisabled()) {
             if (((Boolean) (ClickGui.getInstance()).rainbow.getValue()).booleanValue()) {
                 if ((ClickGui.getInstance()).rainbowModeHud.getValue() == ClickGui.rainbowMode.Static) {
                     renderer.drawString(caOff, 2.0F, 10.0f, ColorUtil.rainbow(((Integer) (ClickGui.getInstance()).rainbowHue.getValue()).intValue()).getRGB(), true);

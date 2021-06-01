@@ -4,7 +4,7 @@ import com.google.common.collect.Sets;
 
 import me.toby.carbon.event.events.PacketEvent;
 import me.toby.carbon.features.modules.Module;
-import me.toby.carbon.features.modules.combat.AutoCrystal;
+import me.toby.carbon.features.modules.combat.CarbonAutoCrystal;
 import me.toby.carbon.features.setting.Setting;
 import me.toby.carbon.util.MathUtil;
 import net.minecraft.entity.Entity;
@@ -61,7 +61,7 @@ public class NoSoundLag
     public void onPacketReceived(PacketEvent.Receive event) {
         if (event != null && event.getPacket() != null && NoSoundLag.mc.player != null && NoSoundLag.mc.world != null && event.getPacket() instanceof SPacketSoundEffect) {
             SPacketSoundEffect packet = event.getPacket();
-            if (this.crystals.getValue().booleanValue() && packet.getCategory() == SoundCategory.BLOCKS && packet.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE && (AutoCrystal.getInstance().isOff() || !AutoCrystal.getInstance().sound.getValue().booleanValue() && AutoCrystal.getInstance().threadMode.getValue() != AutoCrystal.ThreadMode.SOUND)) {
+            if (this.crystals.getValue().booleanValue() && packet.getCategory() == SoundCategory.BLOCKS && packet.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE && (CarbonAutoCrystal.getInstance().isOff() || !CarbonAutoCrystal.getInstance().sound.getValue().booleanValue() && CarbonAutoCrystal.getInstance().threadMode.getValue() != CarbonAutoCrystal.ThreadMode.SOUND)) {
                 NoSoundLag.removeEntities(packet, this.soundRange.getValue().floatValue());
             }
             if (BLACKLIST.contains(packet.getSound()) && this.armor.getValue().booleanValue()) {
