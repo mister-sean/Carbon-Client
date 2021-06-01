@@ -18,13 +18,9 @@ import net.minecraft.util.math.Vec3d;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BurrowUtil {
+public class ItemUtil {
 
     public static final Minecraft mc = Minecraft.getMinecraft();
-
-    /*
-    Start block Util.
-     */
 
     public static boolean placeBlock(BlockPos pos, EnumHand hand, boolean rotate, boolean packet, boolean isSneaking) {
         boolean sneaking = false;
@@ -51,7 +47,7 @@ public class BurrowUtil {
 
         rightClickBlock(neighbour, hitVec, hand, opposite, packet);
         mc.player.swingArm(EnumHand.MAIN_HAND);
-        mc.rightClickDelayTimer = 4; //?
+        mc.rightClickDelayTimer = 4;
         return sneaking || isSneaking;
     }
 
@@ -111,16 +107,8 @@ public class BurrowUtil {
             mc.playerController.processRightClickBlock(mc.player, mc.world, pos, direction, vec, hand);
         }
         mc.player.swingArm(EnumHand.MAIN_HAND);
-        mc.rightClickDelayTimer = 4; //?
+        mc.rightClickDelayTimer = 4;
     }
-
-    /*
-    End block Util.
-     */
-
-    /*
-    Start Inventory Util.
-     */
 
     public static int findHotbarBlock(Class clazz) {
         for (int i = 0; i < 9; i++) {
@@ -148,9 +136,4 @@ public class BurrowUtil {
         mc.player.inventory.currentItem = slot;
         mc.playerController.updateController();
     }
-
-
-    /*
-    End Inventory Util
-     */
 }

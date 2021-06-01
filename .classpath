@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry excluding="me/toby/carbon/util/" kind="src" path="src/main/java"/>
-	<classpathentry kind="src" path="src/main/java/me/toby/carbon/util"/>
 	<classpathentry kind="lib" path="gradle/wrapper/gradle-wrapper.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
