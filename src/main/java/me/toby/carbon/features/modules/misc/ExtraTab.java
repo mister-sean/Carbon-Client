@@ -2,7 +2,7 @@ package me.toby.carbon.features.modules.misc;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -20,7 +20,7 @@ public class ExtraTab extends Module {
     public static String getPlayerName(NetworkPlayerInfo networkPlayerInfoIn) {
         String name;
         String string = name = networkPlayerInfoIn.getDisplayName() != null ? networkPlayerInfoIn.getDisplayName().getFormattedText() : ScorePlayerTeam.formatPlayerName(networkPlayerInfoIn.getPlayerTeam(), networkPlayerInfoIn.getGameProfile().getName());
-        if (OyVey.friendManager.isFriend(name)) {
+        if (Carbon.friendManager.isFriend(name)) {
             return ChatFormatting.AQUA + name;
         }
         return name;

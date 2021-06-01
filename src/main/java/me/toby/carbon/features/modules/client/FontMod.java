@@ -2,7 +2,7 @@ package me.toby.carbon.features.modules.client;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.ClientEvent;
 import me.toby.carbon.features.command.Command;
 import me.toby.carbon.features.modules.Module;
@@ -65,7 +65,7 @@ public class FontMod extends Module {
     @Override
     public void onTick() {
         if (reloadFont) {
-            OyVey.textManager.init(false);
+            Carbon.textManager.init(false);
             reloadFont = false;
         }
     }

@@ -35,9 +35,9 @@ public class Announcer extends Module {
     int blocksBroken = 0;
     int eaten = 0;
 
-    public static String walkMessage = "I just moved {blocks} blocks thanks to zori";
-    public static String breakMessage = "I just broke {amount} {name} thanks to zori";
-    public static String eatMessage = "I just ate {amount} {name} thanks to zori";
+    public static String walkMessage = "I just moved {blocks} blocks thanks to Carbon Client";
+    public static String breakMessage = "I just broke {amount} {name} thanks to Carbon Client";
+    public static String eatMessage = "I just ate {amount} {name} thanks to Carbon Client";
     private final Setting<Boolean> move = register(new Setting("Move", false));
     private final Setting<Boolean> breakBlock = register(new Setting("Break", false));
     private final Setting<Boolean> eat = register(new Setting("Eat", false));

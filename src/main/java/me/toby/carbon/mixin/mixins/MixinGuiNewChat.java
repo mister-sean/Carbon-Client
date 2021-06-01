@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.modules.client.ClickGui;
 import me.toby.carbon.features.modules.client.HUD;
 import me.toby.carbon.features.modules.misc.ChatModifier;
@@ -36,7 +36,7 @@ public class MixinGuiNewChat
     private int drawStringWithShadow(FontRenderer fontRenderer, String text, float x, float y, int color) {
         if (text.contains("\u00a7+")) {
             float colorSpeed = 101 - HUD.getInstance().rainbowSpeed.getValue();
-            OyVey.textManager.drawRainbowString(text, x, y, Color.HSBtoRGB(HUD.getInstance().hue, 1.0f, 1.0f), 100.0f, true);
+            Carbon.textManager.drawRainbowString(text, x, y, Color.HSBtoRGB(HUD.getInstance().hue, 1.0f, 1.0f), 100.0f, true);
         } else {
             Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(text, x, y, color);
         }

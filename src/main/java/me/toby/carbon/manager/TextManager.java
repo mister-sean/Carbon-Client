@@ -4,7 +4,7 @@ import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.Feature;
 import me.toby.carbon.features.gui.font.CustomFont;
 import me.toby.carbon.features.modules.client.FontMod;
@@ -25,7 +25,7 @@ public class TextManager
     }
 
     public void init(boolean startup) {
-        FontMod cFont = OyVey.moduleManager.getModuleByClass(FontMod.class);
+        FontMod cFont = Carbon.moduleManager.getModuleByClass(FontMod.class);
         try {
             this.setFontRenderer(new Font(cFont.fontName.getValue(), cFont.fontStyle.getValue(), cFont.fontSize.getValue()), cFont.antiAlias.getValue(), cFont.fractionalMetrics.getValue());
         } catch (Exception exception) {
@@ -38,7 +38,7 @@ public class TextManager
     }
 
     public float drawString(String text, float x, float y, int color, boolean shadow) {
-        if (OyVey.moduleManager.isModuleEnabled(FontMod.getInstance().getName())) {
+        if (Carbon.moduleManager.isModuleEnabled(FontMod.getInstance().getName())) {
             if (shadow) {
                 this.customFont.drawStringWithShadow(text, x, y, color);
             } else {
@@ -88,14 +88,14 @@ public class TextManager
     }
 
     public int getStringWidth(String text) {
-        if (OyVey.moduleManager.isModuleEnabled(FontMod.getInstance().getName())) {
+        if (Carbon.moduleManager.isModuleEnabled(FontMod.getInstance().getName())) {
             return this.customFont.getStringWidth(text);
         }
         return TextManager.mc.fontRenderer.getStringWidth(text);
     }
 
     public int getFontHeight() {
-        if (OyVey.moduleManager.isModuleEnabled(FontMod.getInstance().getName())) {
+        if (Carbon.moduleManager.isModuleEnabled(FontMod.getInstance().getName())) {
             String text = "A";
             return this.customFont.getStringHeight(text);
         }

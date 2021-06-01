@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.BlockEvent;
 import me.toby.carbon.event.events.Render3DEvent;
 import me.toby.carbon.features.modules.Module;
@@ -80,7 +80,7 @@ public class Speedmine extends Module {
     @Override
     public void onRender3D(Render3DEvent event) {
         if (render.getValue().booleanValue() && currentPos != null && currentBlockState.getBlock() == Blocks.OBSIDIAN) {
-            Color color = new Color(timer.passedMs((int) (2000.0f * OyVey.serverManager.getTpsFactor())) ? 0 : 255, timer.passedMs((int) (2000.0f * OyVey.serverManager.getTpsFactor())) ? 255 : 0, 0, 255);
+            Color color = new Color(timer.passedMs((int) (2000.0f * Carbon.serverManager.getTpsFactor())) ? 0 : 255, timer.passedMs((int) (2000.0f * Carbon.serverManager.getTpsFactor())) ? 255 : 0, 0, 255);
             RenderUtil.drawBoxESP(currentPos, color, false, color, lineWidth.getValue().floatValue(), outline.getValue(), box.getValue(), boxAlpha.getValue(), false);
             if (autosw.getValue()) {
                 boolean hasPickaxe = mc.player.getHeldItemMainhand().getItem() == Items.DIAMOND_PICKAXE;

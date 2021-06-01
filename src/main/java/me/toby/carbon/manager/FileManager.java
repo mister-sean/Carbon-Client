@@ -13,18 +13,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.Feature;
 import me.toby.carbon.features.modules.Module;
 
 public class FileManager
         extends Feature {
-    private final Path base = this.getMkDirectory(this.getRoot(), "oyvey");
+    private final Path base = this.getMkDirectory(this.getRoot(), "Carbon");
     private final Path config = this.getMkDirectory(this.base, "config");
 
     public FileManager() {
         this.getMkDirectory(this.base, "pvp");
-        for (Module.Category category : OyVey.moduleManager.getCategories()) {
+        for (Module.Category category : Carbon.moduleManager.getCategories()) {
             this.getMkDirectory(this.config, category.getName());
         }
     }

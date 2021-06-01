@@ -2,7 +2,7 @@ package me.toby.carbon.features.modules.render;
 
 import java.awt.*;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
 import me.toby.carbon.manager.ModuleManager;
@@ -18,8 +18,8 @@ public class GlintModify extends Module {
     }
 
     public static Color getColor(long offset, float fade) {
-        if (!OyVey.moduleManager.getModuleT(GlintModify.class).rainbow.getValue()) {
-            return new Color(OyVey.moduleManager.getModuleT(GlintModify.class).red.getValue(), OyVey.moduleManager.getModuleT(GlintModify.class).green.getValue(), OyVey.moduleManager.getModuleT(GlintModify.class).blue.getValue());
+        if (!Carbon.moduleManager.getModuleT(GlintModify.class).rainbow.getValue()) {
+            return new Color(Carbon.moduleManager.getModuleT(GlintModify.class).red.getValue(), Carbon.moduleManager.getModuleT(GlintModify.class).green.getValue(), Carbon.moduleManager.getModuleT(GlintModify.class).blue.getValue());
         }
         float hue = (float) (System.nanoTime() + offset) / 1.0E10F % 1.0F;
         long color = Long.parseLong(Integer.toHexString(Integer.valueOf(Color.HSBtoRGB(hue, 1.0F, 1.0F)).intValue()), 16);

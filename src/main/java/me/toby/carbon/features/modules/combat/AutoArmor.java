@@ -19,8 +19,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
 
-import me.toby.carbon.OyVey;
-import me.toby.carbon.features.gui.OyVeyGui;
+import me.toby.carbon.Carbon;
+import me.toby.carbon.features.gui.CarbonGui;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.modules.player.XCarry;
 import me.toby.carbon.features.setting.Bind;
@@ -58,7 +58,7 @@ public class AutoArmor
 
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {
-        if (Keyboard.getEventKeyState() && !(AutoArmor.mc.currentScreen instanceof OyVeyGui) && this.elytraBind.getValue().getKey() == Keyboard.getEventKey()) {
+        if (Keyboard.getEventKeyState() && !(AutoArmor.mc.currentScreen instanceof CarbonGui) && this.elytraBind.getValue().getKey() == Keyboard.getEventKey()) {
             this.elytraOn = !this.elytraOn;
         }
     }
@@ -177,7 +177,7 @@ public class AutoArmor
                 this.getSlotOn(8, slot);
             }
         }
-        if (this.timer.passedMs((int)((float)this.delay.getValue().intValue() * (this.tps.getValue() != false ? OyVey.serverManager.getTpsFactor() : 1.0f)))) {
+        if (this.timer.passedMs((int)((float)this.delay.getValue().intValue() * (this.tps.getValue() != false ? Carbon.serverManager.getTpsFactor() : 1.0f)))) {
             if (!this.taskList.isEmpty()) {
                 for (int i = 0; i < this.actions.getValue(); ++i) {
                     InventoryUtil.Task task = this.taskList.poll();

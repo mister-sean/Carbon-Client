@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.KeyEvent;
 import me.toby.carbon.features.modules.player.MultiTask;
 
@@ -39,9 +39,9 @@ public abstract class MixinMinecraft {
     }
 
     private void unload() {
-        OyVey.LOGGER.info("Initiated client shutdown.");
-        OyVey.onUnload();
-        OyVey.LOGGER.info("Finished client shutdown.");
+        Carbon.LOGGER.info("Initiated client shutdown.");
+        Carbon.onUnload();
+        Carbon.LOGGER.info("Finished client shutdown.");
     }
 
     @Redirect(method = {"sendClickBlockToController"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/EntityPlayerSP;isHandActive()Z"))

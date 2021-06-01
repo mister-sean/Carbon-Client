@@ -20,12 +20,12 @@ import me.toby.carbon.util.Title;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-@Mod(modid = "zori", name = "zori", version = "1.2.2")
-public class OyVey {
-    public static final String MODID = "zori";
-    public static final String MODNAME = "Zori";
-    public static final String MODVER = "1.2.2";
-    public static final Logger LOGGER = LogManager.getLogger("zori");
+@Mod(modid = "CarbonClient", name = "Carbon Client", version = "0.0.1")
+public class Carbon {
+    public static final String MODID = "CarbonClient";
+    public static final String MODNAME = "Carbon Client";
+    public static final String MODVER = "0.0.1";
+    public static final Logger LOGGER = LogManager.getLogger("carbon");
     public static TimerManager timerManager;
     public static CommandManager commandManager;
     public static FriendManager friendManager;
@@ -48,7 +48,7 @@ public class OyVey {
     public static Render3DEvent render3DEvent;
     public static Enemy enemy;
     @Mod.Instance
-    public static OyVey INSTANCE;
+    public static Carbon INSTANCE;
     private static boolean unloaded;
 
     static {
@@ -56,7 +56,7 @@ public class OyVey {
     }
 
     public static void load() {
-        LOGGER.info("loading zori");
+        LOGGER.info("loading Carbon Client");
         unloaded = false;
         if (reloadManager != null) {
             reloadManager.unload();
@@ -86,16 +86,16 @@ public class OyVey {
         LOGGER.info("EventManager loaded.");
         textManager.init(true);
         moduleManager.onLoad();
-        LOGGER.info("zori successfully loaded!\n");
+        LOGGER.info("Carbon Client successfully loaded!\n");
     }
 
     public static void unload(boolean unload) {
-        LOGGER.info("unloading zori");
+        LOGGER.info("unloading Carbon Client");
         if (unload) {
             reloadManager = new ReloadManager();
             reloadManager.init(commandManager != null ? commandManager.getPrefix() : ".");
         }
-        OyVey.onUnload();
+        Carbon.onUnload();
         eventManager = null;
         friendManager = null;
         speedManager = null;
@@ -111,19 +111,19 @@ public class OyVey {
         inventoryManager = null;
         moduleManager = null;
         textManager = null;
-        LOGGER.info("zori.rat unloaded!\n");
+        LOGGER.info("Carbon Client.rat unloaded!\n");
     }
 
     public static void reload() {
-        OyVey.unload(false);
-        OyVey.load();
+        Carbon.unload(false);
+        Carbon.load();
     }
 
     public static void onUnload() {
         if (!unloaded) {
             eventManager.onUnload();
             moduleManager.onUnload();
-            configManager.saveConfig(OyVey.configManager.config.replaceFirst("oyvey/", ""));
+            configManager.saveConfig(Carbon.configManager.config.replaceFirst("Carbon/", ""));
             moduleManager.onUnloadPost();
             unloaded = true;
         }
@@ -139,25 +139,25 @@ public class OyVey {
 
     public static void setWindowIcon() {
         if (Util.getOSType() != Util.EnumOS.OSX) {
-            try (InputStream inputStream16x = Minecraft.class.getResourceAsStream("/assets/zori/icons/icon-16x.png");
-                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/zori/icons/icon-32x.png")) {
+            try (InputStream inputStream16x = Minecraft.class.getResourceAsStream("/assets/Carbon Client/icons/icon-16x.png");
+                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/Carbon Client/icons/icon-32x.png")) {
                 ByteBuffer[] icons = new ByteBuffer[]{IconUtil.INSTANCE.readImageToBuffer(inputStream16x), IconUtil.INSTANCE.readImageToBuffer(inputStream32x)};
                 Display.setIcon(icons);
             } catch (Exception e) {
-                OyVey.LOGGER.error("Couldn't set Windows Icon", e);
+                Carbon.LOGGER.error("Couldn't set Windows Icon", e);
             }
         }
     }
 
     private void setWindowsIcon() {
-        OyVey.setWindowIcon();
+        Carbon.setWindowIcon();
     }
 
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new Title());
-        OyVey.load();
+        Carbon.load();
         setWindowsIcon();
     }
 }

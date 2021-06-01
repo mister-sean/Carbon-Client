@@ -3,7 +3,7 @@ package me.toby.carbon.features.command.commands;
 import com.google.gson.JsonParser;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.command.Command;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
@@ -20,18 +20,18 @@ public class ModuleCommand
         Setting setting;
         if (commands.length == 1) {
             ModuleCommand.sendMessage("Modules: ");
-            for (Module.Category category : OyVey.moduleManager.getCategories()) {
+            for (Module.Category category : Carbon.moduleManager.getCategories()) {
                 String modules = category.getName() + ": ";
-                for (Module module1 : OyVey.moduleManager.getModulesByCategory(category)) {
+                for (Module module1 : Carbon.moduleManager.getModulesByCategory(category)) {
                     modules = modules + (module1.isEnabled() ? ChatFormatting.GREEN : ChatFormatting.RED) + module1.getName() + ChatFormatting.WHITE + ", ";
                 }
                 ModuleCommand.sendMessage(modules);
             }
             return;
         }
-        Module module = OyVey.moduleManager.getModuleByDisplayName(commands[0]);
+        Module module = Carbon.moduleManager.getModuleByDisplayName(commands[0]);
         if (module == null) {
-            module = OyVey.moduleManager.getModuleByName(commands[0]);
+            module = Carbon.moduleManager.getModuleByName(commands[0]);
             if (module == null) {
                 ModuleCommand.sendMessage("This module doesnt exist.");
                 return;

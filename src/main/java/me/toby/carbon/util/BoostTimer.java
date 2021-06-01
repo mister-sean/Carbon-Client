@@ -1,5 +1,5 @@
 
-package me.alpha432.oyvey.util;
+package me.toby.Carbon.util;
 
 public class BoostTimer {
     private long time = -1L;

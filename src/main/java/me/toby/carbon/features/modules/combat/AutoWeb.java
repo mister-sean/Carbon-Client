@@ -2,7 +2,7 @@ package me.toby.carbon.features.modules.combat;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.command.Command;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
@@ -139,7 +139,7 @@ public class AutoWeb extends Module {
         EntityPlayer target = null;
         double distance = Math.pow(range, 2.0) + 1.0;
         for (EntityPlayer player : AutoWeb.mc.world.playerEntities) {
-            if (EntityUtil.isntValid(player, range) || player.isInWeb || OyVey.speedManager.getPlayerSpeed(player) > 30.0)
+            if (EntityUtil.isntValid(player, range) || player.isInWeb || Carbon.speedManager.getPlayerSpeed(player) > 30.0)
                 continue;
             if (target == null) {
                 target = player;

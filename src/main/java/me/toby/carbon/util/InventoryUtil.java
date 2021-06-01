@@ -1,4 +1,4 @@
-package me.alpha432.oyvey.util;
+package me.toby.Carbon.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 
 public class InventoryUtil
         implements Util {
@@ -195,7 +195,7 @@ public class InventoryUtil
                     switchedItemSwitched[0] = true;
                 } else if (back && switchedItem) {
                     switchedItemSwitched[0] = false;
-                    OyVey.inventoryManager.recoverSilent(lastHotbarSlot);
+                    Carbon.inventoryManager.recoverSilent(lastHotbarSlot);
                 }
                 switchedItemSwitched[1] = true;
                 break;
@@ -227,7 +227,7 @@ public class InventoryUtil
                     switchedItemSwitched[0] = true;
                 } else if (back && switchedItem) {
                     switchedItemSwitched[0] = false;
-                    OyVey.inventoryManager.recoverSilent(lastHotbarSlot);
+                    Carbon.inventoryManager.recoverSilent(lastHotbarSlot);
                 }
                 switchedItemSwitched[1] = true;
                 break;

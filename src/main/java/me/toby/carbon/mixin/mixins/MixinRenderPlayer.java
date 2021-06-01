@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.modules.render.TexturedChams;
 
 @Mixin({ RenderPlayer.class })
@@ -18,13 +18,13 @@ import me.toby.carbon.features.modules.render.TexturedChams;
 public class MixinRenderPlayer {
     @Inject(method = "renderEntityName", at = @At("HEAD"), cancellable = true)
     public void renderEntityNameHook(AbstractClientPlayer entityIn, double x, double y, double z, String name, double distanceSq, CallbackInfo info) {
-        if (OyVey.moduleManager.isModuleEnabled("NameTags"))
+        if (Carbon.moduleManager.isModuleEnabled("NameTags"))
             info.cancel();
     }
 
     @Overwrite
     public ResourceLocation getEntityTexture(final AbstractClientPlayer entity) {
-        if (OyVey.moduleManager.isModuleEnabled("TexturedChams")) {
+        if (Carbon.moduleManager.isModuleEnabled("TexturedChams")) {
             GL11.glColor4f(TexturedChams.red.getValue() / 255.0f, TexturedChams.green.getValue() / 255.0f, TexturedChams.blue.getValue() / 255.0f, TexturedChams.alpha.getValue() / 255.0f);
             return new ResourceLocation("minecraft:steve_skin1.png");
         }

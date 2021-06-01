@@ -2,7 +2,7 @@ package me.toby.carbon.manager;
 
 import com.google.gson.*;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.Feature;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Bind;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class ConfigManager implements Util {
     public ArrayList<Feature> features = new ArrayList<>();
 
-    public String config = "oyvey/config/";
+    public String config = "Carbon/config/";
 
     public static void setValueFromJson(Feature feature, Setting setting, JsonElement element) {
         String str;
@@ -54,7 +54,7 @@ public class ConfigManager implements Util {
                 }
                 return;
         }
-        OyVey.LOGGER.error("Unknown Setting type for: " + feature.getName() + " : " + setting.getName());
+        Carbon.LOGGER.error("Unknown Setting type for: " + feature.getName() + " : " + setting.getName());
     }
 
     private static void loadFile(JsonObject input, Feature feature) {
@@ -63,7 +63,7 @@ public class ConfigManager implements Util {
             JsonElement element = entry.getValue();
             if (feature instanceof FriendManager) {
                 try {
-                    OyVey.friendManager.addFriend(new FriendManager.Friend(element.getAsString(), UUID.fromString(settingName)));
+                    Carbon.friendManager.addFriend(new FriendManager.Friend(element.getAsString(), UUID.fromString(settingName)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -85,13 +85,13 @@ public class ConfigManager implements Util {
     }
 
     public void loadConfig(String name) {
-        final List<File> files = Arrays.stream(Objects.requireNonNull(new File("oyvey").listFiles())).filter(File::isDirectory).collect(Collectors.toList());
-        if (files.contains(new File("oyvey/" + name + "/"))) {
-            this.config = "oyvey/" + name + "/";
+        final List<File> files = Arrays.stream(Objects.requireNonNull(new File("Carbon").listFiles())).filter(File::isDirectory).collect(Collectors.toList());
+        if (files.contains(new File("Carbon/" + name + "/"))) {
+            this.config = "Carbon/" + name + "/";
         } else {
-            this.config = "oyvey/config/";
+            this.config = "Carbon/config/";
         }
-        OyVey.friendManager.onLoad();
+        Carbon.friendManager.onLoad();
         for (Feature feature : this.features) {
             try {
                 loadSettings(feature);
@@ -103,16 +103,16 @@ public class ConfigManager implements Util {
     }
 
     public boolean configExists(String name) {
-        final List<File> files = Arrays.stream(Objects.requireNonNull(new File("oyvey").listFiles())).filter(File::isDirectory).collect(Collectors.toList());
-        return files.contains(new File("oyvey/" + name + "/"));
+        final List<File> files = Arrays.stream(Objects.requireNonNull(new File("Carbon").listFiles())).filter(File::isDirectory).collect(Collectors.toList());
+        return files.contains(new File("Carbon/" + name + "/"));
     }
 
     public void saveConfig(String name) {
-        this.config = "oyvey/" + name + "/";
+        this.config = "Carbon/" + name + "/";
         File path = new File(this.config);
         if (!path.exists())
             path.mkdir();
-        OyVey.friendManager.saveFriends();
+        Carbon.friendManager.saveFriends();
         for (Feature feature : this.features) {
             try {
                 saveSettings(feature);
@@ -124,18 +124,18 @@ public class ConfigManager implements Util {
     }
 
     public void saveCurrentConfig() {
-        File currentConfig = new File("oyvey/currentconfig.txt");
+        File currentConfig = new File("Carbon/currentconfig.txt");
         try {
             if (currentConfig.exists()) {
                 FileWriter writer = new FileWriter(currentConfig);
                 String tempConfig = this.config.replaceAll("/", "");
-                writer.write(tempConfig.replaceAll("oyvey", ""));
+                writer.write(tempConfig.replaceAll("Carbon", ""));
                 writer.close();
             } else {
                 currentConfig.createNewFile();
                 FileWriter writer = new FileWriter(currentConfig);
                 String tempConfig = this.config.replaceAll("/", "");
-                writer.write(tempConfig.replaceAll("oyvey", ""));
+                writer.write(tempConfig.replaceAll("Carbon", ""));
                 writer.close();
             }
         } catch (Exception e) {
@@ -144,7 +144,7 @@ public class ConfigManager implements Util {
     }
 
     public String loadCurrentConfig() {
-        File currentConfig = new File("oyvey/currentconfig.txt");
+        File currentConfig = new File("Carbon/currentconfig.txt");
         String name = "config";
         try {
             if (currentConfig.exists()) {
@@ -183,11 +183,11 @@ public class ConfigManager implements Util {
     }
 
     public void init() {
-        this.features.addAll(OyVey.moduleManager.modules);
-        this.features.add(OyVey.friendManager);
+        this.features.addAll(Carbon.moduleManager.modules);
+        this.features.add(Carbon.friendManager);
         String name = loadCurrentConfig();
         loadConfig(name);
-        OyVey.LOGGER.info("Config loaded.");
+        Carbon.LOGGER.info("Config loaded.");
     }
 
     private void loadSettings(Feature feature) throws IOException {
@@ -203,7 +203,7 @@ public class ConfigManager implements Util {
         try {
             loadFile((new JsonParser()).parse(new InputStreamReader(stream)).getAsJsonObject(), feature);
         } catch (IllegalStateException e) {
-            OyVey.LOGGER.error("Bad Config File for: " + feature.getName() + ". Resetting...");
+            Carbon.LOGGER.error("Bad Config File for: " + feature.getName() + ". Resetting...");
             loadFile(new JsonObject(), feature);
         }
         stream.close();

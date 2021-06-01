@@ -1,6 +1,6 @@
 package me.toby.carbon.features.modules.combat;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.UpdateWalkingPlayerEvent;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
@@ -48,14 +48,14 @@ public class Killaura extends Module {
             target = null;
             return;
         }
-        int wait = !delay.getValue().booleanValue() ? 0 : (int) (DamageUtil.getCooldownByWeapon(mc.player) * (tps.getValue().booleanValue() ? OyVey.serverManager.getTpsFactor() : 1.0F));
+        int wait = !delay.getValue().booleanValue() ? 0 : (int) (DamageUtil.getCooldownByWeapon(mc.player) * (tps.getValue().booleanValue() ? Carbon.serverManager.getTpsFactor() : 1.0F));
         if (!timer.passedMs(wait))
             return;
         target = getTarget();
         if (target == null)
             return;
         if (rotate.getValue().booleanValue())
-            OyVey.rotationManager.lookAtEntity(target);
+            Carbon.rotationManager.lookAtEntity(target);
         EntityUtil.attackEntity(target, packet.getValue().booleanValue(), true);
         timer.reset();
     }

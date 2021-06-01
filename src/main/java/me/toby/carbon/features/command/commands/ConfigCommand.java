@@ -2,7 +2,7 @@ package me.toby.carbon.features.command.commands;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.command.Command;
 
 import java.io.File;
@@ -17,13 +17,13 @@ public class ConfigCommand extends Command {
 
     public void execute(String[] commands) {
         if (commands.length == 1) {
-            sendMessage("You`ll find the config files in your gameProfile directory under oyvey/config");
+            sendMessage("You`ll find the config files in your gameProfile directory under Carbon/config");
             return;
         }
         if (commands.length == 2)
             if ("list".equals(commands[0])) {
                 String configs = "Configs: ";
-                File file = new File("oyvey/");
+                File file = new File("Carbon/");
                 List<File> directories = Arrays.stream(file.listFiles()).filter(File::isDirectory).filter(f -> !f.getName().equals("util")).collect(Collectors.toList());
                 StringBuilder builder = new StringBuilder(configs);
                 for (File file1 : directories)
@@ -36,12 +36,12 @@ public class ConfigCommand extends Command {
         if (commands.length >= 3) {
             switch (commands[0]) {
                 case "save":
-                    OyVey.configManager.saveConfig(commands[1]);
+                    Carbon.configManager.saveConfig(commands[1]);
                     sendMessage(ChatFormatting.GREEN + "Config '" + commands[1] + "' has been saved.");
                     return;
                 case "load":
-                    if (OyVey.configManager.configExists(commands[1])) {
-                        OyVey.configManager.loadConfig(commands[1]);
+                    if (Carbon.configManager.configExists(commands[1])) {
+                        Carbon.configManager.loadConfig(commands[1]);
                         sendMessage(ChatFormatting.GREEN + "Config '" + commands[1] + "' has been loaded.");
                     } else {
                         sendMessage(ChatFormatting.RED + "Config '" + commands[1] + "' does not exist.");

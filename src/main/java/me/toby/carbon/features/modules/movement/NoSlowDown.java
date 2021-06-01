@@ -23,7 +23,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Keyboard;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.KeyPressedEvent;
 import me.toby.carbon.event.events.PacketEvent;
 import me.toby.carbon.features.modules.Module;
@@ -73,7 +73,7 @@ public class NoSlowDown extends Module {
                 }
             }
         }
-        if (webs.getValue().booleanValue() && OyVey.moduleManager.getModuleByClass(Flight.class).isDisabled() && OyVey.moduleManager.getModuleByClass(PacketFly.class).isDisabled() && NoSlowDown.mc.player.isInWeb) {
+        if (webs.getValue().booleanValue() && Carbon.moduleManager.getModuleByClass(Flight.class).isDisabled() && Carbon.moduleManager.getModuleByClass(PacketFly.class).isDisabled() && NoSlowDown.mc.player.isInWeb) {
             NoSlowDown.mc.player.motionX *= webHorizontalFactor.getValue().doubleValue();
             NoSlowDown.mc.player.motionZ *= webHorizontalFactor.getValue().doubleValue();
             NoSlowDown.mc.player.motionY *= webVerticalFactor.getValue().doubleValue();

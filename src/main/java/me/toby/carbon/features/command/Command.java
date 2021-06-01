@@ -2,7 +2,7 @@ package me.toby.carbon.features.command;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.Feature;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentBase;
@@ -28,7 +28,7 @@ public abstract class Command
     }
 
     public static void sendMessage(String message) {
-        Command.sendSilentMessage(OyVey.commandManager.getClientMessage() + " " + ChatFormatting.GRAY + message);
+        Command.sendSilentMessage(Carbon.commandManager.getClientMessage() + " " + ChatFormatting.GRAY + message);
     }
 
     public static void sendSilentMessage(String message) {
@@ -39,7 +39,7 @@ public abstract class Command
     }
 
     public static String getCommandPrefix() {
-        return OyVey.commandManager.getPrefix();
+        return Carbon.commandManager.getPrefix();
     }
 
     public abstract void execute(String[] var1);

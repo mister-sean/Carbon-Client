@@ -1,6 +1,6 @@
 package me.toby.carbon.manager;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.Feature;
 
 public class TimerManager

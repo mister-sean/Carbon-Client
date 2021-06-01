@@ -1,8 +1,8 @@
-package me.alpha432.oyvey.util;
+package me.toby.Carbon.util;
 
 import com.google.common.util.concurrent.AtomicDouble;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.features.command.Command;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -175,7 +175,7 @@ public class BlockUtilll
             sneaking = true;
         }
         if (rotate) {
-            OyVey.rotationManager.lookAtVec3d(hitVec);
+            Carbon.rotationManager.lookAtVec3d(hitVec);
         }
         BlockUtilll.rightClickBlock(neighbour, hitVec, hand, opposite, packet);
         BlockUtilll.mc.player.swingArm(EnumHand.MAIN_HAND);

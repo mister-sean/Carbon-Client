@@ -1,4 +1,4 @@
-package me.alpha432.oyvey.util;
+package me.toby.Carbon.util;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -8,7 +8,7 @@ public class Title {
     int ticks = 0;
     int bruh = 0;
     int breakTimer = 0;
-    String bruh1 = "zori.club | 1.2.2";
+    String bruh1 = "Carbon | 0.0.1";
     boolean qwerty = false;
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {

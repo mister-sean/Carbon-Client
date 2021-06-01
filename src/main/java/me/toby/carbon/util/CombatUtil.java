@@ -1,4 +1,4 @@
-package me.alpha432.oyvey.util;
+package me.toby.Carbon.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
@@ -32,7 +32,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.Explosion;
 import org.lwjgl.opengl.GL11;
 
-import me.toby.carbon.OyVey;
+import me.toby.carbon.Carbon;
 import me.toby.carbon.manager.FriendManager;
 
 import java.util.*;
@@ -477,7 +477,7 @@ public class CombatUtil {
             areAllInvalid = threads.stream().noneMatch(thread -> thread.isValid && thread.isInterrupted());
         } while (finalPos == null && !areAllInvalid);
 
-        OyVey.LOGGER.info(finalPos == null ? "pos was null" : finalPos.toString());
+        Carbon.LOGGER.info(finalPos == null ? "pos was null" : finalPos.toString());
         return finalPos;
     }
 
@@ -524,7 +524,7 @@ public class CombatUtil {
                                 if (!rayTrace || rayTraceRangeCheck(pos, wallsRange, 0.0d)) {
                                     this.isValid = true;
                                     this.info = new CombatPosInfo(this.player, this.pos, this.damage);
-                                    OyVey.LOGGER.info("Pos was valid.");
+                                    Carbon.LOGGER.info("Pos was valid.");
                                     return;
                                 }
                             }
@@ -534,7 +534,7 @@ public class CombatUtil {
             }
             this.isValid = false;
             this.info = new CombatPosInfo(this.player, this.pos, -1.0f);
-            OyVey.LOGGER.info("Pos was invalid.");
+            Carbon.LOGGER.info("Pos was invalid.");
         }
 
     }
