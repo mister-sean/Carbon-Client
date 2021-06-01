@@ -2,27 +2,23 @@ package me.toby.carbon.features.modules.player;
 
 import me.toby.carbon.features.modules.Module;
 
-public class LiquidInteract extends Module
-{
-    private static LiquidInteract INSTANCE;
-    
+public class LiquidInteract extends Module {
+    private static LiquidInteract INSTANCE = new LiquidInteract();
+
     public LiquidInteract() {
-        super("LiquidInteract", "Interact with liquids", Category.PLAYER, false, true, false);
-        this.setInstance();
+        super("LiquidInteract", "Interact with liquids", Module.Category.PLAYER, false, false, false);
+        setInstance();
     }
-    
+
     public static LiquidInteract getInstance() {
-        if (LiquidInteract.INSTANCE == null) {
-            LiquidInteract.INSTANCE = new LiquidInteract();
+        if (INSTANCE == null) {
+            INSTANCE = new LiquidInteract();
         }
-        return LiquidInteract.INSTANCE;
+        return INSTANCE;
     }
-    
+
     private void setInstance() {
-        LiquidInteract.INSTANCE = this;
-    }
-    
-    static {
-        LiquidInteract.INSTANCE = new LiquidInteract();
+        INSTANCE = this;
     }
 }
+

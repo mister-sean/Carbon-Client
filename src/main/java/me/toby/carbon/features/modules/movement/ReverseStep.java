@@ -1,34 +1,37 @@
 package me.toby.carbon.features.modules.movement;
 
-import me.toby.carbon.features.Feature;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
-import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
 
-public class ReverseStep extends Module
-{
-    private final Setting<Integer> speed;
-    
+public class ReverseStep extends Module {
+    private static ReverseStep INSTANCE = new ReverseStep();
+
     public ReverseStep() {
-        super("ReverseStep", "Go down", Category.MOVEMENT, true, false, false);
-        this.speed = (Setting<Integer>)this.register(new Setting("Speed", 10, 1, 20));
+        super("ReverseStep", "ReverseStep.", Module.Category.MOVEMENT, true, false, false);
+        setInstance();
     }
-    
+
+    public static ReverseStep getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ReverseStep();
+        }
+        return INSTANCE;
+    }
+
+    private void setInstance() {
+        INSTANCE = this;
+    }
+
     @Override
     public void onUpdate() {
-        if (Feature.fullNullCheck() || ReverseStep.mc.player.isInWater() || ReverseStep.mc.player.isInLava() || ReverseStep.mc.player.isOnLadder()) {
+        if (mc.player == null || mc.world == null || mc.player.isInWater() || mc.player.isInLava()) {
             return;
         }
-        if (ReverseStep.mc.player.onGround) {
-            final EntityPlayerSP player2;
-            final EntityPlayerSP player = player2 = ReverseStep.mc.player;
-            player2.motionY -= this.speed.getValue() / 10.0f;
+        if (mc.player.onGround) {
+            --mc.player.motionY;
         }
-    }
-    
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        ReverseStep.mc.player.motionY = 0.0;
     }
 }

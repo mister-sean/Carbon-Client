@@ -3,43 +3,38 @@ package me.toby.carbon.manager;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import me.toby.carbon.features.Feature;
-import net.minecraft.potion.Potion;
-import java.util.Iterator;
 import net.minecraft.client.resources.I18n;
-import java.util.ArrayList;
-import net.minecraft.potion.PotionEffect;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.entity.player.EntityPlayer;
-import java.util.Map;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 
-public class PotionManager extends Feature
-{
-    private final Map<EntityPlayer, PotionList> potions;
-    
-    public PotionManager() {
-        this.potions = new ConcurrentHashMap<EntityPlayer, PotionList>();
-    }
-    
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class PotionManager
+        extends Feature {
+    private final Map<EntityPlayer, PotionList> potions = new ConcurrentHashMap<EntityPlayer, PotionList>();
+
     public List<PotionEffect> getOwnPotions() {
-        return this.getPlayerPotions((EntityPlayer)PotionManager.mc.player);
+        return this.getPlayerPotions(PotionManager.mc.player);
     }
-    
-    public List<PotionEffect> getPlayerPotions(final EntityPlayer player) {
-        final PotionList list = this.potions.get(player);
+
+    public List<PotionEffect> getPlayerPotions(EntityPlayer player) {
+        PotionList list = this.potions.get(player);
         List<PotionEffect> potions = new ArrayList<PotionEffect>();
         if (list != null) {
             potions = list.getEffects();
         }
         return potions;
     }
-    
-    public PotionEffect[] getImportantPotions(final EntityPlayer player) {
-        final PotionEffect[] array = new PotionEffect[3];
-        for (final PotionEffect effect : this.getPlayerPotions(player)) {
-            final Potion potion = effect.getPotion();
-            final String lowerCase = I18n.format(potion.getName(), new Object[0]).toLowerCase();
-            switch (lowerCase) {
+
+    public PotionEffect[] getImportantPotions(EntityPlayer player) {
+        PotionEffect[] array = new PotionEffect[3];
+        for (PotionEffect effect : this.getPlayerPotions(player)) {
+            Potion potion = effect.getPotion();
+            switch (I18n.format(potion.getName()).toLowerCase()) {
                 case "strength": {
                     array[0] = effect;
                 }
@@ -48,38 +43,33 @@ public class PotionManager extends Feature
                 }
                 case "speed": {
                     array[2] = effect;
-                    continue;
                 }
             }
         }
         return array;
     }
-    
-    public String getPotionString(final PotionEffect effect) {
-        final Potion potion = effect.getPotion();
-        return I18n.format(potion.getName(), new Object[0]) + " " + (effect.getAmplifier() + 1) + " " + ChatFormatting.WHITE + Potion.getPotionDurationString(effect, 1.0f);
+
+    public String getPotionString(PotionEffect effect) {
+        Potion potion = effect.getPotion();
+        return I18n.format(potion.getName()) + " " + (effect.getAmplifier() + 1) + " " + ChatFormatting.WHITE + Potion.getPotionDurationString(effect, 1.0f);
     }
-    
-    public String getColoredPotionString(final PotionEffect effect) {
+
+    public String getColoredPotionString(PotionEffect effect) {
         return this.getPotionString(effect);
     }
-    
-    public static class PotionList
-    {
-        private final List<PotionEffect> effects;
-        
-        public PotionList() {
-            this.effects = new ArrayList<PotionEffect>();
-        }
-        
-        public void addEffect(final PotionEffect effect) {
+
+    public static class PotionList {
+        private final List<PotionEffect> effects = new ArrayList<PotionEffect>();
+
+        public void addEffect(PotionEffect effect) {
             if (effect != null) {
                 this.effects.add(effect);
             }
         }
-        
+
         public List<PotionEffect> getEffects() {
             return this.effects;
         }
     }
 }
+

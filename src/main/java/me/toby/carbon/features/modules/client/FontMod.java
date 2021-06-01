@@ -1,84 +1,73 @@
 package me.toby.carbon.features.modules.client;
 
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.Carbon;
+import me.toby.carbon.OyVey;
 import me.toby.carbon.event.events.ClientEvent;
 import me.toby.carbon.features.command.Command;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.awt.GraphicsEnvironment;
+import java.awt.*;
 
-public class FontMod extends Module
-{
-    private static FontMod INSTANCE;
-    public Setting<String> fontName;
-    public Setting<Boolean> antiAlias;
-    public Setting<Boolean> fractionalMetrics;
-    public Setting<Integer> fontSize;
-    public Setting<Integer> fontStyle;
-    private boolean reloadFont;
-    
+public class FontMod extends Module {
+    private static FontMod INSTANCE = new FontMod();
+    public Setting<String> fontName = register(new Setting<String>("FontName", "Arial", "Name of the font."));
+    public Setting<Boolean> antiAlias = register(new Setting<Boolean>("AntiAlias", Boolean.valueOf(true), "Smoother font."));
+    public Setting<Boolean> fractionalMetrics = register(new Setting<Boolean>("Metrics", Boolean.valueOf(true), "Thinner font."));
+    public Setting<Boolean> customAll = register(new Setting<Boolean>("CustomAll", Boolean.valueOf(true), "Renders font everywhere"));
+    public Setting<Integer> fontSize = register(new Setting<Integer>("Size", Integer.valueOf(18), Integer.valueOf(12), Integer.valueOf(30), "Size of the font."));
+    public Setting<Integer> fontStyle = register(new Setting<Integer>("Style", Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(3), "Style of the font."));
+    private boolean reloadFont = false;
+
     public FontMod() {
-        super("CustomFont", "CustomFont for all of the clients text. Use the font command.", Category.CLIENT, true, false, false);
-        this.fontName = (Setting<String>)this.register(new Setting("FontName", "Arial", "Name of the font."));
-        this.antiAlias = (Setting<Boolean>)this.register(new Setting("AntiAlias", true, "Smoother font."));
-        this.fractionalMetrics = (Setting<Boolean>)this.register(new Setting("Metrics", true, "Thinner font."));
-        this.fontSize = (Setting<Integer>)this.register(new Setting("Size", 18, 12, 30, "Size of the font."));
-        this.fontStyle = (Setting<Integer>)this.register(new Setting("Style", 0, 0, 3, "Style of the font."));
-        this.reloadFont = false;
-        this.setInstance();
+        super("CustomFont", "CustomFont for all of the clients text. Use the font command.", Module.Category.CLIENT, true, false, false);
+        setInstance();
     }
-    
+
     public static FontMod getInstance() {
-        if (FontMod.INSTANCE == null) {
-            FontMod.INSTANCE = new FontMod();
+        if (INSTANCE == null) {
+            INSTANCE = new FontMod();
         }
-        return FontMod.INSTANCE;
+        return INSTANCE;
     }
-    
-    public static boolean checkFont(final String font, final boolean message) {
-        final String[] availableFontFamilyNames;
-        final String[] fonts = availableFontFamilyNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-        for (final String s : availableFontFamilyNames) {
+
+    public static boolean checkFont(String font, boolean message) {
+        String[] fonts;
+        for (String s : fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()) {
             if (!message && s.equals(font)) {
                 return true;
             }
-            if (message) {
-                Command.sendMessage(s);
-            }
+            if (!message) continue;
+            Command.sendMessage(s);
         }
         return false;
     }
-    
+
     private void setInstance() {
-        FontMod.INSTANCE = this;
+        INSTANCE = this;
     }
-    
+
     @SubscribeEvent
-    public void onSettingChange(final ClientEvent event) {
-        final Setting setting;
+    public void onSettingChange(ClientEvent event) {
+        Setting setting;
         if (event.getStage() == 2 && (setting = event.getSetting()) != null && setting.getFeature().equals(this)) {
-            if (setting.getName().equals("FontName") && !checkFont(setting.getPlannedValue().toString(), false)) {
+            if (setting.getName().equals("FontName") && !FontMod.checkFont(setting.getPlannedValue().toString(), false)) {
                 Command.sendMessage(ChatFormatting.RED + "That font doesnt exist.");
                 event.setCanceled(true);
                 return;
             }
-            this.reloadFont = true;
+            reloadFont = true;
         }
     }
-    
+
     @Override
     public void onTick() {
-        if (this.reloadFont) {
-            Carbon.textManager.init(false);
-            this.reloadFont = false;
+        if (reloadFont) {
+            OyVey.textManager.init(false);
+            reloadFont = false;
         }
     }
-    
-    static {
-        FontMod.INSTANCE = new FontMod();
-    }
 }
+

@@ -1,27 +1,24 @@
 package me.toby.carbon.manager;
 
-import java.util.ArrayList;
 import net.minecraft.network.Packet;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import me.toby.carbon.features.Feature;
 
-public class PacketManager extends Feature
-{
-    private final List<Packet<?>> noEventPackets;
-    
-    public PacketManager() {
-        this.noEventPackets = new ArrayList<Packet<?>>();
-    }
-    
-    public void sendPacketNoEvent(final Packet<?> packet) {
-        if (packet != null && !Feature.nullCheck()) {
+public class PacketManager
+        extends Feature {
+    private final List<Packet<?>> noEventPackets = new ArrayList();
+
+    public void sendPacketNoEvent(Packet<?> packet) {
+        if (packet != null && !PacketManager.nullCheck()) {
             this.noEventPackets.add(packet);
-            PacketManager.mc.player.connection.sendPacket((Packet)packet);
+            PacketManager.mc.player.connection.sendPacket(packet);
         }
     }
-    
-    public boolean shouldSendPacket(final Packet<?> packet) {
+
+    public boolean shouldSendPacket(Packet<?> packet) {
         if (this.noEventPackets.contains(packet)) {
             this.noEventPackets.remove(packet);
             return false;
@@ -29,3 +26,4 @@ public class PacketManager extends Feature
         return true;
     }
 }
+

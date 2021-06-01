@@ -1,125 +1,99 @@
 package me.toby.carbon.features.modules.client;
 
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.Carbon;
+import me.toby.carbon.OyVey;
 import me.toby.carbon.event.events.ClientEvent;
 import me.toby.carbon.features.command.Command;
-import me.toby.carbon.features.gui.CarbonGui;
+import me.toby.carbon.features.gui.OyVeyGui;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
-import me.toby.carbon.util.Util;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class ClickGui extends Module
-{
-    private static ClickGui INSTANCE;
-    public Setting<String> prefix;
-    public Setting<Boolean> customFov;
-    public Setting<Float> fov;
-    public Setting<Integer> red;
-    public Setting<Integer> green;
-    public Setting<Integer> blue;
-    public Setting<Integer> hoverAlpha;
-    public Setting<Integer> topRed;
-    public Setting<Integer> topGreen;
-    public Setting<Integer> topBlue;
-    public Setting<Integer> alpha;
-    public Setting<Boolean> rainbow;
-    public Setting<rainbowMode> rainbowModeHud;
-    public Setting<rainbowModeArray> rainbowModeA;
-    public Setting<Integer> rainbowHue;
-    public Setting<Float> rainbowBrightness;
-    public Setting<Float> rainbowSaturation;
-    private CarbonGui click;
-    
+public class ClickGui extends Module {
+    private static ClickGui INSTANCE = new ClickGui();
+    public Setting<String> prefix = register(new Setting<String>("Prefix", "."));
+    public Setting<Boolean> customFov = register(new Setting<Boolean>("CustomFov", false));
+    public Setting<Float> fov = register(new Setting<Float>("Fov", Float.valueOf(150.0f), Float.valueOf(-180.0f), Float.valueOf(180.0f)));
+    public Setting<Integer> red = register(new Setting<Integer>("Red", 0, 0, 255));
+    public Setting<Integer> green = register(new Setting<Integer>("Green", 0, 0, 255));
+    public Setting<Integer> blue = register(new Setting<Integer>("Blue", 255, 0, 255));
+    public Setting<Integer> hoverAlpha = register(new Setting<Integer>("Alpha", 180, 0, 255));
+    public Setting<Integer> topRed = register(new Setting<Integer>("SecondRed", 0, 0, 255));
+    public Setting<Integer> topGreen = register(new Setting<Integer>("SecondGreen", 0, 0, 255));
+    public Setting<Integer> topBlue = register(new Setting<Integer>("SecondBlue", 150, 0, 255));
+    public Setting<Integer> alpha = register(new Setting<Integer>("HoverAlpha", 240, 0, 255));
+    public Setting<Boolean> rainbow = register(new Setting<Boolean>("Rainbow", false));
+    public Setting<rainbowMode> rainbowModeHud = register(new Setting<Object>("HRainbowMode", rainbowMode.Static, v -> rainbow.getValue()));
+    public Setting<rainbowModeArray> rainbowModeA = register(new Setting<Object>("ARainbowMode", rainbowModeArray.Static, v -> rainbow.getValue()));
+    public Setting<Integer> rainbowHue = register(new Setting<Object>("Delay", Integer.valueOf(240), Integer.valueOf(0), Integer.valueOf(600), v -> rainbow.getValue()));
+    public Setting<Float> rainbowBrightness = register(new Setting<Object>("Brightness ", Float.valueOf(150.0f), Float.valueOf(1.0f), Float.valueOf(255.0f), v -> rainbow.getValue()));
+    public Setting<Float> rainbowSaturation = register(new Setting<Object>("Saturation", Float.valueOf(150.0f), Float.valueOf(1.0f), Float.valueOf(255.0f), v -> rainbow.getValue()));
+    private OyVeyGui click;
+
     public ClickGui() {
-        super("Clickgui", "Clickgui", Category.CLIENT, true, false, false);
-        this.prefix = (Setting<String>)this.register(new Setting("Prefix", ":"));
-        this.customFov = (Setting<Boolean>)this.register(new Setting("CustomFov", false));
-        this.fov = (Setting<Float>)this.register(new Setting("Fov", 150.0f, (-180.0f), 180.0f));
-        this.red = (Setting<Integer>)this.register(new Setting("Red", 255, 0, 255));
-        this.green = (Setting<Integer>)this.register(new Setting("Green", 255, 0, 255));
-        this.blue = (Setting<Integer>)this.register(new Setting("Blue", 0, 0, 255));
-        this.hoverAlpha = (Setting<Integer>)this.register(new Setting("Alpha", 240, 0, 240));
-        this.topRed = (Setting<Integer>)this.register(new Setting("SecondRed", 255, 0, 255));
-        this.topGreen = (Setting<Integer>)this.register(new Setting("SecondGreen", 255, 0, 255));
-        this.topBlue = (Setting<Integer>)this.register(new Setting("SecondBlue", 0, 0, 255));
-        this.alpha = (Setting<Integer>)this.register(new Setting("HoverAlpha", 240, 0, 240));
-        this.rainbow = (Setting<Boolean>)this.register(new Setting("Rainbow", false));
-        this.rainbowModeHud = (Setting<rainbowMode>)this.register(new Setting("HRainbowMode", rainbowMode.Static, v -> this.rainbow.getValue()));
-        this.rainbowModeA = (Setting<rainbowModeArray>)this.register(new Setting("ARainbowMode", rainbowModeArray.Static, v -> this.rainbow.getValue()));
-        this.rainbowHue = (Setting<Integer>)this.register(new Setting("Delay", 240, 0, 600, v -> this.rainbow.getValue()));
-        this.rainbowBrightness = (Setting<Float>)this.register(new Setting("Brightness ", 150.0f, 1.0f, 255.0f, v -> this.rainbow.getValue()));
-        this.rainbowSaturation = (Setting<Float>)this.register(new Setting("Saturation", 150.0f, 1.0f, 255.0f, v -> this.rainbow.getValue()));
-        this.setBind(24);
-        this.setDrawn(false);
-        ClickGui.INSTANCE = this;
+        super("ClickGui", "Opens the ClickGui", Module.Category.CLIENT, true, false, false);
+        setInstance();
     }
-    
+
     public static ClickGui getInstance() {
-        if (ClickGui.INSTANCE == null) {
-            ClickGui.INSTANCE = new ClickGui();
+        if (INSTANCE == null) {
+            INSTANCE = new ClickGui();
         }
-        return ClickGui.INSTANCE;
+        return INSTANCE;
     }
-    
+
     private void setInstance() {
-        ClickGui.INSTANCE = this;
+        INSTANCE = this;
     }
-    
+
     @Override
     public void onUpdate() {
-        if (this.customFov.getValue()) {
-            ClickGui.mc.gameSettings.setOptionFloatValue(GameSettings.Options.FOV, (float)this.fov.getValue());
+        if (customFov.getValue().booleanValue()) {
+            ClickGui.mc.gameSettings.setOptionFloatValue(GameSettings.Options.FOV, fov.getValue().floatValue());
         }
     }
-    
+
     @SubscribeEvent
-    public void onSettingChange(final ClientEvent event) {
+    public void onSettingChange(ClientEvent event) {
         if (event.getStage() == 2 && event.getSetting().getFeature().equals(this)) {
-            if (event.getSetting().equals(this.prefix)) {
-                Carbon.commandManager.setPrefix(this.prefix.getPlannedValue());
-                Command.sendMessage("Prefix set to " + ChatFormatting.DARK_GRAY + Carbon.commandManager.getPrefix());
+            if (event.getSetting().equals(prefix)) {
+                OyVey.commandManager.setPrefix(prefix.getPlannedValue());
+                Command.sendMessage("Prefix set to " + ChatFormatting.DARK_GRAY + OyVey.commandManager.getPrefix());
             }
-            Carbon.colorManager.setColor(this.red.getPlannedValue(), this.green.getPlannedValue(), this.blue.getPlannedValue(), this.hoverAlpha.getPlannedValue());
+            OyVey.colorManager.setColor(red.getPlannedValue(), green.getPlannedValue(), blue.getPlannedValue(), hoverAlpha.getPlannedValue());
         }
     }
-    
+
     @Override
     public void onEnable() {
-        Util.mc.displayGuiScreen((GuiScreen)CarbonGui.getClickGui());
+        mc.displayGuiScreen(OyVeyGui.getClickGui());
     }
-    
+
     @Override
     public void onLoad() {
-        Carbon.colorManager.setColor(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.hoverAlpha.getValue());
-        Carbon.commandManager.setPrefix(this.prefix.getValue());
+        OyVey.colorManager.setColor(red.getValue(), green.getValue(), blue.getValue(), hoverAlpha.getValue());
+        OyVey.commandManager.setPrefix(prefix.getValue());
     }
-    
+
     @Override
     public void onTick() {
-        if (!(ClickGui.mc.currentScreen instanceof CarbonGui)) {
-            this.disable();
+        if (!(ClickGui.mc.currentScreen instanceof OyVeyGui)) {
+            disable();
         }
     }
-    
-    static {
-        ClickGui.INSTANCE = new ClickGui();
+
+    public enum rainbowModeArray {
+        Static,
+        Up
+
     }
-    
-    public enum rainbowModeArray
-    {
-        Static, 
-        Up;
-    }
-    
-    public enum rainbowMode
-    {
-        Static, 
-        Sideway;
+
+    public enum rainbowMode {
+        Static,
+        Sideway
+
     }
 }
+

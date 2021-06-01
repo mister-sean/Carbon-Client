@@ -1,132 +1,122 @@
 package me.toby.carbon.features.modules.player;
 
-import net.minecraft.network.play.client.CPacketInput;
-import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-import net.minecraft.entity.Entity;
 import me.toby.carbon.event.events.MoveEvent;
 import me.toby.carbon.event.events.PacketEvent;
+import me.toby.carbon.event.events.PushEvent;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
+import me.toby.carbon.util.MathUtil;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.client.CPacketConfirmTeleport;
+import net.minecraft.network.play.client.CPacketInput;
+import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.network.play.server.SPacketPlayerPosLook;
+import net.minecraft.network.play.server.SPacketSetPassengers;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class Freecam extends Module
-{
-    private static Freecam INSTANCE;
-    public Setting<Double> speed;
-    public Setting<Boolean> packet;
-    private double posX;
-    private double posY;
-    private double posZ;
-    private float pitch;
-    private float yaw;
+public class Freecam extends Module {
+    private static Freecam INSTANCE = new Freecam();
+    public Setting<Double> speed = register(new Setting("Speed", Double.valueOf(0.5D), Double.valueOf(0.1D), Double.valueOf(5.0D)));
+    public Setting<Boolean> packet = register(new Setting("Cancel Packets", Boolean.valueOf(true)));
+
+    private double posX, posY, posZ;
+    private float pitch, yaw;
+
     private EntityOtherPlayerMP clonedPlayer;
+
     private boolean isRidingEntity;
     private Entity ridingEntity;
-    
+
     public Freecam() {
-        super("Freecam", "Look around freely.", Category.PLAYER, true, false, false);
-        this.speed = (Setting<Double>)this.register(new Setting("Speed", 0.5, 0.1, 5.0));
-        this.packet = (Setting<Boolean>)this.register(new Setting("Cancel Packets", true));
-        this.setInstance();
+        super("Freecam", "Look around freely.", Module.Category.PLAYER, true, false, false);
+        setInstance();
     }
-    
+
     public static Freecam getInstance() {
-        if (Freecam.INSTANCE == null) {
-            Freecam.INSTANCE = new Freecam();
-        }
-        return Freecam.INSTANCE;
+        if (INSTANCE == null)
+            INSTANCE = new Freecam();
+        return INSTANCE;
     }
-    
+
     private void setInstance() {
-        Freecam.INSTANCE = this;
+        INSTANCE = this;
     }
-    
+
     @Override
     public void onEnable() {
-        if (Freecam.mc.player != null) {
-            this.isRidingEntity = (Freecam.mc.player.getRidingEntity() != null);
-            if (Freecam.mc.player.getRidingEntity() == null) {
-                this.posX = Freecam.mc.player.posX;
-                this.posY = Freecam.mc.player.posY;
-                this.posZ = Freecam.mc.player.posZ;
+        if (mc.player != null) {
+            isRidingEntity = mc.player.getRidingEntity() != null;
+
+            if (mc.player.getRidingEntity() == null) {
+                posX = mc.player.posX;
+                posY = mc.player.posY;
+                posZ = mc.player.posZ;
+            } else {
+                ridingEntity = mc.player.getRidingEntity();
+                mc.player.dismountRidingEntity();
             }
-            else {
-                this.ridingEntity = Freecam.mc.player.getRidingEntity();
-                Freecam.mc.player.dismountRidingEntity();
-            }
-            this.pitch = Freecam.mc.player.rotationPitch;
-            this.yaw = Freecam.mc.player.rotationYaw;
-            (this.clonedPlayer = new EntityOtherPlayerMP((World)Freecam.mc.world, Freecam.mc.getSession().getProfile())).copyLocationAndAnglesFrom((Entity)Freecam.mc.player);
-            this.clonedPlayer.rotationYawHead = Freecam.mc.player.rotationYawHead;
-            Freecam.mc.world.addEntityToWorld(-100, (Entity)this.clonedPlayer);
-            Freecam.mc.player.capabilities.isFlying = true;
-            Freecam.mc.player.capabilities.setFlySpeed((float)(this.speed.getValue() / 100.0));
-            Freecam.mc.player.noClip = true;
+
+            pitch = mc.player.rotationPitch;
+            yaw = mc.player.rotationYaw;
+
+            clonedPlayer = new EntityOtherPlayerMP(mc.world, mc.getSession().getProfile());
+            clonedPlayer.copyLocationAndAnglesFrom(mc.player);
+            clonedPlayer.rotationYawHead = mc.player.rotationYawHead;
+            mc.world.addEntityToWorld(-100, clonedPlayer);
+            mc.player.capabilities.isFlying = true;
+            mc.player.capabilities.setFlySpeed((float) (speed.getValue() / 100f));
+            mc.player.noClip = true;
         }
     }
-    
+
     @Override
     public void onDisable() {
-        final EntityPlayer localPlayer = (EntityPlayer)Freecam.mc.player;
+        EntityPlayer localPlayer = mc.player;
         if (localPlayer != null) {
-            Freecam.mc.player.setPositionAndRotation(this.posX, this.posY, this.posZ, this.yaw, this.pitch);
-            Freecam.mc.world.removeEntityFromWorld(-100);
-            this.clonedPlayer = null;
-            final double posX = 0.0;
-            this.posZ = 0.0;
-            this.posY = 0.0;
-            this.posX = 0.0;
-            final float n = 0.0f;
-            this.yaw = 0.0f;
-            this.pitch = 0.0f;
-            Freecam.mc.player.capabilities.isFlying = false;
-            Freecam.mc.player.capabilities.setFlySpeed(0.05f);
-            Freecam.mc.player.noClip = false;
-            final EntityPlayerSP player = Freecam.mc.player;
-            final EntityPlayerSP player2 = Freecam.mc.player;
-            final EntityPlayerSP player3 = Freecam.mc.player;
-            final double motionX = 0.0;
-            player3.motionZ = 0.0;
-            player2.motionY = 0.0;
-            player.motionX = 0.0;
-            if (this.isRidingEntity) {
-                Freecam.mc.player.startRiding(this.ridingEntity, true);
+            mc.player.setPositionAndRotation(posX, posY, posZ, yaw, pitch);
+            mc.world.removeEntityFromWorld(-100);
+            clonedPlayer = null;
+            posX = posY = posZ = 0.D;
+            pitch = yaw = 0.f;
+            mc.player.capabilities.isFlying = false;
+            mc.player.capabilities.setFlySpeed(0.05f);
+            mc.player.noClip = false;
+            mc.player.motionX = mc.player.motionY = mc.player.motionZ = 0.f;
+
+            if (isRidingEntity) {
+                mc.player.startRiding(ridingEntity, true);
             }
         }
     }
-    
+
     @Override
     public void onUpdate() {
-        Freecam.mc.player.capabilities.isFlying = true;
-        Freecam.mc.player.capabilities.setFlySpeed((float)(this.speed.getValue() / 100.0));
-        Freecam.mc.player.noClip = true;
-        Freecam.mc.player.onGround = false;
-        Freecam.mc.player.fallDistance = 0.0f;
+        mc.player.capabilities.isFlying = true;
+        mc.player.capabilities.setFlySpeed((float) (speed.getValue() / 100f));
+        mc.player.noClip = true;
+        mc.player.onGround = false;
+        mc.player.fallDistance = 0;
     }
-    
+
     @SubscribeEvent
-    public void onMove(final MoveEvent event) {
-        Freecam.mc.player.noClip = true;
-    }
-    
+    public void onMove(MoveEvent event) {
+        mc.player.noClip = true;
+    };
+
     @SubscribeEvent
-    public void onPlayerPushOutOfBlock(final PlayerSPPushOutOfBlocksEvent event) {
+    public void onPlayerPushOutOfBlock(PlayerSPPushOutOfBlocksEvent event) {
         event.setCanceled(true);
     }
-    
+
     @SubscribeEvent
-    public void onPacketSend(final PacketEvent event) {
-        if ((event.getPacket() instanceof CPacketPlayer || event.getPacket() instanceof CPacketInput) && this.packet.getValue()) {
+    public void onPacketSend(PacketEvent event) {
+        if ((event.getPacket() instanceof CPacketPlayer || event.getPacket() instanceof CPacketInput) && packet.getValue()) {
             event.setCanceled(true);
         }
-    }
-    
-    static {
-        Freecam.INSTANCE = new Freecam();
-    }
+    };
 }

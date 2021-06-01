@@ -2,22 +2,23 @@ package me.toby.carbon.event;
 
 import net.minecraftforge.fml.common.eventhandler.Event;
 
-public class EventStage extends Event
-{
+public class EventStage
+        extends Event {
     private int stage;
-    
+
     public EventStage() {
     }
-    
-    public EventStage(final int stage) {
+
+    public EventStage(int stage) {
         this.stage = stage;
     }
-    
+
     public int getStage() {
         return this.stage;
     }
-    
-    public void setStage(final int stage) {
+
+    public void setStage(int stage) {
         this.stage = stage;
     }
 }
+

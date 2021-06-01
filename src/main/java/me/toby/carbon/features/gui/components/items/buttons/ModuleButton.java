@@ -1,61 +1,54 @@
 package me.toby.carbon.features.gui.components.items.buttons;
 
-import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.init.SoundEvents;
-
-import java.util.Iterator;
-
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-import me.toby.carbon.features.gui.CarbonGui;
+import me.toby.carbon.features.gui.OyVeyGui;
 import me.toby.carbon.features.gui.components.Component;
 import me.toby.carbon.features.gui.components.items.Item;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.modules.client.HUD;
 import me.toby.carbon.features.setting.Bind;
 import me.toby.carbon.features.setting.Setting;
-import me.toby.carbon.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.util.ResourceLocation;
 
-public class ModuleButton extends Button
-{
+public class ModuleButton
+        extends Button {
     private final Module module;
-    private final ResourceLocation logo;
-    private List<Item> items;
+    private final ResourceLocation logo = new ResourceLocation("textures/oyvey.png");
+    private List<Item> items = new ArrayList<Item>();
     private boolean subOpen;
-    
-    public ModuleButton(final Module module) {
+
+    public ModuleButton(Module module) {
         super(module.getName());
-        this.logo = new ResourceLocation("textures/Carbon.png");
-        this.items = new ArrayList<Item>();
         this.module = module;
         this.initSettings();
     }
-    
-    public static void drawCompleteImage(final float posX, final float posY, final int width, final int height) {
+
+    public static void drawCompleteImage(float posX, float posY, int width, int height) {
         GL11.glPushMatrix();
         GL11.glTranslatef(posX, posY, 0.0f);
         GL11.glBegin(7);
         GL11.glTexCoord2f(0.0f, 0.0f);
         GL11.glVertex3f(0.0f, 0.0f, 0.0f);
         GL11.glTexCoord2f(0.0f, 1.0f);
-        GL11.glVertex3f(0.0f, (float)height, 0.0f);
+        GL11.glVertex3f(0.0f, (float) height, 0.0f);
         GL11.glTexCoord2f(1.0f, 1.0f);
-        GL11.glVertex3f((float)width, (float)height, 0.0f);
+        GL11.glVertex3f((float) width, (float) height, 0.0f);
         GL11.glTexCoord2f(1.0f, 0.0f);
-        GL11.glVertex3f((float)width, 0.0f, 0.0f);
+        GL11.glVertex3f((float) width, 0.0f, 0.0f);
         GL11.glEnd();
         GL11.glPopMatrix();
     }
-    
+
     public void initSettings() {
-        final ArrayList<Item> newItems = new ArrayList<Item>();
+        ArrayList<Item> newItems = new ArrayList<Item>();
         if (!this.module.getSettings().isEmpty()) {
-            for (final Setting setting : this.module.getSettings()) {
+            for (Setting setting : this.module.getSettings()) {
                 if (setting.getValue() instanceof Boolean && !setting.getName().equals("Enabled")) {
                     newItems.add(new BooleanButton(setting));
                 }
@@ -67,31 +60,28 @@ public class ModuleButton extends Button
                 }
                 if (setting.isNumberSetting() && setting.hasRestriction()) {
                     newItems.add(new Slider(setting));
+                    continue;
                 }
-                else {
-                    if (!setting.isEnumSetting()) {
-                        continue;
-                    }
-                    newItems.add(new EnumButton(setting));
-                }
+                if (!setting.isEnumSetting()) continue;
+                newItems.add(new EnumButton(setting));
             }
         }
         newItems.add(new BindButton(this.module.getSettingByName("Keybind")));
         this.items = newItems;
     }
-    
+
     @Override
-    public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         if (!this.items.isEmpty()) {
-            if (HUD.getInstance().magenDavid.getValue()) {
-                Util.mc.getTextureManager().bindTexture(this.logo);
-                drawCompleteImage(this.x - 1.5f + this.width - 7.4f, this.y - 2.2f - CarbonGui.getClickGui().getTextOffset(), 8, 8);
+            if (HUD.getInstance().magenDavid.getValue().booleanValue()) {
+                mc.getTextureManager().bindTexture(this.logo);
+                ModuleButton.drawCompleteImage(this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.2f - (float) OyVeyGui.getClickGui().getTextOffset(), 8, 8);
             }
             if (this.subOpen) {
                 float height = 1.0f;
-                for (final Item item : this.items) {
-                    ++Component.counter1[0];
+                for (Item item : this.items) {
+                    Component.counter1[0] = Component.counter1[0] + 1;
                     if (!item.isHidden()) {
                         item.setLocation(this.x + 1.0f, this.y + (height += 15.0f));
                         item.setHeight(15);
@@ -103,65 +93,60 @@ public class ModuleButton extends Button
             }
         }
     }
-    
+
     @Override
-    public void mouseClicked(final int mouseX, final int mouseY, final int mouseButton) {
+    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         if (!this.items.isEmpty()) {
             if (mouseButton == 1 && this.isHovering(mouseX, mouseY)) {
                 this.subOpen = !this.subOpen;
-                Util.mc.getSoundHandler().playSound((ISound)PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+                mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0f));
             }
             if (this.subOpen) {
-                for (final Item item : this.items) {
-                    if (item.isHidden()) {
-                        continue;
-                    }
+                for (Item item : this.items) {
+                    if (item.isHidden()) continue;
                     item.mouseClicked(mouseX, mouseY, mouseButton);
                 }
             }
         }
     }
-    
+
     @Override
-    public void onKeyTyped(final char typedChar, final int keyCode) {
+    public void onKeyTyped(char typedChar, int keyCode) {
         super.onKeyTyped(typedChar, keyCode);
         if (!this.items.isEmpty() && this.subOpen) {
-            for (final Item item : this.items) {
-                if (item.isHidden()) {
-                    continue;
-                }
+            for (Item item : this.items) {
+                if (item.isHidden()) continue;
                 item.onKeyTyped(typedChar, keyCode);
             }
         }
     }
-    
+
     @Override
     public int getHeight() {
         if (this.subOpen) {
             int height = 14;
-            for (final Item item : this.items) {
-                if (item.isHidden()) {
-                    continue;
-                }
+            for (Item item : this.items) {
+                if (item.isHidden()) continue;
                 height += item.getHeight() + 1;
             }
             return height + 2;
         }
         return 14;
     }
-    
+
     public Module getModule() {
         return this.module;
     }
-    
+
     @Override
     public void toggle() {
         this.module.toggle();
     }
-    
+
     @Override
     public boolean getState() {
         return this.module.isEnabled();
     }
 }
+

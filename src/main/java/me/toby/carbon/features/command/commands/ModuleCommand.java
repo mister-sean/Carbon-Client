@@ -1,96 +1,90 @@
 package me.toby.carbon.features.command.commands;
 
-import java.util.Iterator;
-
 import com.google.gson.JsonParser;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.Carbon;
-import me.toby.carbon.features.Feature;
+import me.toby.carbon.OyVey;
 import me.toby.carbon.features.command.Command;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
 import me.toby.carbon.manager.ConfigManager;
 
-public class ModuleCommand extends Command
-{
+public class ModuleCommand
+        extends Command {
     public ModuleCommand() {
-        super("module", new String[] { "<module>", "<set/reset>", "<setting>", "<value>" });
+        super("module", new String[]{"<module>", "<set/reset>", "<setting>", "<value>"});
     }
-    
+
     @Override
-    public void execute(final String[] commands) {
+    public void execute(String[] commands) {
+        Setting setting;
         if (commands.length == 1) {
-            Command.sendMessage("Modules: ");
-            for (final Module.Category category : Carbon.moduleManager.getCategories()) {
+            ModuleCommand.sendMessage("Modules: ");
+            for (Module.Category category : OyVey.moduleManager.getCategories()) {
                 String modules = category.getName() + ": ";
-                for (final Module module1 : Carbon.moduleManager.getModulesByCategory(category)) {
+                for (Module module1 : OyVey.moduleManager.getModulesByCategory(category)) {
                     modules = modules + (module1.isEnabled() ? ChatFormatting.GREEN : ChatFormatting.RED) + module1.getName() + ChatFormatting.WHITE + ", ";
                 }
-                Command.sendMessage(modules);
+                ModuleCommand.sendMessage(modules);
             }
             return;
         }
-        Module module2 = Carbon.moduleManager.getModuleByDisplayName(commands[0]);
-        if (module2 == null) {
-            module2 = Carbon.moduleManager.getModuleByName(commands[0]);
-            if (module2 == null) {
-                Command.sendMessage("This module doesnt exist.");
+        Module module = OyVey.moduleManager.getModuleByDisplayName(commands[0]);
+        if (module == null) {
+            module = OyVey.moduleManager.getModuleByName(commands[0]);
+            if (module == null) {
+                ModuleCommand.sendMessage("This module doesnt exist.");
                 return;
             }
-            Command.sendMessage(" This is the original name of the module. Its current name is: " + module2.getDisplayName());
+            ModuleCommand.sendMessage(" This is the original name of the module. Its current name is: " + module.getDisplayName());
+            return;
         }
-        else {
-            if (commands.length == 2) {
-                Command.sendMessage(module2.getDisplayName() + " : " + module2.getDescription());
-                for (final Setting setting2 : module2.getSettings()) {
-                    Command.sendMessage(setting2.getName() + " : " + setting2.getValue() + ", " + setting2.getDescription());
+        if (commands.length == 2) {
+            ModuleCommand.sendMessage(module.getDisplayName() + " : " + module.getDescription());
+            for (Setting setting2 : module.getSettings()) {
+                ModuleCommand.sendMessage(setting2.getName() + " : " + setting2.getValue() + ", " + setting2.getDescription());
+            }
+            return;
+        }
+        if (commands.length == 3) {
+            if (commands[1].equalsIgnoreCase("set")) {
+                ModuleCommand.sendMessage("Please specify a setting.");
+            } else if (commands[1].equalsIgnoreCase("reset")) {
+                for (Setting setting3 : module.getSettings()) {
+                    setting3.setValue(setting3.getDefaultValue());
                 }
+            } else {
+                ModuleCommand.sendMessage("This command doesnt exist.");
+            }
+            return;
+        }
+        if (commands.length == 4) {
+            ModuleCommand.sendMessage("Please specify a value.");
+            return;
+        }
+        if (commands.length == 5 && (setting = module.getSettingByName(commands[2])) != null) {
+            JsonParser jp = new JsonParser();
+            if (setting.getType().equalsIgnoreCase("String")) {
+                setting.setValue(commands[3]);
+                ModuleCommand.sendMessage(ChatFormatting.DARK_GRAY + module.getName() + " " + setting.getName() + " has been set to " + commands[3] + ".");
                 return;
             }
-            if (commands.length == 3) {
-                if (commands[1].equalsIgnoreCase("set")) {
-                    Command.sendMessage("Please specify a setting.");
-                }
-                else if (commands[1].equalsIgnoreCase("reset")) {
-                    for (final Setting setting3 : module2.getSettings()) {
-                        setting3.setValue(setting3.getDefaultValue());
+            try {
+                if (setting.getName().equalsIgnoreCase("Enabled")) {
+                    if (commands[3].equalsIgnoreCase("true")) {
+                        module.enable();
+                    }
+                    if (commands[3].equalsIgnoreCase("false")) {
+                        module.disable();
                     }
                 }
-                else {
-                    Command.sendMessage("This command doesnt exist.");
-                }
+                ConfigManager.setValueFromJson(module, setting, jp.parse(commands[3]));
+            } catch (Exception e) {
+                ModuleCommand.sendMessage("Bad Value! This setting requires a: " + setting.getType() + " value.");
                 return;
             }
-            if (commands.length == 4) {
-                Command.sendMessage("Please specify a value.");
-                return;
-            }
-            final Setting setting4;
-            if (commands.length == 5 && (setting4 = module2.getSettingByName(commands[2])) != null) {
-                final JsonParser jp = new JsonParser();
-                if (setting4.getType().equalsIgnoreCase("String")) {
-                    setting4.setValue(commands[3]);
-                    Command.sendMessage(ChatFormatting.DARK_GRAY + module2.getName() + " " + setting4.getName() + " has been set to " + commands[3] + ".");
-                    return;
-                }
-                try {
-                    if (setting4.getName().equalsIgnoreCase("Enabled")) {
-                        if (commands[3].equalsIgnoreCase("true")) {
-                            module2.enable();
-                        }
-                        if (commands[3].equalsIgnoreCase("false")) {
-                            module2.disable();
-                        }
-                    }
-                    ConfigManager.setValueFromJson(module2, setting4, jp.parse(commands[3]));
-                }
-                catch (Exception e) {
-                    Command.sendMessage("Bad Value! This setting requires a: " + setting4.getType() + " value.");
-                    return;
-                }
-                Command.sendMessage(ChatFormatting.GRAY + module2.getName() + " " + setting4.getName() + " has been set to " + commands[3] + ".");
-            }
+            ModuleCommand.sendMessage(ChatFormatting.GRAY + module.getName() + " " + setting.getName() + " has been set to " + commands[3] + ".");
         }
     }
 }
+

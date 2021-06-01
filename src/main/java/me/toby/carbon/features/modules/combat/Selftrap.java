@@ -1,20 +1,13 @@
 package me.toby.carbon.features.modules.combat;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.EnumHand;
 import net.minecraft.block.BlockEnderChest;
 import net.minecraft.block.BlockObsidian;
-import java.util.Comparator;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Iterator;
-
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.HashMap;
-import net.minecraft.util.math.BlockPos;
-import java.util.Map;
+import java.util.*;
 
 import me.toby.carbon.event.events.UpdateWalkingPlayerEvent;
 import me.toby.carbon.features.modules.Module;
@@ -24,88 +17,74 @@ import me.toby.carbon.util.EntityUtil;
 import me.toby.carbon.util.InventoryUtil;
 import me.toby.carbon.util.Timer;
 
-public class Selftrap extends Module
-{
-    private final Setting<Integer> blocksPerTick;
-    private final Setting<Integer> delay;
-    private final Setting<Boolean> rotate;
-    private final Setting<Integer> disableTime;
-    private final Setting<Boolean> disable;
-    private final Setting<Boolean> packet;
-    private final Timer offTimer;
-    private final Timer timer;
-    private final Map<BlockPos, Integer> retries;
-    private final Timer retryTimer;
-    private int blocksThisTick;
+public class Selftrap extends Module {
+    private final Setting<Integer> blocksPerTick = register(new Setting<Integer>("BlocksPerTick", 8, 1, 20));
+    private final Setting<Integer> delay = register(new Setting<Integer>("Delay", 50, 0, 250));
+    private final Setting<Boolean> rotate = register(new Setting<Boolean>("Rotate", true));
+    private final Setting<Integer> disableTime = register(new Setting<Integer>("DisableTime", 200, 50, 300));
+    private final Setting<Boolean> disable = register(new Setting<Boolean>("AutoDisable", true));
+    private final Setting<Boolean> packet = register(new Setting<Boolean>("Packet", false));
+    private final Timer offTimer = new Timer();
+    private final Timer timer = new Timer();
+    private boolean hasOffhand = false;
+    private final Map<BlockPos, Integer> retries = new HashMap<BlockPos, Integer>();
+    private final Timer retryTimer = new Timer();
+    private int blocksThisTick = 0;
     private boolean isSneaking;
-    private boolean hasOffhand;
-    
+    private boolean offHand = false;
+
     public Selftrap() {
-        super("Selftrap", "Lure your enemies in!", Category.COMBAT, true, false, true);
-        this.blocksPerTick = (Setting<Integer>)this.register(new Setting("BlocksPerTick", 8, 1, 30));
-        this.delay = (Setting<Integer>)this.register(new Setting("Delay", 50, 0, 250));
-        this.rotate = (Setting<Boolean>)this.register(new Setting("Rotate", true));
-        this.disableTime = (Setting<Integer>)this.register(new Setting("DisableTime", 300, 50, 500));
-        this.disable = (Setting<Boolean>)this.register(new Setting("AutoDisable", true));
-        this.packet = (Setting<Boolean>)this.register(new Setting("PacketPlace", false));
-        this.offTimer = new Timer();
-        this.timer = new Timer();
-        this.retries = new HashMap<BlockPos, Integer>();
-        this.retryTimer = new Timer();
-        this.blocksThisTick = 0;
-        this.hasOffhand = false;
+        super("SelfTrap", "Lure your enemies in!", Module.Category.COMBAT, true, false, true);
     }
-    
+
     @Override
     public void onEnable() {
-        if (fullNullCheck()) {
-            this.disable();
+        if (Selftrap.fullNullCheck()) {
+            disable();
         }
-        this.offTimer.reset();
+        offTimer.reset();
     }
-    
+
     @Override
     public void onTick() {
-        if (this.isOn() && (this.blocksPerTick.getValue() != 1 || !this.rotate.getValue())) {
-            this.doHoleFill();
+        if (isOn() && (blocksPerTick.getValue() != 1 || !rotate.getValue().booleanValue())) {
+            doSelfTrap();
         }
     }
-    
+
     @SubscribeEvent
-    public void onUpdateWalkingPlayer(final UpdateWalkingPlayerEvent event) {
-        if (this.isOn() && event.getStage() == 0 && this.blocksPerTick.getValue() == 1 && this.rotate.getValue()) {
-            this.doHoleFill();
+    public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
+        if (isOn() && event.getStage() == 0 && blocksPerTick.getValue() == 1 && rotate.getValue().booleanValue()) {
+            doSelfTrap();
         }
     }
-    
+
     @Override
     public void onDisable() {
-        this.isSneaking = EntityUtil.stopSneaking(this.isSneaking);
-        this.retries.clear();
-        this.hasOffhand = false;
+        isSneaking = EntityUtil.stopSneaking(isSneaking);
+        retries.clear();
+        offHand = false;
     }
-    
-    private void doHoleFill() {
-        if (this.check()) {
+
+    private void doSelfTrap() {
+        if (check()) {
             return;
         }
-        for (final BlockPos position : this.getPositions()) {
-            final int placeability = BlockUtil.isPositionPlaceable(position, false);
-            if (placeability == 1 && (this.retries.get(position) == null || this.retries.get(position) < 4)) {
-                this.placeBlock(position);
-                this.retries.put(position, (this.retries.get(position) == null) ? 1 : (this.retries.get(position) + 1));
+        for (BlockPos position : getPositions()) {
+            int placeability = BlockUtil.isPositionPlaceable(position, false);
+            if (placeability == 1 && (retries.get(position) == null || retries.get(position) < 4)) {
+                placeBlock(position);
+                retries.put(position, retries.get(position) == null ? 1 : retries.get(position) + 1);
             }
-            if (placeability != 3) {
-                continue;
-            }
-            this.placeBlock(position);
+            if (placeability != 3) continue;
+            placeBlock(position);
         }
     }
-    
+
     private List<BlockPos> getPositions() {
-        final ArrayList<BlockPos> positions = new ArrayList<BlockPos>();
+        ArrayList<BlockPos> positions = new ArrayList<BlockPos>();
         positions.add(new BlockPos(Selftrap.mc.player.posX, Selftrap.mc.player.posY + 2.0, Selftrap.mc.player.posZ));
-        final int placeability = BlockUtil.isPositionPlaceable(positions.get(0), false);
+        int placeability = BlockUtil.isPositionPlaceable(positions.get(0), false);
         switch (placeability) {
             case 0: {
                 return new ArrayList<BlockPos>();
@@ -121,56 +100,56 @@ public class Selftrap extends Module
             case 2: {
                 positions.add(new BlockPos(Selftrap.mc.player.posX + 1.0, Selftrap.mc.player.posY + 1.0, Selftrap.mc.player.posZ));
                 positions.add(new BlockPos(Selftrap.mc.player.posX + 1.0, Selftrap.mc.player.posY + 2.0, Selftrap.mc.player.posZ));
-                break;
             }
         }
-        positions.sort(Comparator.comparingDouble(Vec3i::func_177956_o));
+        positions.sort(Comparator.comparingDouble(Vec3i::getY));
         return positions;
     }
-    
-    private void placeBlock(final BlockPos pos) {
-        if (this.blocksThisTick < this.blocksPerTick.getValue()) {
-            final boolean smartRotate = this.blocksPerTick.getValue() == 1 && this.rotate.getValue();
-            final int originalSlot = Selftrap.mc.player.inventory.currentItem;
-            final int obbySlot = InventoryUtil.findHotbarBlock(BlockObsidian.class);
-            final int eChestSot = InventoryUtil.findHotbarBlock(BlockEnderChest.class);
+
+    private void placeBlock(BlockPos pos) {
+        if (blocksThisTick < blocksPerTick.getValue()) {
+            boolean smartRotate = blocksPerTick.getValue() == 1 && rotate.getValue() != false;
+            int originalSlot = Selftrap.mc.player.inventory.currentItem;
+            int obbySlot = InventoryUtil.findHotbarBlock(BlockObsidian.class);
+            int eChestSot = InventoryUtil.findHotbarBlock(BlockEnderChest.class);
             if (obbySlot == -1 && eChestSot == -1) {
-                this.toggle();
+                toggle();
             }
-            Selftrap.mc.player.inventory.currentItem = ((obbySlot == -1) ? eChestSot : obbySlot);
+            Selftrap.mc.player.inventory.currentItem = obbySlot == -1 ? eChestSot : obbySlot;
             Selftrap.mc.playerController.updateController();
-            this.isSneaking = (smartRotate ? BlockUtil.placeBlockSmartRotate(pos, this.hasOffhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, true, this.packet.getValue(), this.isSneaking) : BlockUtil.placeBlock(pos, this.hasOffhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, this.rotate.getValue(), this.packet.getValue(), this.isSneaking));
+            isSneaking = smartRotate ? BlockUtil.placeBlockSmartRotate(pos, hasOffhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, true, packet.getValue(), isSneaking) : BlockUtil.placeBlock(pos, hasOffhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, rotate.getValue(), packet.getValue(), isSneaking);
             Selftrap.mc.player.inventory.currentItem = originalSlot;
             Selftrap.mc.playerController.updateController();
-            this.timer.reset();
-            ++this.blocksThisTick;
+            timer.reset();
+            ++blocksThisTick;
         }
     }
-    
+
     private boolean check() {
-        if (fullNullCheck()) {
-            this.disable();
+        if (Selftrap.fullNullCheck()) {
+            disable();
             return true;
         }
-        final int obbySlot = InventoryUtil.findHotbarBlock(BlockObsidian.class);
-        final int eChestSot = InventoryUtil.findHotbarBlock(BlockEnderChest.class);
+        int obbySlot = InventoryUtil.findHotbarBlock(BlockObsidian.class);
+        int eChestSot = InventoryUtil.findHotbarBlock(BlockEnderChest.class);
         if (obbySlot == -1 && eChestSot == -1) {
-            this.toggle();
+            toggle();
         }
-        this.blocksThisTick = 0;
-        this.isSneaking = EntityUtil.stopSneaking(this.isSneaking);
-        if (this.retryTimer.passedMs(2000L)) {
-            this.retries.clear();
-            this.retryTimer.reset();
+        blocksThisTick = 0;
+        isSneaking = EntityUtil.stopSneaking(isSneaking);
+        if (retryTimer.passedMs(2000L)) {
+            retries.clear();
+            retryTimer.reset();
         }
-        if (!EntityUtil.isSafe((Entity)Selftrap.mc.player)) {
-            this.offTimer.reset();
+        if (!EntityUtil.isSafe(Selftrap.mc.player)) {
+            offTimer.reset();
             return true;
         }
-        if (this.disable.getValue() && this.offTimer.passedMs(this.disableTime.getValue())) {
-            this.disable();
+        if (disable.getValue().booleanValue() && offTimer.passedMs(disableTime.getValue().intValue())) {
+            disable();
             return true;
         }
-        return !this.timer.passedMs(this.delay.getValue());
+        return !timer.passedMs(delay.getValue().intValue());
     }
 }
+

@@ -2,47 +2,27 @@ package me.toby.carbon.features.modules.render;
 
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class ViewModel extends Module
-{
-    public Setting<Float> sizeX;
-    public Setting<Float> sizeY;
-    public Setting<Float> sizeZ;
-    public Setting<Float> rotationX;
-    public Setting<Float> rotationY;
-    public Setting<Float> rotationZ;
-    public Setting<Float> positionX;
-    public Setting<Float> positionY;
-    public Setting<Float> positionZ;
-    public Setting<Float> itemFOV;
-    private static ViewModel INSTANCE;
-    
-    public ViewModel() {
-        super("Viewmodel", "Changes to the viewmodel.", Category.RENDER, false, false, false);
-        this.sizeX = (Setting<Float>)this.register(new Setting("Size-X", 1.0f, 0.0f, 2.0f));
-        this.sizeY = (Setting<Float>)this.register(new Setting("Size-Y", 1.0f, 0.0f, 2.0f));
-        this.sizeZ = (Setting<Float>)this.register(new Setting("Size-X", 1.0f, 0.0f, 2.0f));
-        this.rotationX = (Setting<Float>)this.register(new Setting("Rotation-X", 0.0f, 0.0f, 1.0f));
-        this.rotationY = (Setting<Float>)this.register(new Setting("Rotation-Y", 0.0f, 0.0f, 1.0f));
-        this.rotationZ = (Setting<Float>)this.register(new Setting("Rotation-Z", 0.0f, 0.0f, 1.0f));
-        this.positionX = (Setting<Float>)this.register(new Setting("Position-X", 0.0f, (-2.0f), 2.0f));
-        this.positionY = (Setting<Float>)this.register(new Setting("Position-Y", 0.0f, (-2.0f), 2.0f));
-        this.positionZ = (Setting<Float>)this.register(new Setting("Position-Z", 0.0f, (-2.0f), 2.0f));
-        this.setInstance();
+public class Viewmodel extends Module {
+    public float defaultFov;
+    public Setting<Integer> viewmodelDistance = register(new Setting<Integer>("ViewmodelDistance", 125, 0, 170, "Changes the distance of the Viewmodel"));
+
+    public Viewmodel() {
+        super("Viewmodel", "Changes viewmodel of items", Category.RENDER, false, false, false);
     }
-    
-    private void setInstance() {
-        ViewModel.INSTANCE = this;
+
+    @SubscribeEvent
+    public void fovVMC(final EntityViewRenderEvent.FOVModifier e) {
+            e.setFOV((float)viewmodelDistance.getValue());
     }
-    
-    public static ViewModel getINSTANCE() {
-        if (ViewModel.INSTANCE == null) {
-            ViewModel.INSTANCE = new ViewModel();
-        }
-        return ViewModel.INSTANCE;
+
+    public void onEnable() {
+        defaultFov = mc.gameSettings.fovSetting;
     }
-    
-    static {
-        ViewModel.INSTANCE = new ViewModel();
+
+    public void onDisable() {
+        mc.gameSettings.fovSetting = defaultFov;
     }
 }

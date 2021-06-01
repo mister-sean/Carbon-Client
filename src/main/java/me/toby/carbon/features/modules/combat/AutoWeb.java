@@ -1,202 +1,171 @@
 package me.toby.carbon.features.modules.combat;
 
-import net.minecraft.util.EnumHand;
-
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.Carbon;
+import me.toby.carbon.OyVey;
 import me.toby.carbon.features.command.Command;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
-import me.toby.carbon.util.BlockUtil;
-import me.toby.carbon.util.EntityUtil;
-import me.toby.carbon.util.InventoryUtil;
-import me.toby.carbon.util.MathUtil;
-import me.toby.carbon.util.Timer;
+import me.toby.carbon.util.*;
 import net.minecraft.block.BlockWeb;
-import java.util.Iterator;
-import java.util.Comparator;
-import java.util.ArrayList;
-import net.minecraft.util.math.Vec3d;
-import java.util.List;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
-public class AutoWeb extends Module
-{
-    public static boolean isPlacing;
-    private final Setting<Integer> delay;
-    private final Setting<Integer> blocksPerPlace;
-    private final Setting<Boolean> packet;
-    private final Setting<Boolean> disable;
-    private final Setting<Boolean> rotate;
-    private final Setting<Boolean> raytrace;
-    private final Setting<Boolean> lowerbody;
-    private final Setting<Boolean> upperBody;
-    private final Timer timer;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+public class AutoWeb extends Module {
+    public static boolean isPlacing = false;
+    private final Setting<Integer> delay = register(new Setting<Integer>("Delay", 50, 0, 250));
+    private final Setting<Integer> blocksPerPlace = register(new Setting<Integer>("BlocksPerTick", 8, 1, 30));
+    private final Setting<Boolean> packet = register(new Setting<Boolean>("Packet", false));
+    private final Setting<Boolean> disable = register(new Setting<Boolean>("AutoDisable", false));
+    private final Setting<Boolean> rotate = register(new Setting<Boolean>("Rotate", true));
+    private final Setting<Boolean> raytrace = register(new Setting<Boolean>("Raytrace", false));
+    private final Setting<Boolean> lowerbody = register(new Setting<Boolean>("Feet", true));
+    private final Setting<Boolean> upperBody = register(new Setting<Boolean>("Face", false));
+    private final Timer timer = new Timer();
     public EntityPlayer target;
-    private boolean didPlace;
+    private boolean didPlace = false;
     private boolean switchedItem;
     private boolean isSneaking;
     private int lastHotbarSlot;
-    private int placements;
-    private boolean smartRotate;
-    private BlockPos startPos;
-    
+    private int placements = 0;
+    private boolean smartRotate = false;
+    private BlockPos startPos = null;
+
     public AutoWeb() {
-        super("AutoWeb", "Traps other players in webs", Category.COMBAT, true, false, false);
-        this.delay = (Setting<Integer>)this.register(new Setting("Delay", 50, 0, 250));
-        this.blocksPerPlace = (Setting<Integer>)this.register(new Setting("BlocksPerTick", 8, 1, 30));
-        this.packet = (Setting<Boolean>)this.register(new Setting("Packet", false));
-        this.disable = (Setting<Boolean>)this.register(new Setting("AutoDisable", false));
-        this.rotate = (Setting<Boolean>)this.register(new Setting("Rotate", true));
-        this.raytrace = (Setting<Boolean>)this.register(new Setting("Raytrace", false));
-        this.lowerbody = (Setting<Boolean>)this.register(new Setting("Feet", true));
-        this.upperBody = (Setting<Boolean>)this.register(new Setting("Face", false));
-        this.timer = new Timer();
-        this.didPlace = false;
-        this.placements = 0;
-        this.smartRotate = false;
-        this.startPos = null;
+        super("AutoWeb", "Traps other players in webs", Module.Category.COMBAT, true, false, false);
     }
-    
+
     @Override
     public void onEnable() {
-        if (fullNullCheck()) {
+        if (AutoWeb.fullNullCheck()) {
             return;
         }
-        this.startPos = EntityUtil.getRoundedBlockPos((Entity)AutoWeb.mc.player);
-        this.lastHotbarSlot = AutoWeb.mc.player.inventory.currentItem;
+        startPos = EntityUtil.getRoundedBlockPos(AutoWeb.mc.player);
+        lastHotbarSlot = AutoWeb.mc.player.inventory.currentItem;
     }
-    
+
     @Override
     public void onTick() {
-        this.smartRotate = false;
-        this.doTrap();
+        smartRotate = false;
+        doTrap();
     }
-    
+
     @Override
     public String getDisplayInfo() {
-        if (this.target != null) {
-            return this.target.getName();
+        if (target != null) {
+            return target.getName();
         }
         return null;
     }
-    
+
     @Override
     public void onDisable() {
-        AutoWeb.isPlacing = false;
-        this.isSneaking = EntityUtil.stopSneaking(this.isSneaking);
-        this.switchItem(true);
+        isPlacing = false;
+        isSneaking = EntityUtil.stopSneaking(isSneaking);
+        switchItem(true);
     }
-    
+
     private void doTrap() {
-        if (this.check()) {
+        if (check()) {
             return;
         }
-        this.doWebTrap();
-        if (this.didPlace) {
-            this.timer.reset();
+        doWebTrap();
+        if (didPlace) {
+            timer.reset();
         }
     }
-    
+
     private void doWebTrap() {
-        final List<Vec3d> placeTargets = this.getPlacements();
-        this.placeList(placeTargets);
+        List<Vec3d> placeTargets = getPlacements();
+        placeList(placeTargets);
     }
-    
+
     private List<Vec3d> getPlacements() {
-        final ArrayList<Vec3d> list = new ArrayList<Vec3d>();
-        final Vec3d baseVec = this.target.getPositionVector();
-        if (this.lowerbody.getValue()) {
+        ArrayList<Vec3d> list = new ArrayList<Vec3d>();
+        Vec3d baseVec = target.getPositionVector();
+        if (lowerbody.getValue().booleanValue()) {
             list.add(baseVec);
         }
-        if (this.upperBody.getValue()) {
+        if (upperBody.getValue().booleanValue()) {
             list.add(baseVec.add(0.0, 1.0, 0.0));
         }
         return list;
     }
-    
-    private void placeList(final List<Vec3d> list) {
+
+    private void placeList(List<Vec3d> list) {
         list.sort((vec3d, vec3d2) -> Double.compare(AutoWeb.mc.player.getDistanceSq(vec3d2.x, vec3d2.y, vec3d2.z), AutoWeb.mc.player.getDistanceSq(vec3d.x, vec3d.y, vec3d.z)));
         list.sort(Comparator.comparingDouble(vec3d -> vec3d.y));
-        for (final Vec3d vec3d3 : list) {
-            final BlockPos position = new BlockPos(vec3d3);
-            final int placeability = BlockUtil.isPositionPlaceable(position, this.raytrace.getValue());
-            if (placeability != 3 && placeability != 1) {
-                continue;
-            }
-            this.placeBlock(position);
+        for (Vec3d vec3d3 : list) {
+            BlockPos position = new BlockPos(vec3d3);
+            int placeability = BlockUtil.isPositionPlaceable(position, raytrace.getValue());
+            if (placeability != 3 && placeability != 1) continue;
+            placeBlock(position);
         }
     }
-    
+
     private boolean check() {
-        AutoWeb.isPlacing = false;
-        this.didPlace = false;
-        this.placements = 0;
-        final int obbySlot = InventoryUtil.findHotbarBlock(BlockWeb.class);
-        if (this.isOff()) {
+        isPlacing = false;
+        didPlace = false;
+        placements = 0;
+        int obbySlot = InventoryUtil.findHotbarBlock(BlockWeb.class);
+        if (isOff()) {
             return true;
         }
-        if (this.disable.getValue() && !this.startPos.equals((Object)EntityUtil.getRoundedBlockPos((Entity)AutoWeb.mc.player))) {
-            this.disable();
+        if (disable.getValue().booleanValue() && !startPos.equals(EntityUtil.getRoundedBlockPos(AutoWeb.mc.player))) {
+            disable();
             return true;
         }
         if (obbySlot == -1) {
-            Command.sendMessage("<" + this.getDisplayName() + "> " + ChatFormatting.RED + "No Webs in hotbar disabling...");
-            this.toggle();
+            Command.sendMessage("<" + getDisplayName() + "> " + ChatFormatting.RED + "No Webs in hotbar disabling...");
+            toggle();
             return true;
         }
-        if (AutoWeb.mc.player.inventory.currentItem != this.lastHotbarSlot && AutoWeb.mc.player.inventory.currentItem != obbySlot) {
-            this.lastHotbarSlot = AutoWeb.mc.player.inventory.currentItem;
+        if (AutoWeb.mc.player.inventory.currentItem != lastHotbarSlot && AutoWeb.mc.player.inventory.currentItem != obbySlot) {
+            lastHotbarSlot = AutoWeb.mc.player.inventory.currentItem;
         }
-        this.switchItem(true);
-        this.isSneaking = EntityUtil.stopSneaking(this.isSneaking);
-        this.target = this.getTarget(10.0);
-        return this.target == null || !this.timer.passedMs(this.delay.getValue());
+        switchItem(true);
+        isSneaking = EntityUtil.stopSneaking(isSneaking);
+        target = getTarget(10.0);
+        return target == null || !timer.passedMs(delay.getValue().intValue());
     }
-    
-    private EntityPlayer getTarget(final double range) {
+
+    private EntityPlayer getTarget(double range) {
         EntityPlayer target = null;
         double distance = Math.pow(range, 2.0) + 1.0;
-        for (final EntityPlayer player : AutoWeb.mc.world.playerEntities) {
-            if (!EntityUtil.isntValid((Entity)player, range) && !player.isInWeb) {
-                if (Carbon.speedManager.getPlayerSpeed(player) > 30.0) {
-                    continue;
-                }
-                if (target == null) {
-                    target = player;
-                    distance = AutoWeb.mc.player.getDistanceSq((Entity)player);
-                }
-                else {
-                    if (AutoWeb.mc.player.getDistanceSq((Entity)player) >= distance) {
-                        continue;
-                    }
-                    target = player;
-                    distance = AutoWeb.mc.player.getDistanceSq((Entity)player);
-                }
+        for (EntityPlayer player : AutoWeb.mc.world.playerEntities) {
+            if (EntityUtil.isntValid(player, range) || player.isInWeb || OyVey.speedManager.getPlayerSpeed(player) > 30.0)
+                continue;
+            if (target == null) {
+                target = player;
+                distance = AutoWeb.mc.player.getDistanceSq(player);
+                continue;
             }
+            if (!(AutoWeb.mc.player.getDistanceSq(player) < distance)) continue;
+            target = player;
+            distance = AutoWeb.mc.player.getDistanceSq(player);
         }
         return target;
     }
-    
-    private void placeBlock(final BlockPos pos) {
-        if (this.placements < this.blocksPerPlace.getValue() && AutoWeb.mc.player.getDistanceSq(pos) <= MathUtil.square(6.0) && this.switchItem(false)) {
-            AutoWeb.isPlacing = true;
-            this.isSneaking = (this.smartRotate ? BlockUtil.placeBlockSmartRotate(pos, EnumHand.MAIN_HAND, true, this.packet.getValue(), this.isSneaking) : BlockUtil.placeBlock(pos, EnumHand.MAIN_HAND, this.rotate.getValue(), this.packet.getValue(), this.isSneaking));
-            this.didPlace = true;
-            ++this.placements;
+
+    private void placeBlock(BlockPos pos) {
+        if (placements < blocksPerPlace.getValue() && AutoWeb.mc.player.getDistanceSq(pos) <= MathUtil.square(6.0) && switchItem(false)) {
+            isPlacing = true;
+            isSneaking = smartRotate ? BlockUtil.placeBlockSmartRotate(pos, EnumHand.MAIN_HAND, true, packet.getValue(), isSneaking) : BlockUtil.placeBlock(pos, EnumHand.MAIN_HAND, rotate.getValue(), packet.getValue(), isSneaking);
+            didPlace = true;
+            ++placements;
         }
     }
-    
-    private boolean switchItem(final boolean back) {
-        final boolean[] value = InventoryUtil.switchItem(back, this.lastHotbarSlot, this.switchedItem, InventoryUtil.Switch.NORMAL, BlockWeb.class);
-        this.switchedItem = value[0];
+
+    private boolean switchItem(boolean back) {
+        boolean[] value = InventoryUtil.switchItem(back, lastHotbarSlot, switchedItem, InventoryUtil.Switch.NORMAL, BlockWeb.class);
+        switchedItem = value[0];
         return value[1];
     }
-    
-    static {
-        AutoWeb.isPlacing = false;
-    }
 }
+

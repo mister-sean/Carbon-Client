@@ -1,149 +1,119 @@
 package me.toby.carbon.features.modules.movement;
 
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
-import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.client.gui.GuiChat;
-import net.minecraft.util.MovementInput;
-import net.minecraftforge.client.event.InputUpdateEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraft.item.ItemPotion;
+import net.minecraft.client.gui.GuiIngameMenu;
+import net.minecraft.client.gui.GuiOptions;
+import net.minecraft.client.gui.GuiScreenOptionsSounds;
+import net.minecraft.client.gui.GuiVideoSettings;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemFood;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraft.item.Item;
-import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.item.ItemPotion;
 import net.minecraft.network.Packet;
-import net.minecraft.entity.Entity;
 import net.minecraft.network.play.client.CPacketEntityAction;
-
+import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.network.play.client.CPacketPlayerDigging;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.client.event.InputUpdateEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Keyboard;
 
-import me.toby.carbon.Carbon;
+import me.toby.carbon.OyVey;
 import me.toby.carbon.event.events.KeyPressedEvent;
 import me.toby.carbon.event.events.PacketEvent;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
-import net.minecraft.client.gui.GuiIngameMenu;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.gui.GuiScreenOptionsSounds;
-import net.minecraft.client.gui.GuiVideoSettings;
-import net.minecraft.client.gui.GuiOptions;
-import net.minecraft.client.settings.KeyBinding;
 
-public class NoSlowDown extends Module
-{
-    public Setting<Boolean> guiMove;
-    public Setting<Boolean> noSlow;
-    public Setting<Boolean> soulSand;
-    public Setting<Boolean> strict;
-    public Setting<Boolean> sneakPacket;
-    public Setting<Boolean> endPortal;
-    public Setting<Boolean> webs;
-    public final Setting<Double> webHorizontalFactor;
-    public final Setting<Double> webVerticalFactor;
-    private static NoSlowDown INSTANCE;
-    private boolean sneaking;
-    private static KeyBinding[] keys;
-    
+public class NoSlowDown extends Module {
+    public Setting<Boolean> guiMove = register(new Setting<Boolean>("GuiMove", true));
+    public Setting<Boolean> noSlow = register(new Setting<Boolean>("NoSlow", true));
+    public Setting<Boolean> soulSand = register(new Setting<Boolean>("SoulSand", true));
+    public Setting<Boolean> strict = register(new Setting<Boolean>("Strict", false));
+    public Setting<Boolean> sneakPacket = register(new Setting<Boolean>("SneakPacket", false));
+    public Setting<Boolean> endPortal = register(new Setting<Boolean>("EndPortal", false));
+    public Setting<Boolean> webs = register(new Setting<Boolean>("Webs", false));
+    public final Setting<Double> webHorizontalFactor = register(new Setting<Double>("WebHSpeed", 2.0, 0.0, 100.0));
+    public final Setting<Double> webVerticalFactor = register(new Setting<Double>("WebVSpeed", 2.0, 0.0, 100.0));
+    private static NoSlowDown INSTANCE = new NoSlowDown();
+    private boolean sneaking = false;
+    private static KeyBinding[] keys = new KeyBinding[]{NoSlowDown.mc.gameSettings.keyBindForward, NoSlowDown.mc.gameSettings.keyBindBack, NoSlowDown.mc.gameSettings.keyBindLeft, NoSlowDown.mc.gameSettings.keyBindRight, NoSlowDown.mc.gameSettings.keyBindJump, NoSlowDown.mc.gameSettings.keyBindSprint};
+
     public NoSlowDown() {
-        super("NoSlowDown", "Prevents you from getting slowed down.", Category.MOVEMENT, true, false, false);
-        this.guiMove = (Setting<Boolean>)this.register(new Setting("GuiMove", true));
-        this.noSlow = (Setting<Boolean>)this.register(new Setting("NoSlow", true));
-        this.soulSand = (Setting<Boolean>)this.register(new Setting("SoulSand", true));
-        this.strict = (Setting<Boolean>)this.register(new Setting("Strict", false));
-        this.sneakPacket = (Setting<Boolean>)this.register(new Setting("SneakPacket", false));
-        this.endPortal = (Setting<Boolean>)this.register(new Setting("EndPortal", false));
-        this.webs = (Setting<Boolean>)this.register(new Setting("Webs", false));
-        this.webHorizontalFactor = (Setting<Double>)this.register(new Setting("WebHSpeed", 2.0, 0.0, 100.0));
-        this.webVerticalFactor = (Setting<Double>)this.register(new Setting("WebVSpeed", 2.0, 0.0, 100.0));
-        this.sneaking = false;
-        this.setInstance();
+        super("NoSlowDown", "Prevents you from getting slowed down.", Module.Category.MOVEMENT, true, false, false);
+        setInstance();
     }
-    
+
     private void setInstance() {
-        NoSlowDown.INSTANCE = this;
+        INSTANCE = this;
     }
-    
+
     public static NoSlowDown getInstance() {
-        if (NoSlowDown.INSTANCE == null) {
-            NoSlowDown.INSTANCE = new NoSlowDown();
+        if (INSTANCE == null) {
+            INSTANCE = new NoSlowDown();
         }
-        return NoSlowDown.INSTANCE;
+        return INSTANCE;
     }
-    
+
     @Override
     public void onUpdate() {
-        if (this.guiMove.getValue()) {
+        if (guiMove.getValue().booleanValue()) {
             if (NoSlowDown.mc.currentScreen instanceof GuiOptions || NoSlowDown.mc.currentScreen instanceof GuiVideoSettings || NoSlowDown.mc.currentScreen instanceof GuiScreenOptionsSounds || NoSlowDown.mc.currentScreen instanceof GuiContainer || NoSlowDown.mc.currentScreen instanceof GuiIngameMenu) {
-                for (final KeyBinding bind : NoSlowDown.keys) {
-                    KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
+                for (KeyBinding bind : keys) {
+                    KeyBinding.setKeyBindState((int)bind.getKeyCode(), (boolean)Keyboard.isKeyDown((int)bind.getKeyCode()));
                 }
-            }
-            else if (NoSlowDown.mc.currentScreen == null) {
-                for (final KeyBinding bind : NoSlowDown.keys) {
-                    if (!Keyboard.isKeyDown(bind.getKeyCode())) {
-                        KeyBinding.setKeyBindState(bind.getKeyCode(), false);
-                    }
+            } else if (NoSlowDown.mc.currentScreen == null) {
+                for (KeyBinding bind : keys) {
+                    if (Keyboard.isKeyDown((int)bind.getKeyCode())) continue;
+                    KeyBinding.setKeyBindState((int)bind.getKeyCode(), (boolean)false);
                 }
             }
         }
-        if (this.webs.getValue() && Carbon.moduleManager.getModuleByClass(Flight.class).isDisabled() && Carbon.moduleManager.getModuleByClass(PacketFly.class).isDisabled() && NoSlowDown.mc.player.isInWeb) {
-            final EntityPlayerSP player4;
-            final EntityPlayerSP player = player4 = NoSlowDown.mc.player;
-            player4.motionX *= this.webHorizontalFactor.getValue();
-            final EntityPlayerSP player5;
-            final EntityPlayerSP player2 = player5 = NoSlowDown.mc.player;
-            player5.motionZ *= this.webHorizontalFactor.getValue();
-            final EntityPlayerSP player6;
-            final EntityPlayerSP player3 = player6 = NoSlowDown.mc.player;
-            player6.motionY *= this.webVerticalFactor.getValue();
+        if (webs.getValue().booleanValue() && OyVey.moduleManager.getModuleByClass(Flight.class).isDisabled() && OyVey.moduleManager.getModuleByClass(PacketFly.class).isDisabled() && NoSlowDown.mc.player.isInWeb) {
+            NoSlowDown.mc.player.motionX *= webHorizontalFactor.getValue().doubleValue();
+            NoSlowDown.mc.player.motionZ *= webHorizontalFactor.getValue().doubleValue();
+            NoSlowDown.mc.player.motionY *= webVerticalFactor.getValue().doubleValue();
         }
-        final Item item = NoSlowDown.mc.player.getActiveItemStack().getItem();
-        if (this.sneaking && !NoSlowDown.mc.player.isHandActive() && this.sneakPacket.getValue()) {
+        Item item = NoSlowDown.mc.player.getActiveItemStack().getItem();
+        if (sneaking && !NoSlowDown.mc.player.isHandActive() && sneakPacket.getValue().booleanValue()) {
             NoSlowDown.mc.player.connection.sendPacket((Packet)new CPacketEntityAction((Entity)NoSlowDown.mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
-            this.sneaking = false;
+            sneaking = false;
         }
     }
-    
+
     @SubscribeEvent
-    public void onUseItem(final PlayerInteractEvent.RightClickItem event) {
-        final Item item = NoSlowDown.mc.player.getHeldItem(event.getHand()).getItem();
-        if ((item instanceof ItemFood || item instanceof ItemBow || (item instanceof ItemPotion && this.sneakPacket.getValue())) && !this.sneaking) {
+    public void onUseItem(PlayerInteractEvent.RightClickItem event) {
+        Item item = NoSlowDown.mc.player.getHeldItem(event.getHand()).getItem();
+        if ((item instanceof ItemFood || item instanceof ItemBow || item instanceof ItemPotion && sneakPacket.getValue().booleanValue()) && !sneaking) {
             NoSlowDown.mc.player.connection.sendPacket((Packet)new CPacketEntityAction((Entity)NoSlowDown.mc.player, CPacketEntityAction.Action.START_SNEAKING));
-            this.sneaking = true;
+            sneaking = true;
         }
     }
-    
+
     @SubscribeEvent
-    public void onInput(final InputUpdateEvent event) {
-        if (this.noSlow.getValue() && NoSlowDown.mc.player.isHandActive() && !NoSlowDown.mc.player.isRiding()) {
-            final MovementInput movementInput3;
-            final MovementInput movementInput = movementInput3 = event.getMovementInput();
-            movementInput3.moveStrafe *= 5.0f;
-            final MovementInput movementInput4;
-            final MovementInput movementInput2 = movementInput4 = event.getMovementInput();
-            movementInput4.moveForward *= 5.0f;
+    public void onInput(InputUpdateEvent event) {
+        if (noSlow.getValue().booleanValue() && NoSlowDown.mc.player.isHandActive() && !NoSlowDown.mc.player.isRiding()) {
+            event.getMovementInput().moveStrafe *= 5.0f;
+            event.getMovementInput().moveForward *= 5.0f;
         }
     }
-    
+
     @SubscribeEvent
-    public void onKeyEvent(final KeyPressedEvent event) {
-        if (this.guiMove.getValue() && event.getStage() == 0 && !(NoSlowDown.mc.currentScreen instanceof GuiChat)) {
+    public void onKeyEvent(KeyPressedEvent event) {
+        if (guiMove.getValue().booleanValue() && event.getStage() == 0 && !(NoSlowDown.mc.currentScreen instanceof GuiChat)) {
             event.info = event.pressed;
         }
     }
-    
+
     @SubscribeEvent
-    public void onPacket(final PacketEvent.Send event) {
-        if (event.getPacket() instanceof CPacketPlayer && this.strict.getValue() && this.noSlow.getValue() && NoSlowDown.mc.player.isHandActive() && !NoSlowDown.mc.player.isRiding()) {
+    public void onPacket(PacketEvent.Send event) {
+        if (event.getPacket() instanceof CPacketPlayer && strict.getValue().booleanValue() && noSlow.getValue().booleanValue() && NoSlowDown.mc.player.isHandActive() && !NoSlowDown.mc.player.isRiding()) {
             NoSlowDown.mc.player.connection.sendPacket((Packet)new CPacketPlayerDigging(CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, new BlockPos(Math.floor(NoSlowDown.mc.player.posX), Math.floor(NoSlowDown.mc.player.posY), Math.floor(NoSlowDown.mc.player.posZ)), EnumFacing.DOWN));
         }
     }
-    
-    static {
-        NoSlowDown.INSTANCE = new NoSlowDown();
-        NoSlowDown.keys = new KeyBinding[] { NoSlowDown.mc.gameSettings.keyBindForward, NoSlowDown.mc.gameSettings.keyBindBack, NoSlowDown.mc.gameSettings.keyBindLeft, NoSlowDown.mc.gameSettings.keyBindRight, NoSlowDown.mc.gameSettings.keyBindJump, NoSlowDown.mc.gameSettings.keyBindSprint };
-    }
 }
+

@@ -1,37 +1,28 @@
 package me.toby.carbon.features.modules.render;
 
-import com.google.common.base.Predicate;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.init.Items;
+import net.minecraft.item.*;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.Cylinder;
 
 import me.toby.carbon.event.events.Render3DEvent;
 import me.toby.carbon.features.modules.Module;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import net.minecraft.item.Item;
-import org.lwjgl.util.glu.Cylinder;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.init.Items;
-import net.minecraft.util.math.MathHelper;
-import org.lwjgl.opengl.GL11;
-import net.minecraft.item.ItemExpBottle;
-import net.minecraft.item.ItemSnowball;
-import net.minecraft.item.ItemEgg;
-import net.minecraft.item.ItemEnderPearl;
-import net.minecraft.item.ItemFishingRod;
-import net.minecraft.item.ItemBow;
-import net.minecraft.util.EnumHand;
 
-public class Trajectories extends Module
-{
+public class Trajectories extends Module {
     public Trajectories() {
         super("Trajectories", "Draws trajectories.", Category.RENDER, false, false, false);
     }
-    
+
     @Override
     public void onRender3D(final Render3DEvent event) {
         if (Trajectories.mc.world != null && Trajectories.mc.player != null && Trajectories.mc.getRenderManager() != null) {
@@ -62,10 +53,10 @@ public class Trajectories extends Module
                 motionX *= pow * ((item instanceof ItemFishingRod) ? 0.75f : ((Trajectories.mc.player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Items.EXPERIENCE_BOTTLE) ? 0.75f : 1.5f));
                 motionY *= pow * ((item instanceof ItemFishingRod) ? 0.75f : ((Trajectories.mc.player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Items.EXPERIENCE_BOTTLE) ? 0.75f : 1.5f));
                 motionZ *= pow * ((item instanceof ItemFishingRod) ? 0.75f : ((Trajectories.mc.player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Items.EXPERIENCE_BOTTLE) ? 0.75f : 1.5f));
-                this.enableGL3D(2.0f);
+                enableGL3D(2.0f);
                 GlStateManager.color(0.0f, 1.0f, 0.0f, 1.0f);
                 GL11.glEnable(2848);
-                final float size = (float)((item instanceof ItemBow) ? 0.3 : 0.25);
+                final float size = (float) ((item instanceof ItemBow) ? 0.3 : 0.25);
                 boolean hasLanded = false;
                 Entity landingOnEntity = null;
                 RayTraceResult landingPosition = null;
@@ -78,13 +69,13 @@ public class Trajectories extends Module
                         hasLanded = true;
                     }
                     final AxisAlignedBB arrowBox = new AxisAlignedBB(posX - size, posY - size, posZ - size, posX + size, posY + size, posZ + size);
-                    final List entities = this.getEntitiesWithinAABB(arrowBox.offset(motionX, motionY, motionZ).expand(1.0, 1.0, 1.0));
+                    final List entities = getEntitiesWithinAABB(arrowBox.offset(motionX, motionY, motionZ).expand(1.0, 1.0, 1.0));
                     for (final Object entity : entities) {
-                        final Entity boundingBox = (Entity)entity;
+                        final Entity boundingBox = (Entity) entity;
                         if (boundingBox.canBeCollidedWith() && boundingBox != Trajectories.mc.player) {
-                            final float var7 = 0.3f;
-                            final AxisAlignedBB var8 = boundingBox.getEntityBoundingBox().expand(0.30000001192092896, 0.30000001192092896, 0.30000001192092896);
-                            final RayTraceResult possibleEntityLanding = var8.calculateIntercept(present, future);
+                            final float var8 = 0.3f;
+                            final AxisAlignedBB var9 = boundingBox.getEntityBoundingBox().expand(var8, var8, var8);
+                            final RayTraceResult possibleEntityLanding = var9.calculateIntercept(present, future);
                             if (possibleEntityLanding == null) {
                                 continue;
                             }
@@ -100,25 +91,22 @@ public class Trajectories extends Module
                     posY += motionY;
                     posZ += motionZ;
                     final float motionAdjustment = 0.99f;
-                    motionX *= 0.9900000095367432;
-                    motionY *= 0.9900000095367432;
-                    motionZ *= 0.9900000095367432;
+                    motionX *= motionAdjustment;
+                    motionY *= motionAdjustment;
+                    motionZ *= motionAdjustment;
                     motionY -= ((item instanceof ItemBow) ? 0.05 : 0.03);
-                    this.drawLine3D(posX - renderPosX, posY - renderPosY, posZ - renderPosZ);
+                    drawLine3D(posX - renderPosX, posY - renderPosY, posZ - renderPosZ);
                 }
                 if (landingPosition != null && landingPosition.typeOfHit == RayTraceResult.Type.BLOCK) {
                     GlStateManager.translate(posX - renderPosX, posY - renderPosY, posZ - renderPosZ);
                     final int side = landingPosition.sideHit.getIndex();
                     if (side == 2) {
                         GlStateManager.rotate(90.0f, 1.0f, 0.0f, 0.0f);
-                    }
-                    else if (side == 3) {
+                    } else if (side == 3) {
                         GlStateManager.rotate(90.0f, 1.0f, 0.0f, 0.0f);
-                    }
-                    else if (side == 4) {
+                    } else if (side == 4) {
                         GlStateManager.rotate(90.0f, 0.0f, 0.0f, 1.0f);
-                    }
-                    else if (side == 5) {
+                    } else if (side == 5) {
                         GlStateManager.rotate(90.0f, 0.0f, 0.0f, 1.0f);
                     }
                     final Cylinder c = new Cylinder();
@@ -133,12 +121,12 @@ public class Trajectories extends Module
                     }
                     c.draw(0.6f, 0.3f, 0.0f, 4, 1);
                 }
-                this.disableGL3D();
+                disableGL3D();
                 GL11.glPopMatrix();
             }
         }
     }
-    
+
     public void enableGL3D(final float lineWidth) {
         GL11.glDisable(3008);
         GL11.glEnable(3042);
@@ -153,7 +141,7 @@ public class Trajectories extends Module
         GL11.glHint(3155, 4354);
         GL11.glLineWidth(lineWidth);
     }
-    
+
     public void disableGL3D() {
         GL11.glEnable(3553);
         GL11.glEnable(2929);
@@ -165,11 +153,11 @@ public class Trajectories extends Module
         GL11.glHint(3154, 4352);
         GL11.glHint(3155, 4352);
     }
-    
+
     public void drawLine3D(final double var1, final double var2, final double var3) {
         GL11.glVertex3d(var1, var2, var3);
     }
-    
+
     private List getEntitiesWithinAABB(final AxisAlignedBB bb) {
         final ArrayList list = new ArrayList();
         final int chunkMinX = MathHelper.floor((bb.minX - 2.0) / 16.0);
@@ -179,7 +167,7 @@ public class Trajectories extends Module
         for (int x = chunkMinX; x <= chunkMaxX; ++x) {
             for (int z = chunkMinZ; z <= chunkMaxZ; ++z) {
                 if (Trajectories.mc.world.getChunkProvider().getLoadedChunk(x, z) != null) {
-                    Trajectories.mc.world.getChunk(x, z).getEntitiesWithinAABBForEntity((Entity)Trajectories.mc.player, bb, (List)list, (Predicate)null);
+                    Trajectories.mc.world.getChunk(x, z).getEntitiesWithinAABBForEntity(Trajectories.mc.player, bb, list, null);
                 }
             }
         }

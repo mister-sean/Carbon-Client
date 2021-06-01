@@ -1,14 +1,16 @@
 [
   {
-    "modid": "carbonclient",
-    "name": "Carbon",
-    "description": "mostly a w+3 skid, but also a bit of a mcdonalds skid.",
-    "version": "0.0.01",
+    "modid": "zori",
+    "name": "zori",
+    "description": "zori",
+    "version": "1.2.1",
     "mcversion": "1.12.2",
-    "logoFile": "",
-    "url": "",
+    "logoFile": "Zori.png",
+    "url": "https://freemanatee.org",
     "updateUrl": "",
-    "authorList": ["toby", "noat(i feel bad for him)"],
+    "authorList": [
+      "Novola, PR2CE, Alpha432, 3911, terik, slol"
+    ],
     "screenshots": [],
     "dependencies": []
   }

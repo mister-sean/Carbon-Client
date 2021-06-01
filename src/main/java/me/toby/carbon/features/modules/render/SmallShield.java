@@ -3,35 +3,27 @@ package me.toby.carbon.features.modules.render;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
 
-public class SmallShield extends Module
-{
-    private static SmallShield INSTANCE;
-    public Setting<Float> offX;
-    public Setting<Float> offY;
-    public Setting<Float> mainX;
-    public Setting<Float> mainY;
-    
+public class SmallShield extends Module {
+    private static SmallShield INSTANCE = new SmallShield();
+    public Setting<Float> offX = register(new Setting<Float>("OffHandX", Float.valueOf(0.0f), Float.valueOf(-1.0f), Float.valueOf(1.0f)));
+    public Setting<Float> offY = register(new Setting<Float>("OffHandY", Float.valueOf(0.0f), Float.valueOf(-1.0f), Float.valueOf(1.0f)));
+    public Setting<Float> mainX = register(new Setting<Float>("MainHandX", Float.valueOf(0.0f), Float.valueOf(-1.0f), Float.valueOf(1.0f)));
+    public Setting<Float> mainY = register(new Setting<Float>("MainHandY", Float.valueOf(0.0f), Float.valueOf(-1.0f), Float.valueOf(1.0f)));
+
     public SmallShield() {
-        super("SmallShield", "Makes you offhand lower.", Category.RENDER, false, false, false);
-        this.offX = (Setting<Float>)this.register(new Setting("OffHandX", 0.0f, (-1.0f), 1.0f));
-        this.offY = (Setting<Float>)this.register(new Setting("OffHandY", 0.0f, (-1.0f), 1.0f));
-        this.mainX = (Setting<Float>)this.register(new Setting("MainHandX", 0.0f, (-1.0f), 1.0f));
-        this.mainY = (Setting<Float>)this.register(new Setting("MainHandY", 0.0f, (-1.0f), 1.0f));
-        this.setInstance();
+        super("SmallShield", "Makes you offhand lower.", Module.Category.RENDER, false, false, false);
+        setInstance();
     }
-    
+
     public static SmallShield getINSTANCE() {
-        if (SmallShield.INSTANCE == null) {
-            SmallShield.INSTANCE = new SmallShield();
+        if (INSTANCE == null) {
+            INSTANCE = new SmallShield();
         }
-        return SmallShield.INSTANCE;
+        return INSTANCE;
     }
-    
+
     private void setInstance() {
-        SmallShield.INSTANCE = this;
-    }
-    
-    static {
-        SmallShield.INSTANCE = new SmallShield();
+        INSTANCE = this;
     }
 }
+

@@ -3,43 +3,34 @@ package me.toby.carbon.features.modules.render;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
 
-public class HandChams extends Module
-{
-    private static HandChams INSTANCE;
-    public Setting<RenderMode> mode;
-    public Setting<Integer> red;
-    public Setting<Integer> green;
-    public Setting<Integer> blue;
-    public Setting<Integer> alpha;
-    
+public class HandChams extends Module {
+    private static HandChams INSTANCE = new HandChams();
+    public Setting<RenderMode> mode = register(new Setting<RenderMode>("Mode", RenderMode.SOLID));
+    public Setting<Integer> red = register(new Setting<Integer>("Red", 255, 0, 255));
+    public Setting<Integer> green = register(new Setting<Integer>("Green", 0, 0, 255));
+    public Setting<Integer> blue = register(new Setting<Integer>("Blue", 0, 0, 255));
+    public Setting<Integer> alpha = register(new Setting<Integer>("Alpha", 240, 0, 255));
+
     public HandChams() {
-        super("HandChams", "Changes your hand color.", Category.RENDER, false, false, false);
-        this.mode = (Setting<RenderMode>)this.register(new Setting("Mode", RenderMode.SOLID));
-        this.red = (Setting<Integer>)this.register(new Setting("Red", 255, 0, 255));
-        this.green = (Setting<Integer>)this.register(new Setting("Green", 0, 0, 255));
-        this.blue = (Setting<Integer>)this.register(new Setting("Blue", 0, 0, 255));
-        this.alpha = (Setting<Integer>)this.register(new Setting("Alpha", 240, 0, 255));
-        this.setInstance();
+        super("HandChams", "Changes your hand color.", Module.Category.RENDER, false, false, false);
+        setInstance();
     }
-    
+
     public static HandChams getINSTANCE() {
-        if (HandChams.INSTANCE == null) {
-            HandChams.INSTANCE = new HandChams();
+        if (INSTANCE == null) {
+            INSTANCE = new HandChams();
         }
-        return HandChams.INSTANCE;
+        return INSTANCE;
     }
-    
+
     private void setInstance() {
-        HandChams.INSTANCE = this;
+        INSTANCE = this;
     }
-    
-    static {
-        HandChams.INSTANCE = new HandChams();
-    }
-    
-    public enum RenderMode
-    {
-        SOLID, 
-        WIREFRAME;
+
+    public enum RenderMode {
+        SOLID,
+        WIREFRAME
+
     }
 }
+

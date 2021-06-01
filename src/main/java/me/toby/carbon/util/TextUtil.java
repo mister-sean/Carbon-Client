@@ -1,43 +1,43 @@
 package me.toby.carbon.util;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
-import java.util.regex.Pattern;
-import java.util.Random;
 
-public class TextUtil
-{
-    public static final String BLACK;
-    public static final String DARK_BLUE;
-    public static final String DARK_GREEN;
-    public static final String DARK_AQUA;
-    public static final String DARK_RED;
-    public static final String DARK_PURPLE;
-    public static final String GOLD;
-    public static final String GRAY;
-    public static final String DARK_GRAY;
-    public static final String BLUE;
-    public static final String GREEN;
-    public static final String AQUA;
-    public static final String RED;
-    public static final String LIGHT_PURPLE;
-    public static final String YELLOW;
-    public static final String WHITE;
-    public static final String OBFUSCATED;
-    public static final String BOLD;
-    public static final String STRIKE;
-    public static final String UNDERLINE;
-    public static final String ITALIC;
-    public static final String RESET;
-    private static final Random rand;
-    
-    public static String stripColor(final String input) {
+import java.util.Random;
+import java.util.regex.Pattern;
+
+public class TextUtil {
+    public static final String BLACK = String.valueOf(ChatFormatting.BLACK);
+    public static final String DARK_BLUE = String.valueOf(ChatFormatting.DARK_BLUE);
+    public static final String DARK_GREEN = String.valueOf(ChatFormatting.DARK_GREEN);
+    public static final String DARK_AQUA = String.valueOf(ChatFormatting.DARK_AQUA);
+    public static final String DARK_RED = String.valueOf(ChatFormatting.DARK_RED);
+    public static final String DARK_PURPLE = String.valueOf(ChatFormatting.DARK_PURPLE);
+    public static final String GOLD = String.valueOf(ChatFormatting.GOLD);
+    public static final String GRAY = String.valueOf(ChatFormatting.GRAY);
+    public static final String DARK_GRAY = String.valueOf(ChatFormatting.DARK_GRAY);
+    public static final String BLUE = String.valueOf(ChatFormatting.BLUE);
+    public static final String GREEN = String.valueOf(ChatFormatting.GREEN);
+    public static final String AQUA = String.valueOf(ChatFormatting.AQUA);
+    public static final String RED = String.valueOf(ChatFormatting.RED);
+    public static final String LIGHT_PURPLE = String.valueOf(ChatFormatting.LIGHT_PURPLE);
+    public static final String YELLOW = String.valueOf(ChatFormatting.YELLOW);
+    public static final String WHITE = String.valueOf(ChatFormatting.WHITE);
+    public static final String OBFUSCATED = String.valueOf(ChatFormatting.OBFUSCATED);
+    public static final String BOLD = String.valueOf(ChatFormatting.BOLD);
+    public static final String STRIKE = String.valueOf(ChatFormatting.STRIKETHROUGH);
+    public static final String UNDERLINE = String.valueOf(ChatFormatting.UNDERLINE);
+    public static final String ITALIC = String.valueOf(ChatFormatting.ITALIC);
+    public static final String RESET = String.valueOf(ChatFormatting.RESET);
+    private static final Random rand = new Random();
+
+    public static String stripColor(String input) {
         if (input != null) {
-            return Pattern.compile("(?i)§[0-9A-FK-OR]").matcher(input).replaceAll("");
+            return Pattern.compile("(?i)\u00a7[0-9A-FK-OR]").matcher(input).replaceAll("");
         }
         return "";
     }
-    
-    public static String coloredString(final String string, final Color color) {
+
+    public static String coloredString(String string, Color color) {
         String coloredString = string;
         switch (color) {
             case AQUA: {
@@ -102,64 +102,38 @@ public class TextUtil
             }
             case YELLOW: {
                 coloredString = ChatFormatting.YELLOW + coloredString + ChatFormatting.RESET;
-                break;
             }
         }
         return coloredString;
     }
-    
-    public static String cropMaxLengthMessage(final String s, final int i) {
+
+    public static String cropMaxLengthMessage(String s, int i) {
         String output = "";
         if (s.length() >= 256 - i) {
             output = s.substring(0, 256 - i);
         }
         return output;
     }
-    
-    static {
-        BLACK = String.valueOf(ChatFormatting.BLACK);
-        DARK_BLUE = String.valueOf(ChatFormatting.DARK_BLUE);
-        DARK_GREEN = String.valueOf(ChatFormatting.DARK_GREEN);
-        DARK_AQUA = String.valueOf(ChatFormatting.DARK_AQUA);
-        DARK_RED = String.valueOf(ChatFormatting.DARK_RED);
-        DARK_PURPLE = String.valueOf(ChatFormatting.DARK_PURPLE);
-        GOLD = String.valueOf(ChatFormatting.GOLD);
-        GRAY = String.valueOf(ChatFormatting.GRAY);
-        DARK_GRAY = String.valueOf(ChatFormatting.DARK_GRAY);
-        BLUE = String.valueOf(ChatFormatting.BLUE);
-        GREEN = String.valueOf(ChatFormatting.GREEN);
-        AQUA = String.valueOf(ChatFormatting.AQUA);
-        RED = String.valueOf(ChatFormatting.RED);
-        LIGHT_PURPLE = String.valueOf(ChatFormatting.LIGHT_PURPLE);
-        YELLOW = String.valueOf(ChatFormatting.YELLOW);
-        WHITE = String.valueOf(ChatFormatting.WHITE);
-        OBFUSCATED = String.valueOf(ChatFormatting.OBFUSCATED);
-        BOLD = String.valueOf(ChatFormatting.BOLD);
-        STRIKE = String.valueOf(ChatFormatting.STRIKETHROUGH);
-        UNDERLINE = String.valueOf(ChatFormatting.UNDERLINE);
-        ITALIC = String.valueOf(ChatFormatting.ITALIC);
-        RESET = String.valueOf(ChatFormatting.RESET);
-        rand = new Random();
-    }
-    
-    public enum Color
-    {
-        NONE, 
-        WHITE, 
-        BLACK, 
-        DARK_BLUE, 
-        DARK_GREEN, 
-        DARK_AQUA, 
-        DARK_RED, 
-        DARK_PURPLE, 
-        GOLD, 
-        GRAY, 
-        DARK_GRAY, 
-        BLUE, 
-        GREEN, 
-        AQUA, 
-        RED, 
-        LIGHT_PURPLE, 
-        YELLOW;
+
+    public enum Color {
+        NONE,
+        WHITE,
+        BLACK,
+        DARK_BLUE,
+        DARK_GREEN,
+        DARK_AQUA,
+        DARK_RED,
+        DARK_PURPLE,
+        GOLD,
+        GRAY,
+        DARK_GRAY,
+        BLUE,
+        GREEN,
+        AQUA,
+        RED,
+        LIGHT_PURPLE,
+        YELLOW
+
     }
 }
+

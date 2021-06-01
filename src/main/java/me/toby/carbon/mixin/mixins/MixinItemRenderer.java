@@ -1,65 +1,54 @@
 package me.toby.carbon.mixin.mixins;
 
-import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
-
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import me.toby.carbon.features.Feature;
-import me.toby.carbon.features.modules.client.ClickGui;
-import me.toby.carbon.features.modules.render.HandChams;
-import me.toby.carbon.features.modules.render.NoRender;
-import me.toby.carbon.features.modules.render.SmallShield;
-import me.toby.carbon.features.modules.render.ViewModel;
-import me.toby.carbon.util.ColorUtil;
-import net.minecraft.util.EnumHandSide;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
-import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.util.EnumHandSide;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Shadow;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin({ ItemRenderer.class })
-public abstract class MixinItemRenderer
-{
+import me.toby.carbon.features.modules.client.ClickGui;
+import me.toby.carbon.features.modules.render.HandChams;
+import me.toby.carbon.features.modules.render.SmallShield;
+import me.toby.carbon.util.ColorUtil;
+
+@Mixin(value = {ItemRenderer.class})
+public abstract class MixinItemRenderer {
     @Shadow
     @Final
     public Minecraft mc;
-    private boolean injection;
-    
-    public MixinItemRenderer() {
-        this.injection = true;
-    }
-    
+    private boolean injection = true;
+
     @Shadow
-    public abstract void renderItemInFirstPerson(final AbstractClientPlayer p0, final float p1, final float p2, final EnumHand p3, final float p4, final ItemStack p5, final float p6);
-    
+    public abstract void renderItemInFirstPerson(AbstractClientPlayer var1, float var2, float var3, EnumHand var4, float var5, ItemStack var6, float var7);
+
     @Shadow
-    protected abstract void renderArmFirstPerson(final float p0, final float p1, final EnumHandSide p2);
-    
-    @Inject(method = { "renderItemInFirstPerson(Lnet/minecraft/client/entity/AbstractClientPlayer;FFLnet/minecraft/util/EnumHand;FLnet/minecraft/item/ItemStack;F)V" }, at = { @At("HEAD") }, cancellable = true)
-    public void renderItemInFirstPersonHook(final AbstractClientPlayer player, final float p_187457_2_, final float p_187457_3_, final EnumHand hand, final float p_187457_5_, final ItemStack stack, final float p_187457_7_, final CallbackInfo info) {
+    protected abstract void renderArmFirstPerson(float var1, float var2, EnumHandSide var3);
+
+    @Inject(method = {"renderItemInFirstPerson(Lnet/minecraft/client/entity/AbstractClientPlayer;FFLnet/minecraft/util/EnumHand;FLnet/minecraft/item/ItemStack;F)V"}, at = {@At(value = "HEAD")}, cancellable = true)
+    public void renderItemInFirstPersonHook(AbstractClientPlayer player, float p_187457_2_, float p_187457_3_, EnumHand hand, float p_187457_5_, ItemStack stack, float p_187457_7_, CallbackInfo info) {
         if (this.injection) {
             info.cancel();
-            final SmallShield offset = SmallShield.getINSTANCE();
+            SmallShield offset = SmallShield.getINSTANCE();
             float xOffset = 0.0f;
             float yOffset = 0.0f;
             this.injection = false;
             if (hand == EnumHand.MAIN_HAND) {
                 if (offset.isOn()) {
-                    xOffset = offset.mainX.getValue();
-                    yOffset = offset.mainY.getValue();
+                    xOffset = offset.mainX.getValue().floatValue();
+                    yOffset = offset.mainY.getValue().floatValue();
                 }
-            }
-            else if (offset.isOn()) {
-                xOffset = offset.offX.getValue();
-                yOffset = offset.offY.getValue();
+            } else if (offset.isOn()) {
+                xOffset = offset.offX.getValue().floatValue();
+                yOffset = offset.offY.getValue().floatValue();
             }
             if (HandChams.getINSTANCE().isOn() && hand == EnumHand.MAIN_HAND && stack.isEmpty()) {
                 if (HandChams.getINSTANCE().mode.getValue().equals(HandChams.RenderMode.WIREFRAME)) {
@@ -68,8 +57,7 @@ public abstract class MixinItemRenderer
                 GlStateManager.pushMatrix();
                 if (HandChams.getINSTANCE().mode.getValue().equals(HandChams.RenderMode.WIREFRAME)) {
                     GL11.glPushAttrib(1048575);
-                }
-                else {
+                } else {
                     GlStateManager.pushAttrib();
                 }
                 if (HandChams.getINSTANCE().mode.getValue().equals(HandChams.RenderMode.WIREFRAME)) {
@@ -81,46 +69,18 @@ public abstract class MixinItemRenderer
                     GL11.glEnable(2848);
                     GL11.glEnable(3042);
                 }
-                GL11.glColor4f(((boolean)ClickGui.getInstance().rainbow.getValue()) ? (ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRed() / 255.0f) : (HandChams.getINSTANCE().red.getValue() / 255.0f), ((boolean)ClickGui.getInstance().rainbow.getValue()) ? (ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getGreen() / 255.0f) : (HandChams.getINSTANCE().green.getValue() / 255.0f), ((boolean)ClickGui.getInstance().rainbow.getValue()) ? (ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getBlue() / 255.0f) : (HandChams.getINSTANCE().blue.getValue() / 255.0f), HandChams.getINSTANCE().alpha.getValue() / 255.0f);
+                GL11.glColor4f(ClickGui.getInstance().rainbow.getValue() != false ? (float) ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRed() / 255.0f : (float) HandChams.getINSTANCE().red.getValue().intValue() / 255.0f, ClickGui.getInstance().rainbow.getValue() != false ? (float) ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getGreen() / 255.0f : (float) HandChams.getINSTANCE().green.getValue().intValue() / 255.0f, ClickGui.getInstance().rainbow.getValue() != false ? (float) ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getBlue() / 255.0f : (float) HandChams.getINSTANCE().blue.getValue().intValue() / 255.0f, (float) HandChams.getINSTANCE().alpha.getValue().intValue() / 255.0f);
                 this.renderItemInFirstPerson(player, p_187457_2_, p_187457_3_, hand, p_187457_5_ + xOffset, stack, p_187457_7_ + yOffset);
                 GlStateManager.popAttrib();
                 GlStateManager.popMatrix();
             }
             if (SmallShield.getINSTANCE().isOn() && (!stack.isEmpty || HandChams.getINSTANCE().isOff())) {
                 this.renderItemInFirstPerson(player, p_187457_2_, p_187457_3_, hand, p_187457_5_ + xOffset, stack, p_187457_7_ + yOffset);
-            }
-            else if (!stack.isEmpty || HandChams.getINSTANCE().isOff()) {
+            } else if (!stack.isEmpty || HandChams.getINSTANCE().isOff()) {
                 this.renderItemInFirstPerson(player, p_187457_2_, p_187457_3_, hand, p_187457_5_, stack, p_187457_7_);
             }
             this.injection = true;
         }
-        if (ViewModel.getINSTANCE().enabled.getValue() && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0 && !Feature.fullNullCheck()) {
-            GlStateManager.scale((float)ViewModel.getINSTANCE().sizeX.getValue(), (float)ViewModel.getINSTANCE().sizeY.getValue(), (float)ViewModel.getINSTANCE().sizeZ.getValue());
-            GlStateManager.rotate(ViewModel.getINSTANCE().rotationX.getValue() * 360.0f, 1.0f, 0.0f, 0.0f);
-            GlStateManager.rotate(ViewModel.getINSTANCE().rotationY.getValue() * 360.0f, 0.0f, 1.0f, 0.0f);
-            GlStateManager.rotate(ViewModel.getINSTANCE().rotationZ.getValue() * 360.0f, 0.0f, 0.0f, 1.0f);
-            GlStateManager.translate((float)ViewModel.getINSTANCE().positionX.getValue(), (float)ViewModel.getINSTANCE().positionY.getValue(), (float)ViewModel.getINSTANCE().positionZ.getValue());
-        }
-    }
-    
-    @Redirect(method = { "renderArmFirstPerson" }, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlStateManager;translate(FFF)V", ordinal = 0))
-    public void translateHook(final float x, final float y, final float z) {
-        final SmallShield offset = SmallShield.getINSTANCE();
-        final boolean shiftPos = Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().player.getHeldItemMainhand() != ItemStack.EMPTY && offset.isOn();
-        GlStateManager.translate(x + (shiftPos ? offset.mainX.getValue() : 0.0f), y + (shiftPos ? offset.mainY.getValue() : 0.0f), z);
-    }
-    
-    @Inject(method = { "renderFireInFirstPerson" }, at = { @At("HEAD") }, cancellable = true)
-    public void renderFireInFirstPersonHook(final CallbackInfo info) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance().fire.getValue()) {
-            info.cancel();
-        }
-    }
-    
-    @Inject(method = { "renderSuffocationOverlay" }, at = { @At("HEAD") }, cancellable = true)
-    public void renderSuffocationOverlay(final CallbackInfo ci) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance().blocks.getValue()) {
-            ci.cancel();
-        }
     }
 }
+

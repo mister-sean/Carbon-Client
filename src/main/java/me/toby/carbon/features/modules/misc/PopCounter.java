@@ -1,69 +1,71 @@
 package me.toby.carbon.features.modules.misc;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
+
+import me.toby.carbon.features.command.Command;
+import me.toby.carbon.features.modules.Module;
+import me.toby.carbon.features.setting.Setting;
 import net.minecraft.entity.player.EntityPlayer;
+
 import java.util.HashMap;
 
-import me.toby.carbon.features.modules.Module;
+public class PopCounter extends Module {
+    public static HashMap<String, Integer> TotemPopContainer = new HashMap();
+    public static PopCounter INSTANCE = new PopCounter();
 
-public class PopCounter extends Module
-{
-    public static HashMap<String, Integer> TotemPopContainer;
-    private static PopCounter INSTANCE;
-    
     public PopCounter() {
-        super("PopCounter", "Counts other players totem pops.", Category.MISC, true, false, false);
-        this.setInstance();
+        super("PopCounter", "Counts other players totem pops.", Module.Category.MISC, true, false, false);
+        setInstance();
     }
-    
+
+    public final Setting<String> clientname = register(new Setting<Object>("Name", "onpoint.ie"));
+
     public static PopCounter getInstance() {
-        if (PopCounter.INSTANCE == null) {
-            PopCounter.INSTANCE = new PopCounter();
+        if (INSTANCE == null) {
+            INSTANCE = new PopCounter();
         }
-        return PopCounter.INSTANCE;
+        return INSTANCE;
     }
-    
+
     private void setInstance() {
-        PopCounter.INSTANCE = this;
+        INSTANCE = this;
     }
-    
+
     @Override
     public void onEnable() {
-        PopCounter.TotemPopContainer.clear();
+        TotemPopContainer.clear();
     }
-    
-    public void onDeath(final EntityPlayer player) {
-        if (!PopCounter.TotemPopContainer.containsKey(player.getName())) {
-            return;
-        }
-        final int l_Count = PopCounter.TotemPopContainer.get(player.getName());
-        PopCounter.TotemPopContainer.remove(player.getName());
-        if (l_Count == 1) {
-            return;
+
+    public void onDeath(EntityPlayer player) {
+        if (TotemPopContainer.containsKey(player.getName())) {
+            int l_Count = TotemPopContainer.get(player.getName());
+            TotemPopContainer.remove(player.getName());
+            if (l_Count == 1) {
+                Command.sendSilentMessage(ChatFormatting.RED + player.getName() + " died after popping " + ChatFormatting.GRAY + l_Count + ChatFormatting.RED + ChatFormatting.RED + " totem, thanks to " + clientname.getValueAsString());
+            } else {
+                Command.sendSilentMessage(ChatFormatting.RED + player.getName() + " died after popping " + ChatFormatting.GRAY + l_Count + ChatFormatting.RED + ChatFormatting.RED + " totems, " + "thanks to " + clientname.getValueAsString());
+            }
         }
     }
-    
-    public void onTotemPop(final EntityPlayer player) {
-        if (fullNullCheck()) {
+
+    public void onTotemPop(EntityPlayer player) {
+        if (PopCounter.fullNullCheck()) {
             return;
         }
-        if (PopCounter.mc.player.equals((Object)player)) {
+        if (PopCounter.mc.player.equals(player)) {
             return;
         }
         int l_Count = 1;
-        if (PopCounter.TotemPopContainer.containsKey(player.getName())) {
-            l_Count = PopCounter.TotemPopContainer.get(player.getName());
-            PopCounter.TotemPopContainer.put(player.getName(), ++l_Count);
-        }
-        else {
-            PopCounter.TotemPopContainer.put(player.getName(), l_Count);
+        if (TotemPopContainer.containsKey(player.getName())) {
+            l_Count = TotemPopContainer.get(player.getName());
+            TotemPopContainer.put(player.getName(), ++l_Count);
+        } else {
+            TotemPopContainer.put(player.getName(), l_Count);
         }
         if (l_Count == 1) {
-            return;
+            Command.sendSilentMessage(ChatFormatting.RED + player.getName() + " popped " + ChatFormatting.GRAY + l_Count + ChatFormatting.RED + " totem, " + ChatFormatting.RED + "thanks to " + clientname.getValueAsString());
+        } else {
+            Command.sendSilentMessage(ChatFormatting.RED + player.getName() + " popped " + ChatFormatting.GRAY + l_Count + ChatFormatting.RED + " totems, " + ChatFormatting.RED + "thanks to " + clientname.getValueAsString());
         }
-    }
-    
-    static {
-        PopCounter.TotemPopContainer = new HashMap<String, Integer>();
-        PopCounter.INSTANCE = new PopCounter();
     }
 }

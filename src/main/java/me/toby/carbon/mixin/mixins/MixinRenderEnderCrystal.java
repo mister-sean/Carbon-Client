@@ -1,123 +1,109 @@
 package me.toby.carbon.mixin.mixins;
 
-import javax.annotation.Nullable;
-import org.spongepowered.asm.mixin.Overwrite;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.client.renderer.entity.RenderDragon;
-
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.model.ModelEnderCrystal;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelEnderCrystal;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderDragon;
+import net.minecraft.client.renderer.entity.RenderEnderCrystal;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.item.EntityEnderCrystal;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import org.lwjgl.opengl.GL11;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import me.toby.carbon.features.modules.client.ClickGui;
 import me.toby.carbon.features.modules.render.Wireframe;
 import me.toby.carbon.util.ColorUtil;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.client.renderer.entity.RenderEnderCrystal;
-import org.spongepowered.asm.mixin.Mixin;
-import net.minecraft.entity.item.EntityEnderCrystal;
-import net.minecraft.client.renderer.entity.Render;
 
-@Mixin({ RenderEnderCrystal.class })
-public class MixinRenderEnderCrystal extends Render<EntityEnderCrystal>
-{
+import javax.annotation.Nullable;
+
+@Mixin({RenderEnderCrystal.class})
+public class MixinRenderEnderCrystal extends Render<EntityEnderCrystal> {
     @Shadow
-    private static final ResourceLocation ENDER_CRYSTAL_TEXTURES;
+    private static final ResourceLocation ENDER_CRYSTAL_TEXTURES = new ResourceLocation("textures/entity/endercrystal/endercrystal.png");
+
     @Shadow
-    private final ModelBase modelEnderCrystal;
+    private final ModelBase modelEnderCrystal = new ModelEnderCrystal(0.0F, true);
+
     @Shadow
-    private final ModelBase modelEnderCrystalNoBase;
-    
-    protected MixinRenderEnderCrystal(final RenderManager renderManager) {
+    private final ModelBase modelEnderCrystalNoBase = new ModelEnderCrystal(0.0F, false);
+
+    protected MixinRenderEnderCrystal(RenderManager renderManager) {
         super(renderManager);
-        this.modelEnderCrystal = (ModelBase)new ModelEnderCrystal(0.0f, true);
-        this.modelEnderCrystalNoBase = (ModelBase)new ModelEnderCrystal(0.0f, false);
     }
-    
+
     @Overwrite
-    public void doRender(final EntityEnderCrystal entity, final double x, final double y, final double z, final float entityYaw, final float partialTicks) {
-        final float f = entity.innerRotation + partialTicks;
+    public void doRender(EntityEnderCrystal entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        float f = entity.innerRotation + partialTicks;
         GlStateManager.pushMatrix();
-        GlStateManager.translate((float)x, (float)y, (float)z);
-        this.bindTexture(MixinRenderEnderCrystal.ENDER_CRYSTAL_TEXTURES);
-        float f2 = MathHelper.sin(f * 0.2f) / 2.0f + 0.5f;
-        f2 += f2 * f2;
+        GlStateManager.translate((float) x, (float) y, (float) z);
+        bindTexture(ENDER_CRYSTAL_TEXTURES);
+        float f1 = MathHelper.sin(f * 0.2F) / 2.0F + 0.5F;
+        f1 += f1 * f1;
         if (this.renderOutlines) {
             GlStateManager.enableColorMaterial();
-            GlStateManager.enableOutlineMode(this.getTeamColor((Entity)entity));
+            GlStateManager.enableOutlineMode(getTeamColor(entity));
         }
-        if (Wireframe.getINSTANCE().isOn() && Wireframe.getINSTANCE().crystals.getValue()) {
-            final float red = ClickGui.getInstance().red.getValue() / 255.0f;
-            final float green = ClickGui.getInstance().green.getValue() / 255.0f;
-            final float blue = ClickGui.getInstance().blue.getValue() / 255.0f;
-            if (Wireframe.getINSTANCE().cMode.getValue().equals(Wireframe.RenderMode.WIREFRAME) && Wireframe.getINSTANCE().crystalModel.getValue()) {
-                this.modelEnderCrystalNoBase.render((Entity)entity, 0.0f, f * 3.0f, f2 * 0.2f, 0.0f, 0.0f, 0.0625f);
-            }
+        if (me.toby.carbon.features.modules.render.Wireframe.getInstance().isOn() && (me.toby.carbon.features.modules.render.Wireframe.getInstance()).crystals.getValue().booleanValue()) {
+            float red = (me.toby.carbon.features.modules.render.Wireframe.getInstance()).Cred.getValue().intValue() / 255.0F;
+            float green = (me.toby.carbon.features.modules.render.Wireframe.getInstance()).Cgreen.getValue().intValue() / 255.0F;
+            float blue = (me.toby.carbon.features.modules.render.Wireframe.getInstance()).Cblue.getValue().intValue() / 255.0F;
+            if ((me.toby.carbon.features.modules.render.Wireframe.getInstance()).cMode.getValue().equals(me.toby.carbon.features.modules.render.Wireframe.RenderMode.WIREFRAME) && (me.toby.carbon.features.modules.render.Wireframe.getInstance()).crystalModel.getValue().booleanValue())
+                this.modelEnderCrystalNoBase.render(entity, 0.0F, f * 3.0F, f1 * 0.2F, 0.0F, 0.0F, 0.0625F);
             GlStateManager.pushMatrix();
             GL11.glPushAttrib(1048575);
-            if (Wireframe.getINSTANCE().cMode.getValue().equals(Wireframe.RenderMode.WIREFRAME)) {
+            if ((me.toby.carbon.features.modules.render.Wireframe.getInstance()).cMode.getValue().equals(me.toby.carbon.features.modules.render.Wireframe.RenderMode.WIREFRAME))
                 GL11.glPolygonMode(1032, 6913);
-            }
             GL11.glDisable(3553);
             GL11.glDisable(2896);
-            if (Wireframe.getINSTANCE().cMode.getValue().equals(Wireframe.RenderMode.WIREFRAME)) {
+            if ((me.toby.carbon.features.modules.render.Wireframe.getInstance()).cMode.getValue().equals(me.toby.carbon.features.modules.render.Wireframe.RenderMode.WIREFRAME))
                 GL11.glEnable(2848);
-            }
             GL11.glEnable(3042);
             GL11.glBlendFunc(770, 771);
             GL11.glDisable(2929);
             GL11.glDepthMask(false);
-            GL11.glColor4f(((boolean)ClickGui.getInstance().rainbow.getValue()) ? (ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRed() / 255.0f) : red, ((boolean)ClickGui.getInstance().rainbow.getValue()) ? (ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getGreen() / 255.0f) : green, ((boolean)ClickGui.getInstance().rainbow.getValue()) ? (ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getBlue() / 255.0f) : blue, Wireframe.getINSTANCE().cAlpha.getValue() / 255.0f);
-            if (Wireframe.getINSTANCE().cMode.getValue().equals(Wireframe.RenderMode.WIREFRAME)) {
-                GL11.glLineWidth((float)Wireframe.getINSTANCE().crystalLineWidth.getValue());
-            }
-            this.modelEnderCrystalNoBase.render((Entity)entity, 0.0f, f * 3.0f, f2 * 0.2f, 0.0f, 0.0f, 0.0625f);
+            GL11.glColor4f((me.toby.carbon.features.modules.render.Wireframe.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((me.toby.carbon.features.modules.render.Wireframe.getInstance()).rainbowHue.getValue().intValue()).getRed() / 255.0F) : red, (me.toby.carbon.features.modules.render.Wireframe.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((me.toby.carbon.features.modules.render.Wireframe.getInstance()).rainbowHue.getValue().intValue()).getGreen() / 255.0F) : green, (me.toby.carbon.features.modules.render.Wireframe.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((me.toby.carbon.features.modules.render.Wireframe.getInstance()).rainbowHue.getValue().intValue()).getBlue() / 255.0F) : blue, (me.toby.carbon.features.modules.render.Wireframe.getInstance()).cAlpha.getValue().floatValue() / 255.0F);
+            if ((me.toby.carbon.features.modules.render.Wireframe.getInstance()).cMode.getValue().equals(me.toby.carbon.features.modules.render.Wireframe.RenderMode.WIREFRAME))
+                GL11.glLineWidth((me.toby.carbon.features.modules.render.Wireframe.getInstance()).crystalLineWidth.getValue().floatValue());
+            this.modelEnderCrystalNoBase.render(entity, 0.0F, f * 3.0F, f1 * 0.2F, 0.0F, 0.0F, 0.0625F);
             GL11.glDisable(2896);
             GL11.glEnable(2929);
             GL11.glDepthMask(true);
-            GL11.glColor4f(((boolean)ClickGui.getInstance().rainbow.getValue()) ? (ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRed() / 255.0f) : red, ((boolean)ClickGui.getInstance().rainbow.getValue()) ? (ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getGreen() / 255.0f) : green, ((boolean)ClickGui.getInstance().rainbow.getValue()) ? (ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getBlue() / 255.0f) : blue, Wireframe.getINSTANCE().cAlpha.getValue() / 255.0f);
-            if (Wireframe.getINSTANCE().cMode.getValue().equals(Wireframe.RenderMode.WIREFRAME)) {
-                GL11.glLineWidth((float)Wireframe.getINSTANCE().crystalLineWidth.getValue());
-            }
-            this.modelEnderCrystalNoBase.render((Entity)entity, 0.0f, f * 3.0f, f2 * 0.2f, 0.0f, 0.0f, 0.0625f);
+            GL11.glColor4f((me.toby.carbon.features.modules.render.Wireframe.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((me.toby.carbon.features.modules.render.Wireframe.getInstance()).rainbowHue.getValue().intValue()).getRed() / 255.0F) : red, (me.toby.carbon.features.modules.render.Wireframe.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((me.toby.carbon.features.modules.render.Wireframe.getInstance()).rainbowHue.getValue().intValue()).getGreen() / 255.0F) : green, (me.toby.carbon.features.modules.render.Wireframe.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((me.toby.carbon.features.modules.render.Wireframe.getInstance()).rainbowHue.getValue().intValue()).getBlue() / 255.0F) : blue, (me.toby.carbon.features.modules.render.Wireframe.getInstance()).cAlpha.getValue().floatValue() / 255.0F);
+            if ((me.toby.carbon.features.modules.render.Wireframe.getInstance()).cMode.getValue().equals(me.toby.carbon.features.modules.render.Wireframe.RenderMode.WIREFRAME))
+                GL11.glLineWidth((me.toby.carbon.features.modules.render.Wireframe.getInstance()).crystalLineWidth.getValue().floatValue());
+            this.modelEnderCrystalNoBase.render(entity, 0.0F, f * 3.0F, f1 * 0.2F, 0.0F, 0.0F, 0.0625F);
             GlStateManager.enableDepth();
             GlStateManager.popAttrib();
             GlStateManager.popMatrix();
-        }
-        else {
-            this.modelEnderCrystalNoBase.render((Entity)entity, 0.0f, f * 3.0f, f2 * 0.2f, 0.0f, 0.0f, 0.0625f);
+        } else {
+            this.modelEnderCrystalNoBase.render(entity, 0.0F, f * 3.0F, f1 * 0.2F, 0.0F, 0.0F, 0.0625F);
         }
         if (this.renderOutlines) {
             GlStateManager.disableOutlineMode();
             GlStateManager.disableColorMaterial();
         }
         GlStateManager.popMatrix();
-        final BlockPos blockpos = entity.getBeamTarget();
+        BlockPos blockpos = entity.getBeamTarget();
         if (blockpos != null) {
-            this.bindTexture(RenderDragon.ENDERCRYSTAL_BEAM_TEXTURES);
-            final float f3 = blockpos.getX() + 0.5f;
-            final float f4 = blockpos.getY() + 0.5f;
-            final float f5 = blockpos.getZ() + 0.5f;
-            final double d0 = f3 - entity.posX;
-            final double d2 = f4 - entity.posY;
-            final double d3 = f5 - entity.posZ;
-            RenderDragon.renderCrystalBeams(x + d0, y - 0.3 + f2 * 0.4f + d2, z + d3, partialTicks, (double)f3, (double)f4, (double)f5, entity.innerRotation, entity.posX, entity.posY, entity.posZ);
+            bindTexture(RenderDragon.ENDERCRYSTAL_BEAM_TEXTURES);
+            float f2 = blockpos.getX() + 0.5F;
+            float f3 = blockpos.getY() + 0.5F;
+            float f4 = blockpos.getZ() + 0.5F;
+            double d0 = f2 - entity.posX;
+            double d1 = f3 - entity.posY;
+            double d2 = f4 - entity.posZ;
+            RenderDragon.renderCrystalBeams(x + d0, y - 0.3D + (f1 * 0.4F) + d1, z + d2, partialTicks, f2, f3, f4, entity.innerRotation, entity.posX, entity.posY, entity.posZ);
         }
-        super.doRender((Entity)entity, x, y, z, entityYaw, partialTicks);
+        super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
-    
+
     @Nullable
-    protected ResourceLocation getEntityTexture(final EntityEnderCrystal entityEnderCrystal) {
+    protected ResourceLocation getEntityTexture(EntityEnderCrystal entityEnderCrystal) {
         return null;
-    }
-    
-    static {
-        ENDER_CRYSTAL_TEXTURES = new ResourceLocation("textures/entity/endercrystal/endercrystal.png");
     }
 }

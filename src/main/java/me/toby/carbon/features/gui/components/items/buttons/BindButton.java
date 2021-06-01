@@ -1,58 +1,54 @@
 package me.toby.carbon.features.gui.components.items.buttons;
 
-import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.init.SoundEvents;
-
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.Carbon;
-import me.toby.carbon.features.gui.CarbonGui;
+import me.toby.carbon.OyVey;
+import me.toby.carbon.features.gui.OyVeyGui;
 import me.toby.carbon.features.modules.client.ClickGui;
 import me.toby.carbon.features.setting.Bind;
 import me.toby.carbon.features.setting.Setting;
 import me.toby.carbon.util.ColorUtil;
 import me.toby.carbon.util.RenderUtil;
-import me.toby.carbon.util.Util;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.init.SoundEvents;
 
-public class BindButton extends Button
-{
+public class BindButton
+        extends Button {
     private final Setting setting;
     public boolean isListening;
-    
-    public BindButton(final Setting setting) {
+
+    public BindButton(Setting setting) {
         super(setting.getName());
         this.setting = setting;
         this.width = 15;
     }
-    
+
     @Override
-    public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
-        final int color = ColorUtil.toARGB(ClickGui.getInstance().red.getValue(), ClickGui.getInstance().green.getValue(), ClickGui.getInstance().blue.getValue(), 255);
-        RenderUtil.drawRect(this.x, this.y, this.x + this.width + 7.4f, this.y + this.height - 0.5f, this.getState() ? (this.isHovering(mouseX, mouseY) ? -2007673515 : 290805077) : (this.isHovering(mouseX, mouseY) ? Carbon.colorManager.getColorWithAlpha(Carbon.moduleManager.getModuleByClass(ClickGui.class).alpha.getValue()) : Carbon.colorManager.getColorWithAlpha(Carbon.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue())));
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        int color = ColorUtil.toARGB(ClickGui.getInstance().red.getValue(), ClickGui.getInstance().green.getValue(), ClickGui.getInstance().blue.getValue(), 255);
+        RenderUtil.drawRect(this.x, this.y, this.x + (float) this.width + 7.4f, this.y + (float) this.height - 0.5f, this.getState() ? (!this.isHovering(mouseX, mouseY) ? 0x11555555 : -2007673515) : (!this.isHovering(mouseX, mouseY) ? OyVey.colorManager.getColorWithAlpha(OyVey.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue()) : OyVey.colorManager.getColorWithAlpha(OyVey.moduleManager.getModuleByClass(ClickGui.class).alpha.getValue())));
         if (this.isListening) {
-            Carbon.textManager.drawStringWithShadow("Press a Key...", this.x + 2.3f, this.y - 1.7f - CarbonGui.getClickGui().getTextOffset(), -1);
-        }
-        else {
-            Carbon.textManager.drawStringWithShadow(this.setting.getName() + " " + ChatFormatting.GRAY + this.setting.getValue().toString().toUpperCase(), this.x + 2.3f, this.y - 1.7f - CarbonGui.getClickGui().getTextOffset(), this.getState() ? -1 : -5592406);
+            OyVey.textManager.drawStringWithShadow("Press a Key...", this.x + 2.3f, this.y - 1.7f - (float) OyVeyGui.getClickGui().getTextOffset(), -1);
+        } else {
+            OyVey.textManager.drawStringWithShadow(this.setting.getName() + " " + ChatFormatting.GRAY + this.setting.getValue().toString().toUpperCase(), this.x + 2.3f, this.y - 1.7f - (float) OyVeyGui.getClickGui().getTextOffset(), this.getState() ? -1 : -5592406);
         }
     }
-    
+
     @Override
     public void update() {
         this.setHidden(!this.setting.isVisible());
     }
-    
+
     @Override
-    public void mouseClicked(final int mouseX, final int mouseY, final int mouseButton) {
+    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         if (this.isHovering(mouseX, mouseY)) {
-            Util.mc.getSoundHandler().playSound((ISound)PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+            mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0f));
         }
     }
-    
+
     @Override
-    public void onKeyTyped(final char typedChar, final int keyCode) {
+    public void onKeyTyped(char typedChar, int keyCode) {
         if (this.isListening) {
             Bind bind = new Bind(keyCode);
             if (bind.toString().equalsIgnoreCase("Escape")) {
@@ -65,19 +61,20 @@ public class BindButton extends Button
             this.onMouseClick();
         }
     }
-    
+
     @Override
     public int getHeight() {
         return 14;
     }
-    
+
     @Override
     public void toggle() {
         this.isListening = !this.isListening;
     }
-    
+
     @Override
     public boolean getState() {
         return !this.isListening;
     }
 }
+

@@ -1,5 +1,8 @@
 package me.toby.carbon.features.modules.misc;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityExpBottle;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Objects;
@@ -10,68 +13,62 @@ import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.modules.client.HUD;
 import me.toby.carbon.util.EntityUtil;
 import me.toby.carbon.util.TextUtil;
-import net.minecraft.entity.item.EntityExpBottle;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 
-public class Tracker extends Module
-{
+public class Tracker extends Module {
     private static Tracker instance;
     private EntityPlayer trackedPlayer;
-    private int usedExp;
-    private int usedStacks;
-    
+    private int usedExp = 0;
+    private int usedStacks = 0;
+
     public Tracker() {
-        super("Duel", "Tracks players in 1v1s.", Category.MISC, true, false, false);
-        this.usedExp = 0;
-        this.usedStacks = 0;
-        Tracker.instance = this;
+        super("Tracker", "Tracks players in 1v1s.", Module.Category.MISC, true, false, false);
+        instance = this;
     }
-    
+
     public static Tracker getInstance() {
-        if (Tracker.instance == null) {
-            Tracker.instance = new Tracker();
+        if (instance == null) {
+            instance = new Tracker();
         }
-        return Tracker.instance;
+        return instance;
     }
-    
+
     @Override
     public void onUpdate() {
-        if (this.trackedPlayer == null) {
-            this.trackedPlayer = EntityUtil.getClosestEnemy(1000.0);
-        }
-        else if (this.usedStacks != this.usedExp / 64) {
-            this.usedStacks = this.usedExp / 64;
-            Command.sendMessage(TextUtil.coloredString(this.trackedPlayer.getName() + " has used " + this.usedStacks + " stacks of XP!", HUD.getInstance().commandColor.getValue()));
-        }
-    }
-    
-    public void onSpawnEntity(final Entity entity) {
-        if (entity instanceof EntityExpBottle && Objects.equals(Tracker.mc.world.getClosestPlayerToEntity(entity, 3.0), this.trackedPlayer)) {
-            ++this.usedExp;
+        if (trackedPlayer == null) {
+            trackedPlayer = EntityUtil.getClosestEnemy(1000.0);
+        } else if (usedStacks != usedExp / 64) {
+            usedStacks = usedExp / 64;
+            Command.sendMessage(TextUtil.coloredString(trackedPlayer.getName() + " has used " + usedStacks + " stacks of XP!", HUD.getInstance().commandColor.getValue()));
         }
     }
-    
+
+    public void onSpawnEntity(Entity entity) {
+        if (entity instanceof EntityExpBottle && Objects.equals(Tracker.mc.world.getClosestPlayerToEntity(entity, 3.0), trackedPlayer)) {
+            ++usedExp;
+        }
+    }
+
     @Override
     public void onDisable() {
-        this.trackedPlayer = null;
-        this.usedExp = 0;
-        this.usedStacks = 0;
+        trackedPlayer = null;
+        usedExp = 0;
+        usedStacks = 0;
     }
-    
+
     @SubscribeEvent
-    public void onDeath(final DeathEvent event) {
-        if (event.player.equals((Object)this.trackedPlayer)) {
-            this.usedExp = 0;
-            this.usedStacks = 0;
+    public void onDeath(DeathEvent event) {
+        if (event.player.equals(trackedPlayer)) {
+            usedExp = 0;
+            usedStacks = 0;
         }
     }
-    
+
     @Override
     public String getDisplayInfo() {
-        if (this.trackedPlayer != null) {
-            return this.trackedPlayer.getName();
+        if (trackedPlayer != null) {
+            return trackedPlayer.getName();
         }
         return null;
     }
 }
+

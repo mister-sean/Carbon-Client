@@ -1,65 +1,60 @@
 package me.toby.carbon.features.command.commands;
 
-import java.util.Iterator;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.toby.carbon.Carbon;
+import me.toby.carbon.OyVey;
 import me.toby.carbon.features.command.Command;
 import me.toby.carbon.manager.FriendManager;
 
-public class FriendCommand extends Command
-{
+public class FriendCommand
+        extends Command {
     public FriendCommand() {
-        super("friend", new String[] { "<add/del/name/clear>", "<name>" });
+        super("friend", new String[]{"<add/del/name/clear>", "<name>"});
     }
-    
+
     @Override
-    public void execute(final String[] commands) {
+    public void execute(String[] commands) {
         if (commands.length == 1) {
-            if (Carbon.friendManager.getFriends().isEmpty()) {
-                Command.sendMessage("Friend list empty D:.");
-            }
-            else {
+            if (OyVey.friendManager.getFriends().isEmpty()) {
+                FriendCommand.sendMessage("Friend list empty D:.");
+            } else {
                 String f = "Friends: ";
-                for (final FriendManager.Friend friend : Carbon.friendManager.getFriends()) {
+                for (FriendManager.Friend friend : OyVey.friendManager.getFriends()) {
                     try {
                         f = f + friend.getUsername() + ", ";
+                    } catch (Exception exception) {
                     }
-                    catch (Exception ex) {}
                 }
-                Command.sendMessage(f);
+                FriendCommand.sendMessage(f);
             }
             return;
         }
-        if (commands.length != 2) {
-            if (commands.length >= 2) {
-                final String s = commands[0];
-                switch (s) {
-                    case "add": {
-                        Carbon.friendManager.addFriend(commands[1]);
-                        Command.sendMessage(ChatFormatting.GREEN + commands[1] + " has been friended");
-                    }
-                    case "del": {
-                        Carbon.friendManager.removeFriend(commands[1]);
-                        Command.sendMessage(ChatFormatting.RED + commands[1] + " has been unfriended");
-                    }
-                    default: {
-                        Command.sendMessage("Unknown Command, try friend add/del (name)");
-                        break;
-                    }
+        if (commands.length == 2) {
+            switch (commands[0]) {
+                case "reset": {
+                    OyVey.friendManager.onLoad();
+                    FriendCommand.sendMessage("Friends got reset.");
+                    return;
                 }
             }
+            FriendCommand.sendMessage(commands[0] + (OyVey.friendManager.isFriend(commands[0]) ? " is friended." : " isn't friended."));
             return;
         }
-        final String s2 = commands[0];
-        switch (s2) {
-            case "reset": {
-                Carbon.friendManager.onLoad();
-                Command.sendMessage("Friends got reset.");
+        if (commands.length >= 2) {
+            switch (commands[0]) {
+                case "add": {
+                    OyVey.friendManager.addFriend(commands[1]);
+                    FriendCommand.sendMessage(ChatFormatting.GREEN + commands[1] + " has been friended");
+                    return;
+                }
+                case "del": {
+                    OyVey.friendManager.removeFriend(commands[1]);
+                    FriendCommand.sendMessage(ChatFormatting.RED + commands[1] + " has been unfriended");
+                    return;
+                }
             }
-            default: {
-                Command.sendMessage(commands[0] + (Carbon.friendManager.isFriend(commands[0]) ? " is friended." : " isn't friended."));
-            }
+            FriendCommand.sendMessage("Unknown Command, try friend add/del (name)");
         }
     }
 }
+
