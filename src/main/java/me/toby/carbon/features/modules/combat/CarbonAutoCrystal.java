@@ -49,8 +49,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class CarbonCarbonAutoCrystal
-        extends Module {
+public class CarbonCarbonAutoCrystal extends Module {
     public static EntityPlayer target = null;
     public static Set<BlockPos> lowDmgPos = new ConcurrentSet();
     public static Set<BlockPos> placedPos = new HashSet<BlockPos>();
@@ -219,7 +218,7 @@ public class CarbonCarbonAutoCrystal
     private Object BlockPos;
 
     public CarbonAutoCrystal() {
-        super("CarbonAutoCrystal", "Best CA on the market", Category.COMBAT, true, false, false);
+        super("AutoCarbon", "Best CA on the market", Category.COMBAT, true, false, false);
         instance = this;
     }
 
