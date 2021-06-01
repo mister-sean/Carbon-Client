@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
 
 import me.toby.carbon.Carbon;
-import me.toby.carbon.features.gui.CarbonGui;
+import me.toby.carbon.features.gui.CarbonGUI;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.modules.player.XCarry;
 import me.toby.carbon.features.setting.Bind;
@@ -58,7 +58,7 @@ public class AutoArmor
 
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {
-        if (Keyboard.getEventKeyState() && !(AutoArmor.mc.currentScreen instanceof CarbonGui) && this.elytraBind.getValue().getKey() == Keyboard.getEventKey()) {
+        if (Keyboard.getEventKeyState() && !(AutoArmor.mc.currentScreen instanceof CarbonGUI) && this.elytraBind.getValue().getKey() == Keyboard.getEventKey()) {
             this.elytraOn = !this.elytraOn;
         }
     }

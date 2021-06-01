@@ -3,7 +3,7 @@ package me.toby.carbon.features.gui.components.items.buttons;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import me.toby.carbon.Carbon;
-import me.toby.carbon.features.gui.CarbonGui;
+import me.toby.carbon.features.gui.CarbonGUI;
 import me.toby.carbon.features.gui.components.Component;
 import me.toby.carbon.features.modules.client.ClickGui;
 import me.toby.carbon.features.setting.Setting;
@@ -32,7 +32,7 @@ public class Slider
         this.dragSetting(mouseX, mouseY);
         RenderUtil.drawRect(this.x, this.y, this.x + (float) this.width + 7.4f, this.y + (float) this.height - 0.5f, !this.isHovering(mouseX, mouseY) ? 0x11555555 : -2007673515);
         RenderUtil.drawRect(this.x, this.y, ((Number) this.setting.getValue()).floatValue() <= this.min.floatValue() ? this.x : this.x + ((float) this.width + 7.4f) * this.partialMultiplier(), this.y + (float) this.height - 0.5f, !this.isHovering(mouseX, mouseY) ? Carbon.colorManager.getColorWithAlpha(Carbon.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue()) : Carbon.colorManager.getColorWithAlpha(Carbon.moduleManager.getModuleByClass(ClickGui.class).alpha.getValue()));
-        Carbon.textManager.drawStringWithShadow(this.getName() + " " + ChatFormatting.GRAY + (this.setting.getValue() instanceof Float ? this.setting.getValue() : Double.valueOf(((Number) this.setting.getValue()).doubleValue())), this.x + 2.3f, this.y - 1.7f - (float) CarbonGui.getClickGui().getTextOffset(), -1);
+        Carbon.textManager.drawStringWithShadow(this.getName() + " " + ChatFormatting.GRAY + (this.setting.getValue() instanceof Float ? this.setting.getValue() : Double.valueOf(((Number) this.setting.getValue()).doubleValue())), this.x + 2.3f, this.y - 1.7f - (float) CarbonGUI.getClickGui().getTextOffset(), -1);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class Slider
 
     @Override
     public boolean isHovering(int mouseX, int mouseY) {
-        for (Component component : CarbonGui.getClickGui().getComponents()) {
+        for (Component component : CarbonGUI.getClickGui().getComponents()) {
             if (!component.drag) continue;
             return false;
         }

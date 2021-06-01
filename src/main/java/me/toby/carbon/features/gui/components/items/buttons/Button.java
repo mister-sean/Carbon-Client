@@ -1,7 +1,7 @@
 package me.toby.carbon.features.gui.components.items.buttons;
 
 import me.toby.carbon.Carbon;
-import me.toby.carbon.features.gui.CarbonGui;
+import me.toby.carbon.features.gui.CarbonGUI;
 import me.toby.carbon.features.gui.components.Component;
 import me.toby.carbon.features.gui.components.items.Item;
 import me.toby.carbon.features.modules.client.ClickGui;
@@ -21,7 +21,7 @@ public class Button
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         RenderUtil.drawRect(this.x, this.y, this.x + (float) this.width, this.y + (float) this.height - 0.5f, this.getState() ? (!this.isHovering(mouseX, mouseY) ? Carbon.colorManager.getColorWithAlpha(Carbon.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue()) : Carbon.colorManager.getColorWithAlpha(Carbon.moduleManager.getModuleByClass(ClickGui.class).alpha.getValue())) : (!this.isHovering(mouseX, mouseY) ? 0x11555555 : -2007673515));
-        Carbon.textManager.drawStringWithShadow(this.getName(), this.x + 2.3f, this.y - 2.0f - (float) CarbonGui.getClickGui().getTextOffset(), this.getState() ? -1 : -5592406);
+        Carbon.textManager.drawStringWithShadow(this.getName(), this.x + 2.3f, this.y - 2.0f - (float) CarbonGUI.getClickGui().getTextOffset(), this.getState() ? -1 : -5592406);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class Button
     }
 
     public boolean isHovering(int mouseX, int mouseY) {
-        for (Component component : CarbonGui.getClickGui().getComponents()) {
+        for (Component component : CarbonGUI.getClickGui().getComponents()) {
             if (!component.drag) continue;
             return false;
         }

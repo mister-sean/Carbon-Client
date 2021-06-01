@@ -14,31 +14,31 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class CarbonGui
+public class CarbonGUI
         extends GuiScreen {
-    private static CarbonGui CarbonGui;
-    private static CarbonGui INSTANCE;
+    private static CarbonGUI CarbonGUI;
+    private static CarbonGUI INSTANCE;
 
     static {
-        INSTANCE = new CarbonGui();
+        INSTANCE = new CarbonGUI();
     }
 
     private final ArrayList<Component> components = new ArrayList();
 
-    public CarbonGui() {
+    public CarbonGUI() {
         this.setInstance();
         this.load();
     }
 
-    public static CarbonGui getInstance() {
+    public static CarbonGUI getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new CarbonGui();
+            INSTANCE = new CarbonGUI();
         }
         return INSTANCE;
     }
 
-    public static CarbonGui getClickGui() {
-        return CarbonGui.getInstance();
+    public static CarbonGUI getClickGui() {
+        return CarbonGUI.getInstance();
     }
 
     private void setInstance() {

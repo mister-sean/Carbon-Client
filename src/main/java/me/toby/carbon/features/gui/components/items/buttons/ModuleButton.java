@@ -5,7 +5,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-import me.toby.carbon.features.gui.CarbonGui;
+import me.toby.carbon.features.gui.CarbonGUI;
 import me.toby.carbon.features.gui.components.Component;
 import me.toby.carbon.features.gui.components.items.Item;
 import me.toby.carbon.features.modules.Module;
@@ -76,7 +76,7 @@ public class ModuleButton
         if (!this.items.isEmpty()) {
             if (HUD.getInstance().magenDavid.getValue().booleanValue()) {
                 mc.getTextureManager().bindTexture(this.logo);
-                ModuleButton.drawCompleteImage(this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.2f - (float) CarbonGui.getClickGui().getTextOffset(), 8, 8);
+                ModuleButton.drawCompleteImage(this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.2f - (float) CarbonGUI.getClickGui().getTextOffset(), 8, 8);
             }
             if (this.subOpen) {
                 float height = 1.0f;

@@ -1,7 +1,7 @@
 package me.toby.carbon.features.gui.components.items.buttons;
 
 import me.toby.carbon.Carbon;
-import me.toby.carbon.features.gui.CarbonGui;
+import me.toby.carbon.features.gui.CarbonGUI;
 import me.toby.carbon.features.modules.client.ClickGui;
 import me.toby.carbon.features.setting.Setting;
 import me.toby.carbon.util.RenderUtil;
@@ -21,7 +21,7 @@ public class BooleanButton
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         RenderUtil.drawRect(this.x, this.y, this.x + (float) this.width + 7.4f, this.y + (float) this.height - 0.5f, this.getState() ? (!this.isHovering(mouseX, mouseY) ? Carbon.colorManager.getColorWithAlpha(Carbon.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue()) : Carbon.colorManager.getColorWithAlpha(Carbon.moduleManager.getModuleByClass(ClickGui.class).alpha.getValue())) : (!this.isHovering(mouseX, mouseY) ? 0x11555555 : -2007673515));
-        Carbon.textManager.drawStringWithShadow(this.getName(), this.x + 2.3f, this.y - 1.7f - (float) CarbonGui.getClickGui().getTextOffset(), this.getState() ? -1 : -5592406);
+        Carbon.textManager.drawStringWithShadow(this.getName(), this.x + 2.3f, this.y - 1.7f - (float) CarbonGUI.getClickGui().getTextOffset(), this.getState() ? -1 : -5592406);
     }
 
     @Override

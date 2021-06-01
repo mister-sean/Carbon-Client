@@ -5,7 +5,7 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.ClientEvent;
 import me.toby.carbon.features.command.Command;
-import me.toby.carbon.features.gui.CarbonGui;
+import me.toby.carbon.features.gui.CarbonGUI;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Setting;
 import net.minecraft.client.settings.GameSettings;
@@ -30,7 +30,7 @@ public class ClickGui extends Module {
     public Setting<Integer> rainbowHue = register(new Setting<Object>("Delay", Integer.valueOf(240), Integer.valueOf(0), Integer.valueOf(600), v -> rainbow.getValue()));
     public Setting<Float> rainbowBrightness = register(new Setting<Object>("Brightness ", Float.valueOf(150.0f), Float.valueOf(1.0f), Float.valueOf(255.0f), v -> rainbow.getValue()));
     public Setting<Float> rainbowSaturation = register(new Setting<Object>("Saturation", Float.valueOf(150.0f), Float.valueOf(1.0f), Float.valueOf(255.0f), v -> rainbow.getValue()));
-    private CarbonGui click;
+    private CarbonGUI click;
 
     public ClickGui() {
         super("ClickGui", "Opens the ClickGui", Module.Category.CLIENT, true, false, false);
@@ -68,7 +68,7 @@ public class ClickGui extends Module {
 
     @Override
     public void onEnable() {
-        mc.displayGuiScreen(CarbonGui.getClickGui());
+        mc.displayGuiScreen(CarbonGUI.getClickGui());
     }
 
     @Override
@@ -79,7 +79,7 @@ public class ClickGui extends Module {
 
     @Override
     public void onTick() {
-        if (!(ClickGui.mc.currentScreen instanceof CarbonGui)) {
+        if (!(ClickGui.mc.currentScreen instanceof CarbonGUI)) {
             disable();
         }
     }

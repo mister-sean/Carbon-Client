@@ -8,7 +8,7 @@ import me.toby.carbon.event.events.PacketEvent;
 import me.toby.carbon.event.events.Render3DEvent;
 import me.toby.carbon.event.events.UpdateWalkingPlayerEvent;
 import me.toby.carbon.features.command.Command;
-import me.toby.carbon.features.gui.CarbonGui;
+import me.toby.carbon.features.gui.CarbonGUI;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.modules.client.ClickGui;
 import me.toby.carbon.features.modules.misc.NoSoundLag;
@@ -454,7 +454,7 @@ public class AutoCrystal
 
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {
-        if (Keyboard.getEventKeyState() && !(AutoCrystal.mc.currentScreen instanceof CarbonGui) && this.switchBind.getValue().getKey() == Keyboard.getEventKey()) {
+        if (Keyboard.getEventKeyState() && !(AutoCrystal.mc.currentScreen instanceof CarbonGUI) && this.switchBind.getValue().getKey() == Keyboard.getEventKey()) {
             if (this.switchBack.getValue().booleanValue() && this.offhandSwitch.getValue().booleanValue() && this.offHand) {
                 Offhand module = Carbon.moduleManager.getModuleByClass(Offhand.class);
                 if (module.isOff()) {

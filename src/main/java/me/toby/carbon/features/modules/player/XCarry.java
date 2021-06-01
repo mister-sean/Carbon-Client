@@ -24,7 +24,7 @@ import org.lwjgl.input.Mouse;
 import me.toby.carbon.event.events.ClientEvent;
 import me.toby.carbon.event.events.PacketEvent;
 import me.toby.carbon.features.command.Command;
-import me.toby.carbon.features.gui.CarbonGui;
+import me.toby.carbon.features.gui.CarbonGUI;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.setting.Bind;
 import me.toby.carbon.features.setting.Setting;
@@ -218,7 +218,7 @@ extends Module {
 
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {
-        if (Keyboard.getEventKeyState() && !(XCarry.mc.currentScreen instanceof CarbonGui) && this.autoStore.getValue().getKey() == Keyboard.getEventKey()) {
+        if (Keyboard.getEventKeyState() && !(XCarry.mc.currentScreen instanceof CarbonGUI) && this.autoStore.getValue().getKey() == Keyboard.getEventKey()) {
             this.autoDuelOn = !this.autoDuelOn;
             Command.sendMessage("<XCarry> \u00a7aAutostoring...");
         }

@@ -6,7 +6,7 @@ import me.toby.carbon.Carbon;
 import me.toby.carbon.event.events.Render2DEvent;
 import me.toby.carbon.event.events.Render3DEvent;
 import me.toby.carbon.features.Feature;
-import me.toby.carbon.features.gui.CarbonGui;
+import me.toby.carbon.features.gui.CarbonGUI;
 import me.toby.carbon.features.modules.Module;
 import me.toby.carbon.features.modules.client.*;
 import me.toby.carbon.features.modules.combat.*;
@@ -273,7 +273,7 @@ public class ModuleManager
     }
 
     public void onKeyPressed(int eventKey) {
-        if (eventKey == 0 || !Keyboard.getEventKeyState() || ModuleManager.mc.currentScreen instanceof CarbonGui) {
+        if (eventKey == 0 || !Keyboard.getEventKeyState() || ModuleManager.mc.currentScreen instanceof CarbonGUI) {
             return;
         }
         this.modules.forEach(module -> {

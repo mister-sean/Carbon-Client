@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import me.toby.carbon.Carbon;
 import me.toby.carbon.features.Feature;
-import me.toby.carbon.features.gui.CarbonGui;
+import me.toby.carbon.features.gui.CarbonGUI;
 import me.toby.carbon.features.gui.components.items.Item;
 import me.toby.carbon.features.gui.components.items.buttons.Button;
 import me.toby.carbon.features.modules.client.ClickGui;
@@ -59,7 +59,7 @@ public class Component
         if (this.open) {
             RenderUtil.drawRect(this.x, (float) this.y + 12.5f, this.x + this.width, (float) (this.y + this.height) + totalItemHeight, 0x77000000);
         }
-        Carbon.textManager.drawStringWithShadow(this.getName(), (float) this.x + 3.0f, (float) this.y - 4.0f - (float) CarbonGui.getClickGui().getTextOffset(), -1);
+        Carbon.textManager.drawStringWithShadow(this.getName(), (float) this.x + 3.0f, (float) this.y - 4.0f - (float) CarbonGUI.getClickGui().getTextOffset(), -1);
         if (this.open) {
             float y = (float) (this.getY() + this.getHeight()) - 3.0f;
             for (Item item : this.getItems()) {
@@ -77,7 +77,7 @@ public class Component
         if (mouseButton == 0 && this.isHovering(mouseX, mouseY)) {
             this.x2 = this.x - mouseX;
             this.y2 = this.y - mouseY;
-            CarbonGui.getClickGui().getComponents().forEach(component -> {
+            CarbonGUI.getClickGui().getComponents().forEach(component -> {
                 if (component.drag) {
                     component.drag = false;
                 }

@@ -16,7 +16,7 @@ public class CarbonMixinLoader
     public CarbonMixinLoader() {
         Carbon.LOGGER.info("\n\nLoading mixins by Alpha432");
         MixinBootstrap.init();
-        Mixins.addConfiguration("mixins.Carbon.json");
+        Mixins.addConfiguration("mixins.carbon.json");
         MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
         Carbon.LOGGER.info(MixinEnvironment.getDefaultEnvironment().getObfuscationContext());
     }
