@@ -1,4 +1,4 @@
-package me.toby.Carbon.util;
+package me.toby.carbon.util;
 
 import java.util.Random;
 import java.util.regex.Pattern;

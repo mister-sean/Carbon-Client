@@ -1,4 +1,4 @@
-package me.toby.Carbon.util;
+package me.toby.carbon.util;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;

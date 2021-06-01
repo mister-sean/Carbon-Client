@@ -1,4 +1,4 @@
-package me.toby.Carbon.util;
+package me.toby.carbon.util;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;

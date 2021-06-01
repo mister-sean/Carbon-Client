@@ -1,4 +1,4 @@
-package me.toby.Carbon.util;
+package me.toby.carbon.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;

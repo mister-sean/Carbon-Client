@@ -1,5 +1,5 @@
 
-package me.toby.Carbon.util;
+package me.toby.carbon.util;
 
 public class BoostTimer {
     private long time = -1L;

@@ -1,4 +1,4 @@
-package me.toby.Carbon.util;
+package me.toby.carbon.util;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

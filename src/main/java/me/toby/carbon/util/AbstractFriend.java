@@ -1,4 +1,4 @@
-package me.toby.Carbon.util;
+package me.toby.carbon.util;
 
 public abstract class AbstractFriend implements INameable, IFriendable {
 

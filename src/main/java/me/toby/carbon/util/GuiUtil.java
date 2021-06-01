@@ -1,4 +1,4 @@
-package me.toby.Carbon.util;
+package me.toby.carbon.util;
 
 import me.toby.carbon.Carbon;
 import me.toby.carbon.features.gui.font.CustomFont;

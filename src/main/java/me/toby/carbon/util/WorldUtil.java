@@ -1,4 +1,4 @@
-package me.toby.Carbon.util;
+package me.toby.carbon.util;
 
 import net.minecraft.world.World;
 import net.minecraft.util.math.AxisAlignedBB;
