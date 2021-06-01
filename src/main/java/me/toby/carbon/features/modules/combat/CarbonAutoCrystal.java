@@ -49,7 +49,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class AutoCrystal
+public class CarbonAutoCrystal
         extends Module {
     public static EntityPlayer target = null;
     public static Set<BlockPos> lowDmgPos = new ConcurrentSet();
