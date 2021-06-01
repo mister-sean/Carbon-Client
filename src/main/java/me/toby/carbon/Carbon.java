@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 @Mod(modid = "carbonclient", name = "carbon", version = "0.0.1")
-public class OyVey {
+public class Carbon {
     public static final String MODID = "carbonclient";
     public static final String MODNAME = "Carbon";
     public static final String MODVER = "0.0.1";
