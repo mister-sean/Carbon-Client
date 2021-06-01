@@ -218,7 +218,7 @@ public class CarbonCarbonAutoCrystal extends Module {
     private Object BlockPos;
 
     public CarbonAutoCrystal() {
-        super("AutoCarbon", "Best CA on the market", Category.COMBAT, true, false, false);
+        super("AutoCarbon", "Fastest in the east!", Category.COMBAT, true, false, false);
         instance = this;
     }
 
