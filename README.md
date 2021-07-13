@@ -1,5 +1,5 @@
 # Carbon Client
-The brand new McDonalds skid and w+3 skid?!, Carbon Client!
+hacked client for 1.12
 # Contributors
 - mister sean (sean) - added the main code & stuff.
 - noatmc (noat) - set up the ci/actions
